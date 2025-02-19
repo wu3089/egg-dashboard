@@ -40,7 +40,6 @@ async function fetchFREDData() {
 }
 
 function createChart(observations) {
-  // Map your JSON data
   const labels = observations.map(obs => obs.period_start_date);
   const values = observations.map(obs => parseFloat(obs["APU0000708111"]));
 
@@ -122,10 +121,11 @@ const addEggBtn = document.getElementById('add-egg-btn');
 const eggCountEl = document.getElementById('egg-count');
 const flyingEggEl = document.getElementById('flying-egg');
 const cartIconImage = document.getElementById('cart-icon-image');
+const productBoxEl = document.getElementById('product-box');
 
 let eggCount = 0;
 
-if (addEggBtn && eggCountEl && flyingEggEl && cartIconImage) {
+if (addEggBtn && eggCountEl && flyingEggEl && cartIconImage && productBoxEl) {
   addEggBtn.addEventListener('click', () => {
     eggCount++;
     eggCountEl.textContent = eggCount;
@@ -142,21 +142,21 @@ if (addEggBtn && eggCountEl && flyingEggEl && cartIconImage) {
 }
 
 function animateFlyingEgg() {
-  // Get positions of the Add Egg button and the cart icon
+  // Get bounding rectangles relative to the viewport
   const btnRect = addEggBtn.getBoundingClientRect();
   const cartRect = cartIconImage.getBoundingClientRect();
+  const productBoxRect = productBoxEl.getBoundingClientRect();
 
-  // Calculate starting position (center of the Add Egg button)
-  const startX = btnRect.left + (btnRect.width / 2);
-  const startY = btnRect.top + (btnRect.height / 2);
-  // Calculate ending position (center of the cart icon), with a slight vertical offset
-  const endX = cartRect.left + (cartRect.width / 2);
-  const endY = cartRect.top + (cartRect.height / 2) - 10; // Adjust this offset as needed
+  // Calculate positions relative to the product box
+  const startX = btnRect.left + btnRect.width / 2 - productBoxRect.left;
+  const startY = btnRect.top + btnRect.height / 2 - productBoxRect.top;
+  const endX = cartRect.left + cartRect.width / 2 - productBoxRect.left;
+  const endY = cartRect.top + cartRect.height / 2 - productBoxRect.top - 10; // slight vertical offset
 
   // Place the flying egg at the start position
   flyingEggEl.style.left = startX + 'px';
   flyingEggEl.style.top = startY + 'px';
-  flyingEggEl.style.display = 'inline';  // Show the egg
+  flyingEggEl.style.display = 'inline';
 
   let startTime;
   const duration = 600; // animation duration in ms

@@ -101,7 +101,7 @@ main {
   background: linear-gradient(45deg, #005fa3, #e6b800);
 }
 
-/* Kroger: Solid Blue (as requested) */
+/* Kroger: Solid Blue */
 .retailer-button.kroger {
   background-color: #0052cc;
 }
@@ -121,6 +121,7 @@ main {
 
 /* Retailer Product Card Styles */
 #product-box {
+  position: relative; /* Added for relative positioning */
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Align content at the top */
@@ -136,6 +137,7 @@ main {
 @media (max-width: 600px) {
   .dashboard-box {
     min-height: 500px;
+    width: 100%; /* Optionally, make cards full-width on mobile */
   }
 }
 
@@ -190,7 +192,7 @@ main {
 
 /* Flying Egg Emoji for Animation */
 #flying-egg {
-  position: fixed;  /* Use fixed so it moves relative to the viewport */
+  position: absolute; /* Changed from fixed to absolute relative to #product-box */
   font-size: 1.8rem;
   display: none;
   pointer-events: none;
