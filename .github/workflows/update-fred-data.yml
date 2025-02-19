@@ -2,8 +2,8 @@ name: Update FRED Data
 
 on:
   schedule:
-    - cron: "0 0 */14 * *"  # Runs every 14 days at midnight UTC
-  workflow_dispatch:  # Allows manual triggering
+    - cron: "0 0 */14 * *"  # Every 14 days at midnight UTC
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   update-data:
@@ -21,8 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install node-fetch@2 papaparse
 
-      - name: Run data update script
+      - name: Run update script
         run: node update-fred-data.js
+
+      - name: Check Git Status
+        run: git status
 
       - name: Commit changes
         env:
@@ -33,4 +36,4 @@ jobs:
           git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}.git
           git add fredData.json
           git commit -m "Update FRED data" || echo "No changes to commit"
-          git push origin HEAD:${{ github.ref }}
+          git push origin HEAD:main
