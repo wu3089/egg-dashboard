@@ -128,3 +128,22 @@ function addFilterListeners() {
 
 // Fetch data on page load
 window.onload = fetchFREDData;
+
+// Ensure the elements exist in your HTML
+const addEggBtn = document.getElementById('add-egg-btn');
+const eggCountEl = document.getElementById('egg-count');
+
+let eggCount = 0;
+
+if (addEggBtn && eggCountEl) {
+  addEggBtn.addEventListener('click', () => {
+    eggCount++;
+    eggCountEl.textContent = eggCount;
+    
+    // Add bounce animation
+    eggCountEl.classList.add('egg-bounce');
+    setTimeout(() => {
+      eggCountEl.classList.remove('egg-bounce');
+    }, 400);
+  });
+}
