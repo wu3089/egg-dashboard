@@ -28,14 +28,23 @@ async function fetchFREDData() {
   }
 }
 
+// Helper function to format a date string as "M/YYYY"
+function formatDateLabel(dateString) {
+  const date = new Date(dateString);
+  const month = date.getMonth() + 1; // 0-indexed
+  const year = date.getFullYear();
+  return `${month}/${year}`;
+}
+
 function createChart(observations) {
-  const labels = observations.map(obs => obs.period_start_date);
+  // Map your JSON data with formatted date labels
+  const labels = observations.map(obs => formatDateLabel(obs.period_start_date));
   const values = observations.map(obs => parseFloat(obs["APU0000708111"]));
   const ctx = document.getElementById('dataChart').getContext('2d');
   chart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels,
+      labels: labels,
       datasets: [{
         label: 'Egg Price',
         data: values,
@@ -66,7 +75,7 @@ function createChart(observations) {
 }
 
 function updateChart(observations) {
-  const labels = observations.map(obs => obs.period_start_date);
+  const labels = observations.map(obs => formatDateLabel(obs.period_start_date));
   const values = observations.map(obs => parseFloat(obs["APU0000708111"]));
   chart.data.labels = labels;
   chart.data.datasets[0].data = values;
