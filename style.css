@@ -1,15 +1,23 @@
-/* Global Styles */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+/* Allow full-height layout for sticky footer */
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
+}
+
+/* Body as a flex container for sticky footer */
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
   /* Egg emoji wallpaper */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
   background-repeat: repeat;
   background-size: 50px 50px;
 }
 
+/* Header & Footer remain normal */
 header, footer {
   background-color: #fff;
   text-align: center;
@@ -17,24 +25,25 @@ header, footer {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-header h1 {
-  margin: 0;
-}
-
+/* Let main expand to fill leftover space, ensuring footer is at bottom */
 main {
-  padding: 1rem; /* Slightly reduced padding for less whitespace */
+  flex: 1; /* grows to fill vertical space */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
 }
 
-/* Dashboard Container */
+/* Dashboard Container: match card heights on desktop */
 .dashboard-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  align-items: flex-start; /* Align at top so cards line up better on desktop */
+  align-items: stretch; /* ensure cards match height if on same row */
+  flex: 1; /* let container expand */
 }
 
-/* Dashboard Card Styling */
+/* Dashboard Card */
 .dashboard-box {
   background-color: #fff;
   border-radius: 8px;
@@ -42,9 +51,9 @@ main {
   padding: 1rem;
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin: 0 auto; /* Center if narrower than container */
-  /* Default for mobile: auto width */
-  flex: 1 1 300px; /* Grow/shrink with a min ~300px */
+  display: flex;       /* Make card a flex container too */
+  flex-direction: column;
+  justify-content: flex-start; /* content at top inside the card */
 }
 
 /* Hover effect */
@@ -53,17 +62,16 @@ main {
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
-/* On larger screens, fix the width to 420px */
+/* On large screens, fix each card to 420px wide */
 @media (min-width: 800px) {
   .dashboard-box {
-    flex: 0 0 420px; /* Force each card to be 420px wide */
+    width: 420px;
   }
 }
 
 /* Filter Buttons */
 .filter-buttons {
   margin-top: 1.5rem;
-  text-align: center;
 }
 
 .filter-buttons button {
@@ -76,7 +84,6 @@ main {
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
 .filter-buttons button:hover {
   background-color: #555;
 }
@@ -101,7 +108,7 @@ main {
   cursor: pointer;
 }
 
-/* Walmart: Blue to Yellow Gradient */
+/* Walmart: Blue to Yellow */
 .retailer-button.walmart {
   background: linear-gradient(45deg, #0071ce, #ffc72c);
 }
@@ -109,7 +116,7 @@ main {
   background: linear-gradient(45deg, #005fa3, #e6b800);
 }
 
-/* Kroger: Solid Blue */
+/* Kroger: Blue */
 .retailer-button.kroger {
   background-color: #0052cc;
 }
@@ -128,15 +135,12 @@ main {
 /* Product Box Adjustments */
 #product-box {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-/* Chart Size */
+/* Chart */
 #dataChart {
   height: 450px;
-  max-width: 100%; /* Ensure it doesn't overflow on smaller screens */
+  max-width: 100%;
 }
 
 /* Interactive Cart */
@@ -152,7 +156,6 @@ main {
   position: relative;
   display: inline-block;
 }
-
 #cart-icon-image {
   width: 80px;
   height: auto;
@@ -173,6 +176,7 @@ main {
   transition: transform 0.2s ease;
 }
 
+/* Add Egg Button */
 #add-egg-btn {
   background-color: #333;
   color: #fff;
@@ -195,7 +199,7 @@ main {
   z-index: 9999;
 }
 
-/* Keyframes for bounce animation */
+/* Animations */
 @keyframes bounceEgg {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.3); }
@@ -205,7 +209,6 @@ main {
   animation: bounceEgg 0.4s ease;
 }
 
-/* Keyframes for explode animation */
 @keyframes explodeEgg {
   0%   { transform: scale(1); opacity: 1; }
   100% { transform: scale(2.5); opacity: 0; }
@@ -219,10 +222,26 @@ main {
   .dashboard-container {
     gap: 0.5rem;
   }
-  .dashboard-box {
-    margin: 0;
-  }
   #dataChart {
     height: 300px; /* smaller chart on mobile */
   }
+}
+
+#money-ticker {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: -0.5rem; /* adjust to taste */
+  transition: transform 0.2s ease;
+}
+
+/* Optional bounce or highlight effect when cost updates */
+.money-bounce {
+  animation: bounceMoney 0.4s ease;
+}
+
+@keyframes bounceMoney {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
 }

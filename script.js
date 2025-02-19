@@ -1,24 +1,20 @@
 // script.js
 
-// The local JSON file containing your historical FRED data.
-const dataUrl = 'fredData.json';
-
-console.log("Fetching historical FRED data from:", dataUrl);
-
+// ---------- FRED Data and Chart Setup ----------
+const dataUrl = 'fredData.json';  // Local JSON file with historical data
 let fullObservations = [];
 let chart = null;
 
 async function fetchFREDData() {
   try {
     const response = await fetch(dataUrl);
-    console.log("Fetch response received. Status:", response.status);
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
-    // Parse JSON
     const data = await response.json();
+
+    // Basic debug logs
+    console.log("Fetch status:", response.status);
     console.log("JSON data received (first few observations):", data.observations.slice(0, 5));
 
     fullObservations = data.observations;
@@ -27,14 +23,14 @@ async function fetchFREDData() {
       return;
     }
 
-    // Default: filter to show only 1 year back
+    // By default, show 1 year of data
     const initialObservations = filterObservations(1);
     createChart(initialObservations);
 
-    // Set up interactive filter buttons
+    // Setup interactive filter buttons
     addFilterListeners();
   } catch (error) {
-    console.error('Error fetching historical FRED data:', error);
+    console.error('Error fetching FRED data:', error);
     document.getElementById('error-message').textContent = 'Failed to load data. Please try again later.';
   }
 }
@@ -47,7 +43,7 @@ function createChart(observations) {
   chart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: labels,
+      labels,
       datasets: [{
         label: 'Egg Price',
         data: values,
@@ -107,28 +103,45 @@ function filterObservations(yearsBack) {
 }
 
 function addFilterListeners() {
-  document.getElementById('btn1Year').addEventListener('click', () => updateChart(filterObservations(1)));
-  document.getElementById('btn3Years').addEventListener('click', () => updateChart(filterObservations(3)));
-  document.getElementById('btn5Years').addEventListener('click', () => updateChart(filterObservations(5)));
-  document.getElementById('btnAll').addEventListener('click', () => updateChart(fullObservations));
+  document.getElementById('btn1Year').addEventListener('click', () => {
+    updateChart(filterObservations(1));
+  });
+  document.getElementById('btn3Years').addEventListener('click', () => {
+    updateChart(filterObservations(3));
+  });
+  document.getElementById('btn5Years').addEventListener('click', () => {
+    updateChart(filterObservations(5));
+  });
+  document.getElementById('btnAll').addEventListener('click', () => {
+    updateChart(fullObservations);
+  });
 }
 
-// Fetch data on page load
+// Fetch FRED data when the page loads
 window.onload = fetchFREDData;
 
-/* --- Interactive Cart Functionality --- */
+
+// ---------- Interactive Cart + Money Ticker ----------
+const PRICE_PER_EGG = 0.49; // e.g., $0.50 per egg
+
+// Elements
 const addEggBtn = document.getElementById('add-egg-btn');
 const eggCountEl = document.getElementById('egg-count');
 const flyingEggEl = document.getElementById('flying-egg');
 const cartIconImage = document.getElementById('cart-icon-image');
+const moneyTickerEl = document.getElementById('money-ticker');
 const productBoxEl = document.getElementById('product-box');
 
 let eggCount = 0;
 
-if (addEggBtn && eggCountEl && flyingEggEl && cartIconImage && productBoxEl) {
+if (addEggBtn && eggCountEl && flyingEggEl && cartIconImage && moneyTickerEl && productBoxEl) {
   addEggBtn.addEventListener('click', () => {
+    // Increment egg count
     eggCount++;
     eggCountEl.textContent = eggCount;
+
+    // Update money ticker
+    updateMoneyTicker();
 
     // Bounce the egg count badge
     eggCountEl.classList.add('egg-bounce');
@@ -141,39 +154,52 @@ if (addEggBtn && eggCountEl && flyingEggEl && cartIconImage && productBoxEl) {
   });
 }
 
+function updateMoneyTicker() {
+  const totalCost = eggCount * PRICE_PER_EGG;
+  // Format to two decimals
+  moneyTickerEl.textContent = `$${totalCost.toFixed(2)}`;
+
+  // Optional bounce or highlight effect on the ticker
+  moneyTickerEl.classList.add('money-bounce');
+  setTimeout(() => {
+    moneyTickerEl.classList.remove('money-bounce');
+  }, 400);
+}
+
 function animateFlyingEgg() {
   // Get bounding rectangles relative to the viewport
   const btnRect = addEggBtn.getBoundingClientRect();
   const cartRect = cartIconImage.getBoundingClientRect();
   const productBoxRect = productBoxEl.getBoundingClientRect();
 
-  // Calculate positions relative to the product box
-  const startX = btnRect.left + btnRect.width / 2 - productBoxRect.left;
-  const startY = btnRect.top + btnRect.height / 2 - productBoxRect.top;
-  const endX = cartRect.left + cartRect.width / 2 - productBoxRect.left;
-  const endY = cartRect.top + cartRect.height / 2 - productBoxRect.top - 10; // slight vertical offset
+  // Positions relative to the product box
+  const startX = btnRect.left + (btnRect.width / 2) - productBoxRect.left;
+  const startY = btnRect.top + (btnRect.height / 2) - productBoxRect.top;
+  const endX = cartRect.left + (cartRect.width / 2) - productBoxRect.left;
+  const endY = cartRect.top + (cartRect.height / 2) - productBoxRect.top - 10; // offset
 
-  // Place the flying egg at the start position
-  flyingEggEl.style.left = startX + 'px';
-  flyingEggEl.style.top = startY + 'px';
+  // Place the flying egg at the start
+  flyingEggEl.style.left = `${startX}px`;
+  flyingEggEl.style.top = `${startY}px`;
   flyingEggEl.style.display = 'inline';
 
   let startTime;
-  const duration = 600; // animation duration in ms
+  const duration = 600; // ms
 
   function step(timestamp) {
     if (!startTime) startTime = timestamp;
     const progress = Math.min((timestamp - startTime) / duration, 1);
-    // Calculate current position
+
+    // Current position
     const currentX = startX + (endX - startX) * progress;
     const currentY = startY + (endY - startY) * progress;
-    flyingEggEl.style.left = currentX + 'px';
-    flyingEggEl.style.top = currentY + 'px';
+    flyingEggEl.style.left = `${currentX}px`;
+    flyingEggEl.style.top = `${currentY}px`;
 
     if (progress < 1) {
       requestAnimationFrame(step);
     } else {
-      // Once the egg reaches the cart, trigger the explode animation
+      // Reached the cart => explode
       explodeEgg();
     }
   }
@@ -181,12 +207,12 @@ function animateFlyingEgg() {
 }
 
 function explodeEgg() {
-  // Apply the explode animation (defined in CSS)
   flyingEggEl.style.animation = 'explodeEgg 0.4s forwards';
 
   setTimeout(() => {
-    // Hide and reset the flying egg element after the animation
     flyingEggEl.style.display = 'none';
     flyingEggEl.style.animation = '';
   }, 400);
 }
+
+// Optional: a "money-bounce" animation for the ticker (reuse bounceEgg or define new)
