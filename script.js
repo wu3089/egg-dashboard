@@ -161,9 +161,28 @@ function animateFlyingEgg() {
 function explodeEgg() {
   flyingEggEl.style.animation = 'explodeEgg 0.4s forwards';
   setTimeout(() => {
-    flyingEggEl.style.display; 'none';
+    flyingEggEl.style.display = 'none'; // Corrected typo: was `display; 'none';` should be `display = 'none';`
     flyingEggEl.style.animation = '';
   }, 400);
+}
+
+// ---------- STORE PRICES ----------
+const storePrices = {
+  walmart: 3.29,  // Example prices - UPDATE THESE to current prices!
+  kroger: 3.49,   // You'll need to check actual prices at these stores
+  target: 3.79,
+};
+
+const walmartPriceEl = document.getElementById('walmart-price');
+const krogerPriceEl = document.getElementById('kroger-price');
+const targetPriceEl = document.getElementById('target-price');
+
+function displayStorePrices() {
+  if (walmartPriceEl && krogerPriceEl && targetPriceEl) {
+    walmartPriceEl.textContent = `$${storePrices.walmart.toFixed(2)}/dozen`;
+    krogerPriceEl.textContent = `$${storePrices.kroger.toFixed(2)}/dozen`;
+    targetPriceEl.textContent = `$${storePrices.target.toFixed(2)}/dozen`;
+  }
 }
 
 // ---------- MARKET CONCENTRATION CHART (UPDATED for Top 20 + "Other" Pie Chart) ----------
@@ -263,29 +282,29 @@ function createMarketShareChart() {
         data: henCounts,
         // Example colors - you can customize these!
         backgroundColor: [
-          'rgba(255, 99, 132, 0.8)',  
-          'rgba(54, 162, 235, 0.8)',  
-          'rgba(255, 206, 86, 0.8)', 
-          'rgba(75, 192, 192, 0.8)',  
-          'rgba(153, 102, 255, 0.8)', 
-          'rgba(255, 159, 64, 0.8)',  
-          'rgba(199, 199, 199, 0.8)', 
-          'rgba(102, 204, 255, 0.8)', 
-          'rgba(255, 178, 102, 0.8)', 
-          'rgba(178, 102, 255, 0.8)', 
-          'rgba(255, 99, 132, 0.6)',  
-          'rgba(54, 162, 235, 0.6)',  
-          'rgba(255, 206, 86, 0.6)', 
-          'rgba(75, 192, 192, 0.6)',  
-          'rgba(153, 102, 255, 0.6)', 
-          'rgba(255, 159, 64, 0.6)',  
-          'rgba(199, 199, 199, 0.6)', 
-          'rgba(102, 204, 255, 0.6)', 
-          'rgba(255, 178, 102, 0.6)', 
-          'rgba(178, 102, 255, 0.6)', 
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(153, 102, 255, 0.8)',
+          'rgba(255, 159, 64, 0.8)',
+          'rgba(199, 199, 199, 0.8)',
+          'rgba(102, 204, 255, 0.8)',
+          'rgba(255, 178, 102, 0.8)',
+          'rgba(178, 102, 255, 0.8)',
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)',
+          'rgba(199, 199, 199, 0.6)',
+          'rgba(102, 204, 255, 0.6)',
+          'rgba(255, 178, 102, 0.6)',
+          'rgba(178, 102, 255, 0.6)',
           'rgba(220,220,220, 0.8)'     // Lightest Gray for "Other"
         ],
-        borderColor: 'rgba(255, 255, 255, 1)', 
+        borderColor: 'rgba(255, 255, 255, 1)',
         borderWidth: 2
       }]
     },
@@ -293,14 +312,14 @@ function createMarketShareChart() {
       responsive: true,
       plugins: {
         legend: {
-          position: 'right', 
+          position: 'right',
           labels: {
-            boxWidth: 20,  
-            fontColor: '#333' 
+            boxWidth: 20,
+            fontColor: '#333'
           }
         },
         title: {
-          display: false, 
+          display: false,
           text: 'US Egg Market Concentration (Top 20 Producers + Other)'
         }
       }
