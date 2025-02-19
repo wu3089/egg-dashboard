@@ -185,10 +185,10 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 20 Emphasis - NO ANNOTATION) ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED - NO TEXT ANNOTATION) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
-  // const marketShareNoteEl = document.getElementById('marketShareNote'); // REMOVED: No longer needed
+  // const marketShareNoteEl = document.getElementById('marketShareNote'); // REMOVED - NO ANNOTATION
 
   // Data from WATT Global Media, 2025 Company Survey (TOP 20 ONLY)
   const top20CompanyHensData = [
