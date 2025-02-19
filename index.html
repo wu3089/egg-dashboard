@@ -28,7 +28,7 @@
         </div>
       </div>
       
-      <!-- Retailer Product Card -->
+      <!-- Retailer Product Card (NOW WITH INTERACTIVE CART) -->
       <div class="dashboard-box" id="product-box">
         <h2>Current Prices (Retailers)</h2>
         <div class="retailer-buttons">
@@ -42,25 +42,24 @@
             Target
           </a>
         </div>
-      </div>
 
-      <!-- Interactive Grocery Cart Card -->
-      <div class="dashboard-box" id="cart-box">
-        <h2>My Egg Cart</h2>
+        <!-- Interactive Cart Section -->
         <div class="cart-container">
+          <!-- Cart icon with egg count -->
           <div class="cart-icon">
-            <!-- Example cart icon (Flaticon link) -->
             <img 
               src="https://cdn-icons-png.flaticon.com/512/3082/3082011.png" 
               alt="Cart Icon" 
               id="cart-icon-image"
             />
-            <!-- Egg count badge -->
             <span id="egg-count">0</span>
           </div>
           <!-- Button to add eggs -->
           <button id="add-egg-btn">Add Egg</button>
         </div>
+
+        <!-- Hidden flying egg emoji (for animation) -->
+        <span id="flying-egg">🥚</span>
       </div>
     </div>
 
