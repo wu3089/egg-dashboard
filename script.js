@@ -6,11 +6,12 @@ const seriesId = 'APU0000708111';
 
 // Use CORS Anywhere as a proxy to bypass CORS restrictions
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+// Build the direct FRED API URL
 const fredUrl = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${apiKey}&file_type=json`;
-
-// Final URL: proxy + FRED API URL
+// Prepend the proxy URL to get the final URL
 const apiUrl = proxyUrl + fredUrl;
 
+console.log("Final API URL:", apiUrl);
 console.log("Script is running.");
 console.log("Fetching from API via CORS Anywhere:", apiUrl);
 
