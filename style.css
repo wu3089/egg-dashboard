@@ -1,20 +1,16 @@
-/*--------------------------
-  STICKY FOOTER & BASIC LAYOUT
----------------------------*/
+/* BASIC RESET & LAYOUT */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-body {
-  display: flex;
-  flex-direction: column;
   background-color: #f0f0f0;
   font-family: Arial, sans-serif;
+  /* Egg emoji wallpaper */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
   background-repeat: repeat;
   background-size: 50px 50px;
 }
+
 header, footer {
   background-color: #fff;
   text-align: center;
@@ -22,57 +18,41 @@ header, footer {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* main grows to fill leftover space */
+/* We don't need main to be a flex container if we want a simple scroll */
 main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
   padding: 1rem;
+  /* If you want a narrower content area, use max-width & margin auto */
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-/*--------------------------
-  DASHBOARD CONTAINER
----------------------------*/
-.dashboard-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  align-items: stretch;
-  flex: 1;
-}
+/* .dashboard-container {
+  display: none; // or remove it entirely
+} */
 
-/*--------------------------
-  DASHBOARD CARDS
----------------------------*/
+/* Each .dashboard-box is a vertical card */
 .dashboard-box {
   background-color: #fff;
   border: 1px solid #eee;
   border-radius: 8px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.08);
   padding: 0.75rem;
+  margin-bottom: 2rem; /* add spacing between cards */
   text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
 }
+
+/* Optional hover effect if you like */
 .dashboard-box:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
-@media (min-width: 800px) {
-  .dashboard-box {
-    width: 420px;
-  }
-}
+
 .dashboard-box h2 {
   margin-bottom: 0.5rem;
 }
 
-/*--------------------------
-  FILTER BUTTONS (FRED)
----------------------------*/
+/* Filter Buttons (FRED) */
 .filter-buttons {
   margin-top: 0.8rem;
   text-align: center;
@@ -91,14 +71,18 @@ main {
   background-color: #555;
 }
 
-/*--------------------------
-  RETAILER BUTTONS
----------------------------*/
+/* Chart */
+#dataChart {
+  height: 350px;
+  max-width: 100%;
+}
+
+/* Retailer Buttons */
 .retailer-buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: 0.8rem;  /* Aligned with filter buttons */
+  margin-top: 0.8rem;
 }
 .retailer-button {
   display: inline-block;
@@ -130,17 +114,7 @@ main {
   background-color: #a30000;
 }
 
-/*--------------------------
-  CHART
----------------------------*/
-#dataChart {
-  height: 350px;
-  max-width: 100%;
-}
-
-/*--------------------------
-  INTERACTIVE CART
----------------------------*/
+/* Interactive Cart */
 .cart-container {
   margin-top: 0.8rem;
   display: flex;
@@ -153,7 +127,7 @@ main {
   display: inline-block;
 }
 #cart-icon-image {
-  width: 140px;
+  width: 80px;
   height: auto;
 }
 #egg-count {
@@ -164,12 +138,12 @@ main {
   color: #fff;
   font-weight: bold;
   border-radius: 50%;
-  padding: 0.7rem 1.2rem;
-  font-size: 1rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
   transform: scale(1);
   transition: transform 0.2s ease;
 }
-/* New row container for Add Egg button and Money Ticker */
+/* Add Egg + Ticker side by side */
 .cart-controls {
   display: flex;
   flex-direction: row;
@@ -195,9 +169,7 @@ main {
   transition: transform 0.2s ease;
 }
 
-/*--------------------------
-  FLYING EGG ANIMATION
----------------------------*/
+/* Flying Egg Emoji */
 #flying-egg {
   position: absolute;
   font-size: 1.8rem;
@@ -206,9 +178,7 @@ main {
   z-index: 9999;
 }
 
-/*--------------------------
-  ANIMATIONS
----------------------------*/
+/* Animations */
 @keyframes bounceEgg {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.3); }
@@ -221,10 +191,6 @@ main {
   0%   { transform: scale(1); opacity: 1; }
   100% { transform: scale(2.5); opacity: 0; }
 }
-
-/*--------------------------
-  MONEY TICKER ANIMATION
----------------------------*/
 @keyframes bounceMoney {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.3); }
@@ -234,15 +200,10 @@ main {
   animation: bounceMoney 0.4s ease;
 }
 
-/*--------------------------
-  MOBILE TWEAKS
----------------------------*/
+/* Mobile Tweaks */
 @media (max-width: 600px) {
   main {
     padding: 0.5rem;
-  }
-  .dashboard-container {
-    gap: 0.5rem;
   }
   #dataChart {
     height: 300px;

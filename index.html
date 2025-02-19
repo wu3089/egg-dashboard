@@ -15,56 +15,51 @@
   </header>
 
   <main>
-    <div class="dashboard-container">
-      <!-- Historic Prices (FRED) Card -->
-      <div class="dashboard-box" id="chart-box">
-        <h2>Historic Prices (FRED)</h2>
-        <canvas id="dataChart"></canvas>
-        <div class="filter-buttons">
-          <button id="btn1Year">1 Year</button>
-          <button id="btn3Years">3 Years</button>
-          <button id="btn5Years">5 Years</button>
-          <button id="btnAll">All Data</button>
-        </div>
+    <!-- Section 1: Historic Prices (FRED) -->
+    <section class="dashboard-box" id="chart-box">
+      <h2>Average Price for a Dozen Eggs</h2>
+      <canvas id="dataChart"></canvas>
+      <div class="filter-buttons">
+        <button id="btn1Year">1 Year</button>
+        <button id="btn3Years">3 Years</button>
+        <button id="btn5Years">5 Years</button>
+        <button id="btnAll">All Data</button>
       </div>
-      
-      <!-- Current Prices (Retailers) + Interactive Cart Card -->
-      <div class="dashboard-box" id="product-box">
-        <h2>Current Prices (Retailers)</h2>
-        <!-- Interactive Cart Section -->
-        <div class="cart-container">
-          <div class="cart-icon">
-            <img 
-              src="https://cdn-icons-png.flaticon.com/512/3082/3082011.png" 
-              alt="Cart Icon" 
-              id="cart-icon-image"
-            />
-            <span id="egg-count">0</span>
-          </div>
-          <!-- Row container for Add Egg button and Money Ticker -->
-          <div class="cart-controls">
-            <button id="add-egg-btn">Add Egg</button>
-            <div id="money-ticker">$0.00</div>
-          </div>
-          <!-- Hidden flying egg emoji for animation -->
-          <span id="flying-egg">🥚</span>
+    </section>
+
+    <!-- Section 2: Current Prices (Retailers) -->
+    <section class="dashboard-box" id="product-box">
+      <h2>Retailer Prices</h2>
+      <div class="cart-container">
+        <div class="cart-icon">
+          <img 
+            src="https://cdn-icons-png.flaticon.com/512/3082/3082011.png" 
+            alt="Cart Icon" 
+            id="cart-icon-image"
+          />
+          <span id="egg-count">0</span>
         </div>
-        <!-- Retailer Buttons -->
-        <div class="retailer-buttons">
-          <a href="https://www.walmart.com/browse/food/eggs/976759_9176907_1001469" target="_blank" rel="noopener noreferrer" class="retailer-button walmart">
-            Walmart
-          </a>
-          <a href="https://www.kroger.com/p/kroger-grade-a-large-eggs/0001111060903" target="_blank" rel="noopener noreferrer" class="retailer-button kroger">
-            Kroger
-          </a>
-          <a href="https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534" target="_blank" rel="noopener noreferrer" class="retailer-button target">
-            Target
-          </a>
+        <div class="cart-controls">
+          <button id="add-egg-btn">Add Egg</button>
+          <div id="money-ticker">$0.00</div>
         </div>
+        <span id="flying-egg">🥚</span>
       </div>
-      
-      <!-- (Optional future cards can be added here) -->
-    </div>
+      <div class="retailer-buttons">
+        <a href="https://www.walmart.com/search?q=great+value+eggs" target="_blank" rel="noopener noreferrer" class="retailer-button walmart">Walmart</a>
+        <a href="https://www.kroger.com/p/kroger-grade-a-large-eggs/0001111060903" target="_blank" rel="noopener noreferrer" class="retailer-button kroger">Kroger</a>
+        <a href="https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534" target="_blank" rel="noopener noreferrer" class="retailer-button target">Target</a>
+      </div>
+    </section>
+
+    <!-- (Optional) Section 3: "He said it" or other content -->
+    <!-- 
+    <section class="dashboard-box" id="he-said-it">
+      <h2>He Said It</h2>
+      <iframe ... >Video or embed</iframe>
+      ...
+    </section>
+    -->
 
     <!-- Error / Status Message -->
     <div id="error-message"></div>
