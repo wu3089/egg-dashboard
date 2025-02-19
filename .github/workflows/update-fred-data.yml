@@ -12,8 +12,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0    # fetch full history
-          ref: main         # explicitly checkout main
+          fetch-depth: 0   # fetch the entire commit history
+          ref: main        # explicitly checkout main
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -26,36 +26,17 @@ jobs:
       - name: Run update script
         run: node update-fred-data.js
 
-      - name: Prepare to commit
+      - name: Force Push Changes
         env:
           PAT: ${{ secrets.PAT }}
         run: |
-          # Configure Git
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Stash local changes (the updated fredData.json)
-          git stash
-
-          # Make sure we are on main
-          git checkout main
-
-          # Pull & rebase from remote main
           git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}.git
-          git pull origin main --rebase
 
-          # Pop our stashed changes on top
-          git stash pop || echo "No stash to pop"
-
-      - name: Commit and push changes
-        env:
-          PAT: ${{ secrets.PAT }}
-        run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}.git
-          git checkout -b data-update
+          # Stage changes
           git add fredData.json
+          # Commit
           git commit -m "Update FRED data" || echo "No changes to commit"
-          git push origin HEAD:data-update
-
+          # Force push
+          git push origin HEAD:main --force
