@@ -1,22 +1,20 @@
-/* style.css */
-
 /* Global Styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
-    /* Egg emoji wallpaper using an inline SVG as background image */
+    /* Egg emoji wallpaper using an inline SVG */
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
     background-repeat: repeat;
     background-size: 50px 50px;
   }
   
   header, footer {
-    background-color: #ffffff;
+    background-color: #fff;
     text-align: center;
     padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
   
   header h1 {
@@ -27,82 +25,36 @@ body {
     padding: 2rem;
   }
   
-  #loading {
+  /* Graph Section */
+  .graph-section {
     text-align: center;
-    font-size: 1.2rem;
+    margin: 2rem auto;
+  }
+  
+  .graph-section h2 {
     margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #333;
   }
   
-  #error-message {
-    color: red;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  
-  /* Dashboard Container */
-  .dashboard-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-    padding: 2rem;
-  }
-  
-  /* Dashboard Box */
-  .dashboard-box {
+  /* Embed Container */
+  .embed-container {
+    position: relative;
+    width: 100%;
+    max-width: 700px; /* Adjust this width as needed */
+    margin: 0 auto;
+    border: 1px solid #ddd;
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 1rem;
-    flex: 1 1 400px;
-    max-width: 600px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
   }
   
-  .dashboard-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Chart Section */
-  #dataChart {
+  /* Responsive iframe */
+  .embed-container iframe {
     width: 100%;
     height: auto;
-  }
-  
-  /* Filter Buttons */
-  .filter-buttons {
-    margin-top: 1rem;
-    text-align: center;
-  }
-  
-  .filter-buttons button {
-    background-color: #333;
-    color: #fff;
     border: none;
-    padding: 0.5rem 1rem;
-    margin: 0 0.3rem;
     border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .filter-buttons button:hover {
-    background-color: #555;
-  }
-  
-  /* Product Tracking Box Styles */
-  #product-box {
-    text-align: center;
-  }
-  
-  #product-box img {
-    max-width: 100%;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
-  }
-  
-  .dashboard-box h2 {
-    text-align: center;
   }
   
