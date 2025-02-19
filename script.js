@@ -166,6 +166,25 @@ function explodeEgg() {
   }, 400);
 }
 
+// ---------- STORE PRICES ----------
+const storePrices = {
+  walmart: 5.49,  // Example prices - UPDATE THESE to current prices!
+  kroger: 5.49,   // You'll need to check actual prices at these stores
+  target: 5.79,
+};
+
+const walmartPriceEl = document.getElementById('walmart-price');
+const krogerPriceEl = document.getElementById('kroger-price');
+const targetPriceEl = document.getElementById('target-price');
+
+function displayStorePrices() {
+  if (walmartPriceEl && krogerPriceEl && targetPriceEl) {
+    walmartPriceEl.textContent = `$${storePrices.walmart.toFixed(2)}/dozen`;
+    krogerPriceEl.textContent = `$${storePrices.kroger.toFixed(2)}/dozen`;
+    targetPriceEl.textContent = `$${storePrices.target.toFixed(2)}/dozen`;
+  }
+}
+
 // ---------- MARKET CONCENTRATION CHART (UPDATED for Top 20 + "Other" Pie Chart) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
