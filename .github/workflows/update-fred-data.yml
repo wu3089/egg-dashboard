@@ -2,7 +2,7 @@ name: Update FRED Data
 
 on:
   schedule:
-    - cron: "0 0 */14 * *"
+    - cron: "0 0 */14 * *"  # runs every 14 days
   workflow_dispatch:
 
 jobs:
@@ -23,20 +23,28 @@ jobs:
       - name: Install dependencies
         run: npm install node-fetch@2 papaparse
 
-      - name: Run update script
-        run: node update-fred-data.js
-
-      - name: Force Push Changes
+      - name: Hard Reset to Remote Main
         env:
           PAT: ${{ secrets.PAT }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}.git
+          # Fetch all remote commits
+          git fetch origin main
+          # Discard local commits and match remote
+          git reset --hard origin/main
 
-          # Stage changes
+      - name: Run update script
+        run: node update-fred-data.js
+
+      - name: Force push changes
+        env:
+          PAT: ${{ secrets.PAT }}
+        run: |
+          # Stage the newly updated file
           git add fredData.json
-          # Commit
+          # Commit changes
           git commit -m "Update FRED data" || echo "No changes to commit"
-          # Force push
+          # Force push to overwrite remote main
           git push origin HEAD:main --force
