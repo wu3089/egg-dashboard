@@ -91,7 +91,7 @@ main {
   FILTER BUTTONS (FRED)
 ---------------------------*/
 .filter-buttons {
-  margin-top: 0.8rem;
+  margin-top: 0.8rem;  /* Filter buttons top margin */
   text-align: center;
 }
 .filter-buttons button {
@@ -115,7 +115,7 @@ main {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 0.8rem; /* Match filter-buttons' margin-top */
 }
 .retailer-button {
   display: inline-block;
@@ -165,7 +165,7 @@ main {
   INTERACTIVE CART
 ---------------------------*/
 .cart-container {
-  margin-top: 0.5rem;
+  margin-top: 0.8rem; /* match filter-buttons margin so cart lines up better */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -269,4 +269,3 @@ main {
     height: 300px; /* smaller chart on mobile */
   }
 }
-
