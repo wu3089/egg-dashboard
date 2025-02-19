@@ -185,10 +185,9 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED - NO TEXT ANNOTATION) ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 20 Emphasis - Visual Boundary) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
-  // const marketShareNoteEl = document.getElementById('marketShareNote'); // REMOVED - NO ANNOTATION
 
   // Data from WATT Global Media, 2025 Company Survey (TOP 20 ONLY)
   const top20CompanyHensData = [
@@ -274,51 +273,53 @@ function createMarketShareChart() {
   const companyNames = companyHensData.map(item => item.company);
   const henCounts = companyHensData.map(item => item.hens);
 
+  const top20Colors = [ // More saturated colors for Top 20
+    'rgba(255, 87, 34, 0.9)',   // Vivid Orange-Red
+    'rgba(63, 81, 181, 0.9)',   // Indigo
+    'rgba(255, 235, 59, 0.9)',  // Yellow
+    'rgba(0, 150, 136, 0.9)',   // Teal
+    'rgba(156, 39, 176, 0.9)',  // Deep Purple
+    'rgba(255, 193, 7, 0.9)',   // Amber
+    'rgba(121, 85, 72, 0.9)',   // Brown
+    'rgba(3, 169, 244, 0.9)',   // Light Blue
+    'rgba(233, 30, 99, 0.9)',   // Pink
+    'rgba(255, 245, 157, 0.9)', // Light Yellow
+    'rgba(255, 87, 34, 0.7)',   // Faded Orange-Red
+    'rgba(63, 81, 181, 0.7)',   // Faded Indigo
+    'rgba(255, 235, 59, 0.7)',  // Faded Yellow
+    'rgba(0, 150, 136, 0.7)',   // Faded Teal
+    'rgba(156, 39, 176, 0.7)',  // Faded Deep Purple
+    'rgba(255, 193, 7, 0.7)',   // Faded Amber
+    'rgba(121, 85, 72, 0.7)',   // Faded Brown
+    'rgba(3, 169, 244, 0.7)',   // Faded Light Blue
+    'rgba(233, 30, 99, 0.7)',   // Faded Pink
+    'rgba(255, 245, 157, 0.7)'  // Faded Light Yellow
+  ];
+  const otherColor = 'rgba(220,220,220, 0.8)'; // Light gray for "Other"
+  const backgroundColors = [...top20Colors, otherColor];
+
   new Chart(ctxMarketShare, {
-    type: 'pie', // Changed to Pie Chart!
+    type: 'pie',
     data: {
       labels: companyNames,
       datasets: [{
         label: 'Hens (Millions)',
         data: henCounts,
-        // Example colors - you can customize these!
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.8)',
-          'rgba(54, 162, 235, 0.8)',
-          'rgba(255, 206, 86, 0.8)',
-          'rgba(75, 192, 192, 0.8)',
-          'rgba(153, 102, 255, 0.8)',
-          'rgba(255, 159, 64, 0.8)',
-          'rgba(199, 199, 199, 0.8)',
-          'rgba(102, 204, 255, 0.8)',
-          'rgba(255, 178, 102, 0.8)',
-          'rgba(178, 102, 255, 0.8)',
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)',
-          'rgba(255, 159, 64, 0.6)',
-          'rgba(199, 199, 199, 0.6)',
-          'rgba(102, 204, 255, 0.6)',
-          'rgba(255, 178, 102, 0.6)',
-          'rgba(178, 102, 255, 0.6)',
-          'rgba(220,220,220, 0.8)'     // Lightest Gray for "Other"
-        ],
-        borderColor: 'rgba(255, 255, 255, 1)',
-        borderWidth: 2
+        backgroundColor: backgroundColors,
+        borderColor: companyNames.map((name, index) => index < 20 ? 'black' : 'rgba(220,220,220,1)'), // Black border for Top 20, light gray for "Other"
+        borderWidth: companyNames.map((name, index) => index < 20 ? 2 : 1) // Thicker border for Top 20
       }]
     },
     options: {
       responsive: true,
       plugins: {
-        tooltip: { // Customize tooltips to show percentage
+        tooltip: {
           callbacks: {
             label: (context) => {
               const label = context.label || '';
               const value = context.dataset.data[context.dataIndex];
-              const percentage = ((value / totalHensAllCompanies) * 100).toFixed(1); // Calculate slice percentage
-              return `${label}: ${value} Million Hens (${percentage}%)`; // Tooltip text with percentage
+              const percentage = ((value / totalHensAllCompanies) * 100).toFixed(1);
+              return `${label}: ${value} Million Hens (${percentage}%)`;
             }
           }
         },
@@ -339,7 +340,7 @@ function createMarketShareChart() {
 }
 
 window.onload = () => {
-  fetchFREDData(); // Keep your FRED data fetching
-  displayStorePrices(); // Keep displaying store prices
-  createMarketShareChart(); // Call function to create market share chart
+  fetchFREDData();
+  displayStorePrices();
+  createMarketShareChart();
 };
