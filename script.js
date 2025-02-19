@@ -185,12 +185,12 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 10 + "Other") ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 25 + "Other" Pie Chart) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
 
-  // Data from WATT Global Media, 2024 Company Survey (TOP 10 ONLY initially)
-  const top10CompanyHensData = [
+  // Data from WATT Global Media, 2024 Company Survey (TOP 25 ONLY initially)
+  const top25CompanyHensData = [
     { company: 'Cal-Maine Foods', hens: 44.51 },
     { company: 'Rose Acre Farms', hens: 25.50 },
     { company: 'Daybreak Foods Inc.', hens: 20.50 },
@@ -201,10 +201,6 @@ function createMarketShareChart() {
     { company: 'Mid-States Specialty Eggs', hens: 10.30 },
     { company: 'Michael Foods', hens: 9.70 },
     { company: 'Herbruck’s Poultry Ranch', hens: 9.53 },
-  ];
-
-  // Data for companies ranked 11th and below (calculate "Other" category)
-  const otherCompaniesData = [
     { company: 'Gemperle Family Farms', hens: 8.80 },
     { company: 'Prairie Star Farms', hens: 7.91 },
     { company: 'Sauder’s Eggs', hens: 7.63 },
@@ -220,6 +216,10 @@ function createMarketShareChart() {
     { company: 'ISE America', hens: 4.70 },
     { company: 'Wabash Valley Produce', hens: 4.62 },
     { company: 'Weaver Brothers', hens: 4.44 },
+  ];
+
+  // Data for companies ranked 26th and below (calculate "Other" category)
+  const otherCompaniesData = [
     { company: 'Minnich Poultry LLC', hens: 3.87 },
     { company: 'Forsman Farms', hens: 3.72 },
     { company: 'Ritewood/Oakdell Egg Farms', hens: 3.42 },
@@ -260,58 +260,74 @@ function createMarketShareChart() {
     { company: 'The Happy Egg Co.', hens: 0.19 },
   ];
 
-  // Calculate total hens for "Other" category (companies ranked 11th and below)
+  // Calculate total hens for "Other" category (companies ranked 26th and below)
   const otherHensTotal = otherCompaniesData.reduce((sum, company) => sum + company.hens, 0);
 
-  // Create final data array: Top 10 + "Other" category
+  // Create final data array: Top 25 + "Other" category
   const companyHensData = [
-    ...top10CompanyHensData, // Spread operator to include top 10
-    { company: 'Other (Rank 11-63)', hens: otherHensTotal } // Add "Other" category
+    ...top25CompanyHensData, // Spread operator to include top 25
+    { company: 'Other (Rank 26-63)', hens: otherHensTotal } // Add "Other" category
   ];
 
-  // Sort data by hen count in ascending order for better chart visualization (largest at top)
+  // Sort data by hen count in ascending order for better chart visualization (largest to smallest for pie)
   companyHensData.sort((a, b) => b.hens - a.hens);
 
   const companyNames = companyHensData.map(item => item.company);
   const henCounts = companyHensData.map(item => item.hens);
 
   new Chart(ctxMarketShare, {
-    type: 'bar', // or 'bar' for vertical bars
+    type: 'pie', // Changed to Pie Chart!
     data: {
       labels: companyNames,
       datasets: [{
         label: 'Hens (Millions)',
         data: henCounts,
-        backgroundColor: 'rgba(54, 162, 235, 0.7)', // Example bar color
-        borderColor: 'rgba(54, 162, 235, 1)',     // Example border color
-        borderWidth: 1
+        // Example colors - you can customize these!
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.8)',  // Red
+          'rgba(54, 162, 235, 0.8)',  // Blue
+          'rgba(255, 206, 86, 0.8)', // Yellow
+          'rgba(75, 192, 192, 0.8)',  // Green
+          'rgba(153, 102, 255, 0.8)', // Purple
+          'rgba(255, 159, 64, 0.8)',  // Orange
+          'rgba(199, 199, 199, 0.8)', // Light Gray
+          'rgba(102, 204, 255, 0.8)', // Light Blue
+          'rgba(255, 178, 102, 0.8)', // Peach
+          'rgba(178, 102, 255, 0.8)', // Lavender
+          'rgba(255, 99, 132, 0.6)',  // Lighter Red
+          'rgba(54, 162, 235, 0.6)',  // Lighter Blue
+          'rgba(255, 206, 86, 0.6)', // Lighter Yellow
+          'rgba(75, 192, 192, 0.6)',  // Lighter Green
+          'rgba(153, 102, 255, 0.6)', // Lighter Purple
+          'rgba(255, 159, 64, 0.6)',  // Lighter Orange
+          'rgba(199, 199, 199, 0.6)', // Lighter Gray
+          'rgba(102, 204, 255, 0.6)', // Lighter Blue
+          'rgba(255, 178, 102, 0.6)', // Lighter Peach
+          'rgba(178, 102, 255, 0.6)', // Lighter Lavender
+          'rgba(255, 99, 132, 0.4)',  // Even Lighter Red
+          'rgba(54, 162, 235, 0.4)',  // Even Lighter Blue
+          'rgba(255, 206, 86, 0.4)', // Even Lighter Yellow
+          'rgba(75, 192, 192, 0.4)',  // Even Lighter Green
+          'rgba(153, 102, 255, 0.4)', // Even Lighter Purple
+          'rgba(220,220,220, 0.8)'     // Lightest Gray for "Other"
+        ],
+        borderColor: 'rgba(255, 255, 255, 1)', // White border for slices
+        borderWidth: 2
       }]
     },
     options: {
-      indexAxis: 'y', // 'y' for horizontal bar chart, remove for vertical bar chart
       responsive: true,
       plugins: {
-        legend: { display: false }, // Hide legend, as label is on Y-axis
+        legend: {
+          position: 'right', // Display legend on the right side
+          labels: {
+            boxWidth: 20,  // Adjust legend box width if needed
+            fontColor: '#333' // Legend text color
+          }
+        },
         title: {
           display: false, // You can enable title if needed
-          text: 'Top US Egg Producers by Hen Count (Millions)'
-        }
-      },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Hens (Millions)',
-            color: '#000',
-            font: { weight: 'bold' }
-          },
-          ticks: { color: '#000' },
-          grid: { display: false }
-        },
-        y: {
-          title: { display: false }, // No title for Y-axis (company names are labels)
-          ticks: { color: '#000' },
-          grid: { display: false }
+          text: 'US Egg Market Concentration (Top 25 Producers + Other)'
         }
       }
     }
