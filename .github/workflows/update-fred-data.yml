@@ -12,16 +12,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0   # fetch the entire commit history
-          ref: main        # explicitly checkout main
+          fetch-depth: 0    # fetch full commit history
+          ref: main         # explicitly checkout main
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
 
+      - name: Create minimal package.json if not present
+        run: |
+          if [ ! -f package.json ]; then
+            echo '{"name": "egg-dashboard", "version": "1.0.0", "dependencies": {}}' > package.json;
+          fi
+
       - name: Install dependencies
         run: npm install node-fetch@2 papaparse adm-zip
+
+      - name: List installed modules (debug)
+        run: ls -la node_modules
 
       - name: Hard Reset to Remote Main
         env:
@@ -30,21 +39,16 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}.git
-          # Fetch all remote commits
           git fetch origin main
-          # Discard local commits and match remote
           git reset --hard origin/main
 
       - name: Run update script
         run: node update-fred-data.js
 
-      - name: Force push changes
+      - name: Commit and push changes
         env:
           PAT: ${{ secrets.PAT }}
         run: |
-          # Stage the newly updated file
           git add fredData.json
-          # Commit changes
           git commit -m "Update FRED data" || echo "No changes to commit"
-          # Force push to overwrite remote main
           git push origin HEAD:main --force
