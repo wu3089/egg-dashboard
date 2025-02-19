@@ -161,112 +161,91 @@ function animateFlyingEgg() {
 function explodeEgg() {
   flyingEggEl.style.animation = 'explodeEgg 0.4s forwards';
   setTimeout(() => {
-    flyingEggEl.style.display = 'none';
+    flyingEggEl.style.display; 'none';
     flyingEggEl.style.animation = '';
   }, 400);
 }
 
-// ---------- STORE PRICES ----------
-const storePrices = {
-  walmart: 3.29,  // Example prices - UPDATE THESE to current prices!
-  kroger: 3.49,   // You'll need to check actual prices at these stores
-  target: 3.79,
-};
-
-const walmartPriceEl = document.getElementById('walmart-price');
-const krogerPriceEl = document.getElementById('kroger-price');
-const targetPriceEl = document.getElementById('target-price');
-
-function displayStorePrices() {
-  if (walmartPriceEl && krogerPriceEl && targetPriceEl) {
-    walmartPriceEl.textContent = `$${storePrices.walmart.toFixed(2)}/dozen`;
-    krogerPriceEl.textContent = `$${storePrices.kroger.toFixed(2)}/dozen`;
-    targetPriceEl.textContent = `$${storePrices.target.toFixed(2)}/dozen`;
-  }
-}
-
-// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 25 + "Other" Pie Chart) ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 20 + "Other" Pie Chart) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
 
-  // Data from WATT Global Media, 2024 Company Survey (TOP 25 ONLY initially)
-  const top25CompanyHensData = [
-    { company: 'Cal-Maine Foods', hens: 44.51 },
+  // Data from WATT Global Media, 2025 Company Survey (TOP 20 ONLY initially)
+  const top20CompanyHensData = [
+    { company: 'Cal-Maine Foods', hens: 50.61 },
     { company: 'Rose Acre Farms', hens: 25.50 },
-    { company: 'Daybreak Foods Inc.', hens: 20.50 },
-    { company: 'Hillandale Farms', hens: 18.75 },
-    { company: 'Versova Holdings LLP', hens: 18.45 },
-    { company: 'MPS Egg Farms', hens: 13.64 },
-    { company: 'Center Fresh Group', hens: 12.53 },
-    { company: 'Mid-States Specialty Eggs', hens: 10.30 },
+    { company: 'Daybreak Foods Inc.', hens: 23.30 },
+    { company: 'Hillandale Farms', hens: 18.34 },
+    { company: 'Mid-States Specialty Eggs', hens: 15.00 },
+    { company: 'MPS Egg Farms', hens: 13.30 },
+    { company: 'Center Fresh Group', hens: 12.50 },
+    { company: 'Opal Foods', hens: 12.36 },
+    { company: 'Prairie Star Farms', hens: 12.20 },
+    { company: 'Trillium Farm Holdings', hens: 11.50 },
+    { company: 'Herbruck\'s Poultry Ranch', hens: 10.80 },
     { company: 'Michael Foods', hens: 9.70 },
-    { company: 'Herbruck’s Poultry Ranch', hens: 9.53 },
-    { company: 'Gemperle Family Farms', hens: 8.80 },
-    { company: 'Prairie Star Farms', hens: 7.91 },
-    { company: 'Sauder’s Eggs', hens: 7.63 },
-    { company: 'Kreider Farms', hens: 7.10 },
-    { company: 'Opal Foods', hens: 7.01 },
-    { company: 'Fremont Farms of Iowa', hens: 6.00 },
-    { company: 'Hickman’s Egg Ranch', hens: 6.00 },
-    { company: 'Cooper Farms', hens: 5.93 },
+    { company: 'Gemperle Family Farms', hens: 9.20 },
+    { company: 'Kreider Farms', hens: 8.40 },
+    { company: 'Sauder’s Eggs', hens: 7.41 },
+    { company: 'Cooper Farms', hens: 7.24 },
+    { company: 'Fremont Farms of Iowa', hens: 7.00 },
+    { company: 'Hickman\'s Egg Ranch', hens: 6.00 },
     { company: 'Vital Farms', hens: 5.70 },
-    { company: 'Hidden Villa Ranch', hens: 5.50 },
+    { company: 'Iowa Cage Free', hens: 5.50 },
+  ];
+
+  // Data for companies ranked 21st and below (calculate "Other" category)
+  const otherCompaniesData = [
     { company: 'Sunrise Farms Inc.', hens: 5.00 },
     { company: 'S&R Egg Farm', hens: 4.85 },
-    { company: 'ISE America', hens: 4.70 },
-    { company: 'Wabash Valley Produce', hens: 4.62 },
-    { company: 'Weaver Brothers', hens: 4.44 },
-  ];
-
-  // Data for companies ranked 26th and below (calculate "Other" category)
-  const otherCompaniesData = [
-    { company: 'Minnich Poultry LLC', hens: 3.87 },
-    { company: 'Forsman Farms', hens: 3.72 },
-    { company: 'Ritewood/Oakdell Egg Farms', hens: 3.42 },
-    { company: 'Sparboe Farms', hens: 3.24 },
+    { company: 'Weaver Brothers', hens: 4.62 },
+    { company: 'Hidden Villa Ranch', hens: 4.00 },
+    { company: 'Wabash Valley Produce', hens: 3.95 },
+    { company: 'Minnich Eggs', hens: 3.75 },
+    { company: 'Centrum Valley Egg Farm', hens: 3.70 },
+    { company: 'The Happy Egg Co.', hens: 3.70 },
+    { company: 'Forsman Farms', hens: 3.56 },
     { company: 'Creighton Brothers LLC', hens: 3.20 },
-    { company: 'Hamilton Eggs Holdings LLC', hens: 2.35 },
+    { company: 'Mercer Landmark', hens: 2.61 },
+    { company: 'Kreher\'s Farm Fresh Eggs LLC', hens: 2.43 },
+    { company: 'Giroux\'s Poultry Farm', hens: 2.40 },
+    { company: 'Oakdell Egg Farms', hens: 2.40 },
     { company: 'Central Valley Eggs', hens: 2.31 },
-    { company: 'Giroux’s Poultry Farm', hens: 2.30 },
-    { company: 'Sunrise Acres Inc.', hens: 2.17 },
+    { company: 'Braswell Family Farms', hens: 2.21 },
+    { company: 'Sunrise Acres Inc.', hens: 2.20 },
+    { company: 'Dutchland Farms', hens: 2.16 },
     { company: 'Willamette Egg Farm', hens: 2.05 },
     { company: 'Rembrandt Enterprises', hens: 2.00 },
-    { company: 'Kreher’s Farm Fresh Eggs LLC', hens: 1.96 },
-    { company: 'Pearl Valley Eggs', hens: 1.94 },
-    { company: 'Braswell Egg', hens: 1.86 },
+    { company: 'Pearl Valley Eggs', hens: 1.95 },
     { company: 'Demler Enterprises', hens: 1.70 },
-    { company: 'Egg Innovations', hens: 1.70 },
-    { company: 'Heritage PMS/LaValle Egg Farms', hens: 1.68 },
-    { company: 'Simpson’s Eggs', hens: 1.59 },
-    { company: 'Dutt & Wagner', hens: 1.51 },
+    { company: 'Dutt & Wagner', hens: 1.60 },
+    { company: 'Simpson\'s Eggs', hens: 1.59 },
+    { company: 'Heritage PMS/LaValle Egg Farms', hens: 1.57 },
+    { company: 'Lathem Farms', hens: 1.57 },
+    { company: 'Hertzfeld Poultry Farms Inc.', hens: 1.51 },
     { company: 'Berne Hi-Way Hatchery Inc.', hens: 1.50 },
     { company: 'Demler Brothers LLC', hens: 1.50 },
-    { company: 'Lathem Farms', hens: 1.50 },
-    { company: 'Dutchland Farms', hens: 1.42 },
-    { company: 'Hertzfeld Poultry Farms Inc.', hens: 1.35 },
-    { company: 'Mercer Landmark', hens: 1.34 },
+    { company: 'Hamilton Eggs Holdings LLC', hens: 1.50 },
     { company: 'Dakota Layers LLP', hens: 1.31 },
     { company: 'J.S. West Milling', hens: 1.30 },
-    { company: 'Morning Fresh Farms', hens: 1.06 },
-    { company: '3 Puglisi Brothers', hens: 1.03 },
-    { company: 'Farmers Hen House', hens: 0.95 },
-    { company: 'Wilcox Farms', hens: 0.90 },
-    { company: 'Demler Farms', hens: 0.80 },
-    { company: 'Chino Valley Ranchers/MCM Poultry', hens: 0.72 },
-    { company: 'Hillside Poultry Farms Inc.', hens: 0.65 },
-    { company: 'Colorado Eggs', hens: 0.59 },
-    { company: 'Weber Family Farms', hens: 0.58 },
-    { company: 'Sunrise Farms LLC', hens: 0.24 },
-    { company: 'The Happy Egg Co.', hens: 0.19 },
+    { company: 'Demler Farms', hens: 1.15 },
+    { company: 'Farmers Hen House', hens: 1.15 },
+    { company: '3 Puglisi Brothers', hens: 1.08 },
+    { company: 'Weber Family Farms', hens: 0.91 },
+    { company: 'Morning Fresh Farms', hens: 0.85 },
+    { company: 'Chino Valley Ranchers/MCM Poultry', hens: 0.84 },
+    { company: 'Wilcox Farms', hens: 0.83 },
+    { company: 'Hillside Poultry Farms Inc.', hens: 0.68 },
+    { company: 'Colorado Eggs', hens: 0.24 },
   ];
 
-  // Calculate total hens for "Other" category (companies ranked 26th and below)
+  // Calculate total hens for "Other" category (companies ranked 21st and below)
   const otherHensTotal = otherCompaniesData.reduce((sum, company) => sum + company.hens, 0);
 
-  // Create final data array: Top 25 + "Other" category
+  // Create final data array: Top 20 + "Other" category
   const companyHensData = [
-    ...top25CompanyHensData, // Spread operator to include top 25
-    { company: 'Other (Rank 26-63)', hens: otherHensTotal } // Add "Other" category
+    ...top20CompanyHensData, // Spread operator to include top 20
+    { company: 'Other (Rank 21-61)', hens: otherHensTotal } // Add "Other" category
   ];
 
   // Sort data by hen count in ascending order for better chart visualization (largest to smallest for pie)
@@ -284,34 +263,29 @@ function createMarketShareChart() {
         data: henCounts,
         // Example colors - you can customize these!
         backgroundColor: [
-          'rgba(255, 99, 132, 0.8)',  // Red
-          'rgba(54, 162, 235, 0.8)',  // Blue
-          'rgba(255, 206, 86, 0.8)', // Yellow
-          'rgba(75, 192, 192, 0.8)',  // Green
-          'rgba(153, 102, 255, 0.8)', // Purple
-          'rgba(255, 159, 64, 0.8)',  // Orange
-          'rgba(199, 199, 199, 0.8)', // Light Gray
-          'rgba(102, 204, 255, 0.8)', // Light Blue
-          'rgba(255, 178, 102, 0.8)', // Peach
-          'rgba(178, 102, 255, 0.8)', // Lavender
-          'rgba(255, 99, 132, 0.6)',  // Lighter Red
-          'rgba(54, 162, 235, 0.6)',  // Lighter Blue
-          'rgba(255, 206, 86, 0.6)', // Lighter Yellow
-          'rgba(75, 192, 192, 0.6)',  // Lighter Green
-          'rgba(153, 102, 255, 0.6)', // Lighter Purple
-          'rgba(255, 159, 64, 0.6)',  // Lighter Orange
-          'rgba(199, 199, 199, 0.6)', // Lighter Gray
-          'rgba(102, 204, 255, 0.6)', // Lighter Blue
-          'rgba(255, 178, 102, 0.6)', // Lighter Peach
-          'rgba(178, 102, 255, 0.6)', // Lighter Lavender
-          'rgba(255, 99, 132, 0.4)',  // Even Lighter Red
-          'rgba(54, 162, 235, 0.4)',  // Even Lighter Blue
-          'rgba(255, 206, 86, 0.4)', // Even Lighter Yellow
-          'rgba(75, 192, 192, 0.4)',  // Even Lighter Green
-          'rgba(153, 102, 255, 0.4)', // Even Lighter Purple
+          'rgba(255, 99, 132, 0.8)',  
+          'rgba(54, 162, 235, 0.8)',  
+          'rgba(255, 206, 86, 0.8)', 
+          'rgba(75, 192, 192, 0.8)',  
+          'rgba(153, 102, 255, 0.8)', 
+          'rgba(255, 159, 64, 0.8)',  
+          'rgba(199, 199, 199, 0.8)', 
+          'rgba(102, 204, 255, 0.8)', 
+          'rgba(255, 178, 102, 0.8)', 
+          'rgba(178, 102, 255, 0.8)', 
+          'rgba(255, 99, 132, 0.6)',  
+          'rgba(54, 162, 235, 0.6)',  
+          'rgba(255, 206, 86, 0.6)', 
+          'rgba(75, 192, 192, 0.6)',  
+          'rgba(153, 102, 255, 0.6)', 
+          'rgba(255, 159, 64, 0.6)',  
+          'rgba(199, 199, 199, 0.6)', 
+          'rgba(102, 204, 255, 0.6)', 
+          'rgba(255, 178, 102, 0.6)', 
+          'rgba(178, 102, 255, 0.6)', 
           'rgba(220,220,220, 0.8)'     // Lightest Gray for "Other"
         ],
-        borderColor: 'rgba(255, 255, 255, 1)', // White border for slices
+        borderColor: 'rgba(255, 255, 255, 1)', 
         borderWidth: 2
       }]
     },
@@ -319,15 +293,15 @@ function createMarketShareChart() {
       responsive: true,
       plugins: {
         legend: {
-          position: 'right', // Display legend on the right side
+          position: 'right', 
           labels: {
-            boxWidth: 20,  // Adjust legend box width if needed
-            fontColor: '#333' // Legend text color
+            boxWidth: 20,  
+            fontColor: '#333' 
           }
         },
         title: {
-          display: false, // You can enable title if needed
-          text: 'US Egg Market Concentration (Top 25 Producers + Other)'
+          display: false, 
+          text: 'US Egg Market Concentration (Top 20 Producers + Other)'
         }
       }
     }
