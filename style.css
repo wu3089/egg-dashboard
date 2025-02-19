@@ -51,7 +51,7 @@ main {
 
 /* Filter Buttons */
 .filter-buttons {
-  margin-top: 1rem;
+  margin-top: 2rem; /* Increased to move buttons further down */
   text-align: center;
 }
 
@@ -76,4 +76,9 @@ main {
   height: auto;
   border-radius: 4px;
   margin-bottom: 0.5rem;
+}
+
+/* ADDED: Make the chart taller */
+#dataChart {
+  height: 450px; /* Adjust to your preference */
 }
