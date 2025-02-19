@@ -31,6 +31,9 @@ async function fetchFREDData() {
     }
     // AllOrigins wraps the fetched content inside a 'contents' property.
     const wrapperData = await response.json();
+    console.log("Wrapper data received:", wrapperData);
+    
+    // Parse the original data from the 'contents' property.
     const data = JSON.parse(wrapperData.contents);
     console.log("JSON data received:", data);
 
@@ -140,4 +143,34 @@ function updateChart(observations) {
 // Filter observations to only include data from the past "yearsBack" years.
 function filterObservations(yearsBack) {
   const now = new Date();
-  const threshold = new Date(now.getFullYear() - year
+  const threshold = new Date(now.getFullYear() - yearsBack, now.getMonth(), now.getDate());
+  return fullObservations.filter(obs => {
+    const obsDate = new Date(obs.date);
+    return obsDate >= threshold;
+  });
+}
+
+// Set up event listeners for the interactive filter buttons.
+function addFilterListeners() {
+  document.getElementById('btn1Year').addEventListener('click', () => {
+    const filtered = filterObservations(1);
+    updateChart(filtered);
+  });
+
+  document.getElementById('btn3Years').addEventListener('click', () => {
+    const filtered = filterObservations(3);
+    updateChart(filtered);
+  });
+
+  document.getElementById('btn5Years').addEventListener('click', () => {
+    const filtered = filterObservations(5);
+    updateChart(filtered);
+  });
+
+  document.getElementById('btnAll').addEventListener('click', () => {
+    updateChart(fullObservations);
+  });
+}
+
+// Fetch FRED data when the page loads.
+window.onload = fetchFREDData;
