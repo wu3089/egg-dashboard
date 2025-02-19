@@ -37,14 +37,14 @@ main {
   align-items: stretch;
 }
 
-/* Dashboard Cards - Fixed Width & Padding */
+/* Dashboard Cards - Reduced width for a blocky look */
 .dashboard-box {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  padding: 1.5rem;
+  padding: 1rem;
   text-align: center;
-  width: 400px;  /* Slightly larger to prevent content compression */
+  width: 360px;  /* Reduced width */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -54,10 +54,10 @@ main {
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
-/* Chart Container - Keep Proportional */
-#chart-box {
-  max-width: 550px;
-  margin: auto;
+/* Chart Styling */
+.chart-container {
+  max-width: 300px; /* Reduced chart width for proportion */
+  margin: 0 auto;
 }
 
 /* FRED Citation */
@@ -103,56 +103,9 @@ main {
   cursor: pointer;
 }
 
-/* Shopping Cart Icon - Resized */
-.cart-icon {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 0.5rem;
-}
-
-#cart-icon-image {
-  width: 80px;  /* Fixed size */
-  height: auto;
-}
-
-/* Egg Count Badge */
-#egg-count {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #cc0000;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.8rem;
-}
-
-/* Fix Add Egg & Money Ticker Alignment */
-.cart-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 0.5rem;
-}
-
-/* Fix Money Ticker Font */
-#money-ticker {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-  transition: transform 0.2s ease;
-}
-
 /* Adjust Chart for Mobile */
 @media (max-width: 600px) {
-  #chart-box {
-    max-width: 100%;
-  }
-  .dashboard-box {
-    width: 90%;
+  .chart-container {
+    max-width: 280px;
   }
 }
