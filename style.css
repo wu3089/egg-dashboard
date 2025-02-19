@@ -3,9 +3,10 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
+  background-color: #fafaef; /* Eggshell background - subtle off-white */
   /* Use Roboto font from Google Fonts */
   font-family: 'Roboto', sans-serif;
+  color: #333; /* Darker text for better contrast on light background */
   /* Egg emoji wallpaper */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
   background-repeat: repeat;
@@ -13,10 +14,10 @@ html, body {
 }
 
 header, footer {
-  background-color: #fff;
+  background-color: #fff; /* Keep header/footer white, or could be off-white too */
   text-align: center;
   padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Subtler header/footer shadow */
 }
 
 main {
@@ -32,10 +33,10 @@ main {
 
 /* Each .dashboard-box is a vertical card */
 .dashboard-box {
-  background-color: #fff;
-  border: 1px solid #eee;
+  background-color: #fff; /* Keep cards white, or try off-white #fefefe for a softer look */
+  border: 1px solid #e0e0e0; /* Softer, lighter gray border */
   border-radius: 8px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.06); /* Subtler card shadow */
   padding: 0.75rem;
   /* margin-bottom: 2rem;  REMOVED - spacing now controlled by main's gap */
   text-align: center;
@@ -58,7 +59,7 @@ main {
   text-align: center;
 }
 .filter-buttons button {
-  background-color: #333;
+  background-color: #444; /* Slightly lighter gray for filter buttons */
   color: #fff;
   border: none;
   padding: 0.5rem 1rem;
@@ -68,7 +69,7 @@ main {
   transition: background-color 0.2s ease;
 }
 .filter-buttons button:hover {
-  background-color: #555;
+  background-color: #666; /* Lighter hover color */
 }
 
 /* Chart */
@@ -212,7 +213,7 @@ main {
 
 .fred-citation {
   font-size: 0.85rem; /* slightly smaller text */
-  color: #555;        /* subdued color */
+  color: #777;        /* subdued color - lighter than before */
   margin-top: 1rem;   /* space above the citation */
   text-align: left;   /* or center if you prefer */
 }
@@ -220,4 +221,12 @@ main {
 .fred-citation a {
   color: #0071ce;     /* or any color you like */
   text-decoration: underline;
+}
+
+footer p {
+    color: #777; /* Lighter footer text */
+}
+
+header h1 {
+    font-weight: 700; /* Make header title bolder */
 }
