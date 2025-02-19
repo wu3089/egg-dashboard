@@ -86,14 +86,36 @@ main {
   font-weight: bold;
   text-decoration: none;
   color: #fff;
-  background-color: #333;
   border-radius: 4px;
-  transition: background-color 0.2s ease;
+  transition: background 0.2s ease;
   cursor: pointer;
 }
 
-.retailer-button:hover {
-  background-color: #555;
+/* Walmart: Blue to Yellow Gradient */
+.retailer-button.walmart {
+  background: linear-gradient(45deg, #0071ce, #ffc72c);
+}
+
+.retailer-button.walmart:hover {
+  background: linear-gradient(45deg, #005fa3, #e6b800);
+}
+
+/* Kroger: Solid Blue */
+.retailer-button.kroger {
+  background-color: #0052cc;
+}
+
+.retailer-button.kroger:hover {
+  background-color: #003399;
+}
+
+/* Target: Red */
+.retailer-button.target {
+  background-color: #cc0000;
+}
+
+.retailer-button.target:hover {
+  background-color: #a30000;
 }
 
 /* Retailer Product Card Styles */
