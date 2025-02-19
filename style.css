@@ -269,3 +269,9 @@ main {
     height: 300px; /* smaller chart on mobile */
   }
 }
+
+@media (min-width: 800px) {
+  .dashboard-box {
+    width: 360px; /* Slightly narrower than 420px so 3 cards might fit horizontally */
+  }
+}
