@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hank's Egg Tracker</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <!-- Include Chart.js from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -18,7 +22,7 @@
     <!-- Section 1: Historic Prices (FRED) -->
     <section class="dashboard-box" id="chart-box">
       <h2>Average Price for a Dozen Eggs</h2>
-      
+
       <!-- A wrapper to control the chart's max width -->
       <div style="max-width: 600px; margin: 0 auto;">
         <canvas id="dataChart"></canvas>
@@ -34,7 +38,7 @@
       <!-- Short Citation below the chart and buttons, centered, no "Source:" -->
       <div class="fred-citation" style="text-align: center;">
         <p>
-          U.S. Bureau of Labor Statistics, retrieved from the 
+          U.S. Bureau of Labor Statistics, retrieved from the
           <a href="https://fred.stlouisfed.org/series/APU0000708111" target="_blank" rel="noopener">
             Federal Reserve Bank of St. Louis (FRED)
           </a>.
@@ -47,9 +51,9 @@
       <h2>Prices at the Store</h2>
       <div class="cart-container">
         <div class="cart-icon">
-          <img 
-            src="https://cdn-icons-png.flaticon.com/512/3082/3082011.png" 
-            alt="Cart Icon" 
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3082/3082011.png"
+            alt="Cart Icon"
             id="cart-icon-image"
           />
           <span id="egg-count">0</span>

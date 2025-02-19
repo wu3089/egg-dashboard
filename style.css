@@ -4,7 +4,8 @@ html, body {
   margin: 0;
   padding: 0;
   background-color: #f0f0f0;
-  font-family: Arial, sans-serif;
+  /* Use Roboto font from Google Fonts */
+  font-family: 'Roboto', sans-serif;
   /* Egg emoji wallpaper */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
   background-repeat: repeat;
@@ -18,17 +19,16 @@ header, footer {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* We don't need main to be a flex container if we want a simple scroll */
 main {
   padding: 1rem;
-  /* If you want a narrower content area, use max-width & margin auto */
   max-width: 900px;
   margin: 0 auto;
-}
 
-/* .dashboard-container {
-  display: none; // or remove it entirely
-} */
+  /* Enable flexbox layout on main container */
+  display: flex;
+  flex-direction: column; /* Stack dashboard boxes vertically */
+  gap: 1.5rem; /* Uniform spacing between dashboard boxes */
+}
 
 /* Each .dashboard-box is a vertical card */
 .dashboard-box {
@@ -37,7 +37,7 @@ main {
   border-radius: 8px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.08);
   padding: 0.75rem;
-  margin-bottom: 2rem; /* add spacing between cards */
+  /* margin-bottom: 2rem;  REMOVED - spacing now controlled by main's gap */
   text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
 }
