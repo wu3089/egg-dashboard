@@ -1,18 +1,18 @@
-// script.js
-
 // Replace 'YOUR_API_KEY' with your actual FRED API key.
 const apiKey = 'e2685f0089057c42bba0f40e745783cd';
 const seriesId = 'APU0000708111';
 
-// Use CORS Anywhere as a proxy to bypass CORS restrictions.
-// Make sure you have requested temporary access at: https://cors-anywhere.herokuapp.com/corsdemo
-const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+// Construct the FRED API URL
 const fredUrl = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${apiKey}&file_type=json`;
-const apiUrl = proxyUrl + fredUrl;
+
+// Use AllOrigins as a proxy; encode the FRED URL and pass it as a parameter.
+// disableCache=true forces fresh results (optional).
+const encodedUrl = encodeURIComponent(fredUrl);
+const apiUrl = `https://api.allorigins.hexocode.repl.co/get?disableCache=true&url=${encodedUrl}`;
 
 console.log("Final API URL:", apiUrl);
 console.log("Script is running.");
-console.log("Fetching from API via CORS Anywhere:", apiUrl);
+console.log("Fetching from API via AllOrigins:", apiUrl);
 
 // Global variables to store the full data and the Chart instance.
 let fullObservations = [];
@@ -29,7 +29,9 @@ async function fetchFREDData() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = await response.json();
+    // AllOrigins wraps the fetched content inside a 'contents' property.
+    const wrapperData = await response.json();
+    const data = JSON.parse(wrapperData.contents);
     console.log("JSON data received:", data);
 
     document.getElementById('loading').style.display = 'none';
@@ -138,47 +140,4 @@ function updateChart(observations) {
 // Filter observations to only include data from the past "yearsBack" years.
 function filterObservations(yearsBack) {
   const now = new Date();
-  const threshold = new Date(now.getFullYear() - yearsBack, now.getMonth(), now.getDate());
-  return fullObservations.filter(obs => {
-    const obsDate = new Date(obs.date);
-    return obsDate >= threshold;
-  });
-}
-
-// Set up event listeners for the interactive filter buttons.
-function addFilterListeners() {
-  document.getElementById('btn1Year').addEventListener('click', () => {
-    const filtered = filterObservations(1);
-    updateChart(filtered);
-  });
-
-  document.getElementById('btn3Years').addEventListener('click', () => {
-    const filtered = filterObservations(3);
-    updateChart(filtered);
-  });
-
-  document.getElementById('btn5Years').addEventListener('click', () => {
-    const filtered = filterObservations(5);
-    updateChart(filtered);
-  });
-
-  document.getElementById('btnAll').addEventListener('click', () => {
-    updateChart(fullObservations);
-  });
-}
-
-// Function to simulate fetching and updating the product price.
-// In a real application, replace this with an API call to get the current price.
-function updateProductPrice() {
-  // Simulate a price between $1.00 and $6.00
-  const simulatedPrice = (Math.random() * 5 + 1).toFixed(2);
-  document.getElementById('product-price').textContent = '$' + simulatedPrice;
-  console.log("Product price updated to $" + simulatedPrice);
-}
-
-// Initial product price update and then update every 30 seconds.
-updateProductPrice();
-setInterval(updateProductPrice, 30000);
-
-// Fetch FRED data when the page loads.
-window.onload = fetchFREDData;
+  const threshold = new Date(now.getFullYear() - year
