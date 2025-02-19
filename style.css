@@ -71,25 +71,29 @@ main {
   background-color: #555;
 }
 
-/* Retailer Buttons */
-.retailer-buttons {
+/* Retailer Grid for Brand Logos */
+.retailer-grid {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
 }
 
-.retailer-button {
-  background-color: #333;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
+.retailer-item {
+  text-align: center;
 }
 
-.retailer-button:hover {
-  background-color: #555;
+/* Brand Logos */
+.retailer-logo {
+  width: 90px;    /* Adjust to your preference */
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+}
+
+.retailer-logo:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
 }
 
 /* Walmart Product Card Styles */
