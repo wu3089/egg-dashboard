@@ -2,16 +2,17 @@ name: Update FRED Data
 
 on:
   schedule:
-    - cron: "0 0 */14 * *"  # Every 14 days at midnight UTC
-  workflow_dispatch:  # Manual trigger
+    - cron: "0 0 */14 * *"
+  workflow_dispatch:
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # IMPORTANT: fetch the full history so we can rebase
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -24,9 +25,6 @@ jobs:
       - name: Run update script
         run: node update-fred-data.js
 
-      - name: Check Git Status
-        run: git status
-
       - name: Commit changes
         env:
           PAT: ${{ secrets.PAT }}
@@ -38,6 +36,3 @@ jobs:
           git add fredData.json
           git commit -m "Update FRED data" || echo "No changes to commit"
           git push origin HEAD:main
-
-          - name: Commit changes
-
