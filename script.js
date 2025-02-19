@@ -185,7 +185,7 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED - Clean Look, Direct Labels) ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED - Clean Labels, Connectors Attempt) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
 
@@ -267,13 +267,13 @@ function createMarketShareChart() {
     { company: 'Other (Rank 21-61)', hens: otherHensTotal } // Add "Other" category
   ];
 
-  // Sort data by hen count in ascending order for chart (largest to smallest for pie)
+  // Sort data by hen count in ascending order for chart
   companyHensData.sort((a, b) => b.hens - a.hens);
 
   const companyNames = companyHensData.map(item => item.company);
   const henCounts = companyHensData.map(item => item.hens);
 
-  const top20Color = 'rgba(100, 149, 237, 0.7)'; // Cornflower Blue - a lighter, muted blue
+  const top20Color = 'rgba(100, 149, 237, 0.7)'; // Cornflower Blue
   const otherColor = 'rgba(220,220,220, 0.7)';   // Light gray for "Other"
   const backgroundColors = companyNames.map((name, index) => index < 20 ? top20Color : otherColor);
 
@@ -284,7 +284,7 @@ function createMarketShareChart() {
       datasets: [{
         label: 'Hens (Millions)',
         data: henCounts,
-        backgroundColor: backgroundColors, // Use conditional colors
+        backgroundColor: backgroundColors,
         borderColor: 'white',
         borderWidth: 1
       }]
@@ -305,24 +305,23 @@ function createMarketShareChart() {
         legend: {
           display: false // Hidden legend
         },
-        datalabels: { // **Chart.js Datalabels Plugin Configuration**
-          color: 'black', // Label text color
+        datalabels: { // Chart.js Datalabels Plugin Configuration - UPDATED LABELS
+          color: 'black',
           font: {
             weight: 'bold',
-            size: 10
+            size: 11 // Slightly larger font size
           },
-          formatter: (value, context) => { // Format labels to show company name (or "Other")
-            return context.chart.data.labels[context.dataIndex]; // Use company name as label
+          formatter: (value, context) => {
+            return context.chart.data.labels[context.dataIndex];
           },
-          // Optional positioning - try these and see what looks best
-          // anchor: 'end',   // Labels at the "end" of slices
-          // align: 'start',  // Aligned to the "start" of slices
-          offset: 8,       // Adjust label distance from slice center
-          // padding: 4,
+          anchor: 'end',      // Position labels at the "end" of slices
+          align: 'start',     // Align labels to the "start" of slices
+          offset: 10,         // Adjust offset for labels
+          // IMPORTANT: Connector line settings (basic attempt)
+          // clip: false,        // Allow labels to overflow chart area if needed
           // borderWidth: 1,
-          // borderColor: 'white',
-          // borderRadius: 4,
-          // backgroundColor: 'rgba(255,255,255,0.7)', // Optional label background
+          // borderColor: '#555', // Connector line color
+          // clamp: true        // Keep labels within chart area (adjust as needed)
         },
         title: {
           display: false,
@@ -330,7 +329,7 @@ function createMarketShareChart() {
         }
       }
     },
-    plugins: [ChartDataLabels] // **Register the Chart.js Datalabels plugin**
+    plugins: [ChartDataLabels]
   });
 }
 
