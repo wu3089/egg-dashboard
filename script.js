@@ -101,7 +101,7 @@ function createChart(observations) {
         y: {
           title: {
             display: true,
-            text: 'Egg Price ($)',
+            text: 'Price ($)',
             color: '#000',
             font: {
               size: 14,

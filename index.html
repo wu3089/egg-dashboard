@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hank's Egg Tracker</title>
+  <title>Hank's Egg Tracker Dashboard</title>
   <link rel="stylesheet" href="style.css" />
   <!-- Include Chart.js from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header>
-    <h1>Hank's Egg Tracker</h1>
+    <h1>Hank's Egg Tracker Dashboard</h1>
   </header>
 
   <main>
@@ -20,19 +20,28 @@
     <!-- Error message area -->
     <div id="error-message"></div>
 
-    <!-- Chart Section -->
-    <section id="chart-section">
-      <h2>Egg Price Over Time</h2>
-      <canvas id="dataChart"></canvas>
-    </section>
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+      <!-- Chart Box -->
+      <div class="dashboard-box">
+        <h2>Price of a Dozen Eggs</h2>
+        <canvas id="dataChart"></canvas>
+        <!-- Interactive Filter Buttons -->
+        <div class="filter-buttons">
+          <button id="btn1Year">1 Year</button>
+          <button id="btn3Years">3 Years</button>
+          <button id="btn5Years">5 Years</button>
+          <button id="btnAll">All Data</button>
+        </div>
+      </div>
 
-    <!-- Interactive Filter Buttons -->
-    <section id="filters">
-      <button id="btn1Year">1 Year</button>
-      <button id="btn3Years">3 Years</button>
-      <button id="btn5Years">5 Years</button>
-      <button id="btnAll">All Data</button>
-    </section>
+      <!-- Additional Feature Box (Summary) -->
+      <div class="dashboard-box" id="summary-box">
+        <h2>Summary</h2>
+        <p>Latest Egg Price: <span id="latest-price">$0.00</span></p>
+        <p>Average Egg Price (1 Year): <span id="avg-price">$0.00</span></p>
+      </div>
+    </div>
   </main>
 
   <footer>

@@ -1,5 +1,6 @@
 /* style.css */
 
+/* Global Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -38,6 +39,66 @@ body {
     margin-bottom: 1rem;
   }
   
+  /* Dashboard Container */
+  .dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+  
+  /* Dashboard Box */
+  .dashboard-box {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    flex: 1 1 400px;
+    max-width: 600px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .dashboard-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Chart Section */
+  #dataChart {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Filter Buttons */
+  .filter-buttons {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .filter-buttons button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0 0.3rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .filter-buttons button:hover {
+    background-color: #555;
+  }
+  
+  /* Summary Box */
+  #summary-box p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+  }
+  
+  /* (Optional) Remove table styles if not used */
+  /*
   table {
     width: 100%;
     border-collapse: collapse;
@@ -57,4 +118,5 @@ body {
   section {
     margin-bottom: 2rem;
   }
+  */
   
