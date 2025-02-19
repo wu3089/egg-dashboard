@@ -4,7 +4,7 @@ body {
   background-color: #f0f0f0;
   margin: 0;
   padding: 0;
-  /* Egg emoji wallpaper using an inline SVG */
+  /* Egg emoji wallpaper */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
   background-repeat: repeat;
   background-size: 50px 50px;
@@ -22,7 +22,7 @@ header h1 {
 }
 
 main {
-  padding: 2rem;
+  padding: 1rem; /* Reduced main padding to remove extra whitespace */
 }
 
 /* Dashboard Container */
@@ -30,8 +30,8 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem;
-  align-items: stretch;
+  gap: 1rem; /* Slightly smaller gap */
+  align-items: flex-start; /* Align items at the top */
 }
 
 /* Dashboard Card Styling */
@@ -40,9 +40,11 @@ main {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   padding: 1rem;
-  width: 420px;
+  flex: 1 1 300px; /* Let cards shrink or grow, min ~300px wide */
+  max-width: 420px; /* Cap at 420px on larger screens */
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 0 auto; /* Center if narrower than container */
 }
 
 .dashboard-box:hover {
@@ -52,7 +54,7 @@ main {
 
 /* Filter Buttons */
 .filter-buttons {
-  margin-top: 2rem;
+  margin-top: 1.5rem; /* Slightly less margin */
   text-align: center;
 }
 
@@ -71,7 +73,7 @@ main {
   background-color: #555;
 }
 
-/* Retailer Buttons for Text Links */
+/* Retailer Buttons */
 .retailer-buttons {
   display: flex;
   justify-content: center;
@@ -91,12 +93,10 @@ main {
   cursor: pointer;
 }
 
-/* Specific retailer colors */
 /* Walmart: Blue to Yellow Gradient */
 .retailer-button.walmart {
   background: linear-gradient(45deg, #0071ce, #ffc72c);
 }
-
 .retailer-button.walmart:hover {
   background: linear-gradient(45deg, #005fa3, #e6b800);
 }
@@ -105,7 +105,6 @@ main {
 .retailer-button.kroger {
   background-color: #0052cc;
 }
-
 .retailer-button.kroger:hover {
   background-color: #003399;
 }
@@ -114,34 +113,25 @@ main {
 .retailer-button.target {
   background-color: #cc0000;
 }
-
 .retailer-button.target:hover {
   background-color: #a30000;
 }
 
-/* Retailer Product Card Styles */
+/* Product Box Adjustments */
 #product-box {
-  position: relative; /* Added for relative positioning */
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align content at the top */
   align-items: center;
 }
 
-/* Make the chart taller */
+/* Chart Size */
 #dataChart {
   height: 450px;
+  max-width: 100%; /* Ensure it doesn't overflow on mobile */
 }
 
-/* Mobile adjustments: force dashboard boxes to have a minimum height */
-@media (max-width: 600px) {
-  .dashboard-box {
-    min-height: 500px;
-    width: 100%; /* Optionally, make cards full-width on mobile */
-  }
-}
-
-/* Interactive Cart Section */
+/* Cart Container */
 .cart-container {
   margin-top: 1rem;
   display: flex;
@@ -175,7 +165,6 @@ main {
   transition: transform 0.2s ease;
 }
 
-/* Add Egg Button */
 #add-egg-btn {
   background-color: #333;
   color: #fff;
@@ -185,33 +174,49 @@ main {
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
 #add-egg-btn:hover {
   background-color: #555;
 }
 
-/* Flying Egg Emoji for Animation */
+/* Flying Egg Emoji */
 #flying-egg {
-  position: absolute; /* Changed from fixed to absolute relative to #product-box */
+  position: absolute; /* Relative to #product-box */
   font-size: 1.8rem;
   display: none;
   pointer-events: none;
   z-index: 9999;
 }
 
-/* Keyframes for Bounce Animation on Egg Count Badge */
+/* Bounce Animation for the Egg Count */
 @keyframes bounceEgg {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.3); }
   100% { transform: scale(1); }
 }
-
 .egg-bounce {
   animation: bounceEgg 0.4s ease;
 }
 
-/* Keyframes for Explode Animation (Flying Egg) */
+/* Explode Animation for the Flying Egg */
 @keyframes explodeEgg {
   0%   { transform: scale(1); opacity: 1; }
   100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Mobile Tweaks */
+@media (max-width: 600px) {
+  main {
+    padding: 0.5rem;
+  }
+  .dashboard-container {
+    gap: 0.5rem;
+  }
+  .dashboard-box {
+    width: 100%; /* Full width on mobile */
+    margin: 0;   /* Remove extra auto margins */
+    min-height: auto;
+  }
+  #dataChart {
+    height: 300px; /* Smaller chart on mobile if desired */
+  }
 }
