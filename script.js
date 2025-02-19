@@ -185,7 +185,7 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED - Clean Labels, Connectors Attempt) ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED - Outside Labels, Clean) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
 
@@ -305,7 +305,7 @@ function createMarketShareChart() {
         legend: {
           display: false // Hidden legend
         },
-        datalabels: { // Chart.js Datalabels Plugin Configuration - UPDATED LABELS
+        datalabels: { // Chart.js Datalabels Plugin Configuration - UPDATED LABELS POSITIONING
           color: 'black',
           font: {
             weight: 'bold',
@@ -314,17 +314,12 @@ function createMarketShareChart() {
           formatter: (value, context) => {
             return context.chart.data.labels[context.dataIndex];
           },
-          anchor: 'end',      // Position labels at the "end" of slices
-          align: 'start',     // Align labels to the "start" of slices
-          offset: 10,         // Adjust offset for labels
-          // IMPORTANT: Connector line settings (basic attempt)
-          // clip: false,        // Allow labels to overflow chart area if needed
-          // borderWidth: 1,
-          // borderColor: '#555', // Connector line color
-          // clamp: true        // Keep labels within chart area (adjust as needed)
+          position: 'outside', // Position labels outside the pie
+          textAlign: 'right',  // Align text to the right for outside labels
+          offset: 10         // Adjust offset for labels 
         },
         title: {
-          display: false,
+          display: 'none',
           text: 'US Egg Market Concentration (Top 20 Producers + Other)'
         }
       }
