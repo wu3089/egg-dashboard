@@ -185,7 +185,7 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 20 Emphasis - Visual Boundary) ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED - Single Color Top 20, Gray Other, No Legend) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
 
@@ -273,30 +273,9 @@ function createMarketShareChart() {
   const companyNames = companyHensData.map(item => item.company);
   const henCounts = companyHensData.map(item => item.hens);
 
-  const top20Colors = [ // More saturated colors for Top 20
-    'rgba(255, 87, 34, 0.9)',   // Vivid Orange-Red
-    'rgba(63, 81, 181, 0.9)',   // Indigo
-    'rgba(255, 235, 59, 0.9)',  // Yellow
-    'rgba(0, 150, 136, 0.9)',   // Teal
-    'rgba(156, 39, 176, 0.9)',  // Deep Purple
-    'rgba(255, 193, 7, 0.9)',   // Amber
-    'rgba(121, 85, 72, 0.9)',   // Brown
-    'rgba(3, 169, 244, 0.9)',   // Light Blue
-    'rgba(233, 30, 99, 0.9)',   // Pink
-    'rgba(255, 245, 157, 0.9)', // Light Yellow
-    'rgba(255, 87, 34, 0.7)',   // Faded Orange-Red
-    'rgba(63, 81, 181, 0.7)',   // Faded Indigo
-    'rgba(255, 235, 59, 0.7)',  // Faded Yellow
-    'rgba(0, 150, 136, 0.7)',   // Faded Teal
-    'rgba(156, 39, 176, 0.7)',  // Faded Deep Purple
-    'rgba(255, 193, 7, 0.7)',   // Faded Amber
-    'rgba(121, 85, 72, 0.7)',   // Faded Brown
-    'rgba(3, 169, 244, 0.7)',   // Faded Light Blue
-    'rgba(233, 30, 99, 0.7)',   // Faded Pink
-    'rgba(255, 245, 157, 0.7)'  // Faded Light Yellow
-  ];
-  const otherColor = 'rgba(220,220,220, 0.8)'; // Light gray for "Other"
-  const backgroundColors = [...top20Colors, otherColor];
+  const top20Color = 'rgba(54, 162, 235, 0.8)'; // Single color for Top 20 (muted blue)
+  const otherColor = 'rgba(220,220,220, 0.8)';   // Light gray for "Other"
+  const backgroundColors = companyNames.map((name, index) => index < 20 ? top20Color : otherColor); // Apply colors conditionally
 
   new Chart(ctxMarketShare, {
     type: 'pie',
@@ -305,9 +284,9 @@ function createMarketShareChart() {
       datasets: [{
         label: 'Hens (Millions)',
         data: henCounts,
-        backgroundColor: backgroundColors,
-        borderColor: companyNames.map((name, index) => index < 20 ? 'black' : 'rgba(220,220,220,1)'), // Black border for Top 20, light gray for "Other"
-        borderWidth: companyNames.map((name, index) => index < 20 ? 2 : 1) // Thicker border for Top 20
+        backgroundColor: backgroundColors, // Use conditional colors
+        borderColor: 'white',           // White border for all slices
+        borderWidth: 1
       }]
     },
     options: {
@@ -324,11 +303,7 @@ function createMarketShareChart() {
           }
         },
         legend: {
-          position: 'right',
-          labels: {
-            boxWidth: 20,
-            fontColor: '#333'
-          }
+          display: false // HIDE LEGEND - as requested
         },
         title: {
           display: false,
