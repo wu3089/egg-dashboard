@@ -1,7 +1,7 @@
 // script.js
 
 // Use your own proxy server URL (which you set up locally or on your chosen hosting service).
-const apiUrl = 'http://localhost:3000/api/fred';
+const apiUrl = 'https://58d923f2-0754-4293-bfee-05df0272e43a-00-2vrwhlsv9www2.spock.replit.dev/api/fred';
 
 console.log("Final API URL (using custom proxy):", apiUrl);
 console.log("Script is running.");
