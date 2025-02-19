@@ -214,3 +214,17 @@ main {
   0%   { transform: scale(1);   opacity: 1; }
   100% { transform: scale(2.5); opacity: 0; }
 }
+
+/* Reorder items in the retailer product card */
+#product-box .cart-container {
+  order: 1; /* Display cart container first */
+}
+
+#product-box .retailer-buttons {
+  order: 2; /* Retailer buttons appear after the cart container */
+}
+
+/* (Optional) Ensure the flying egg stays on top, if needed */
+#product-box #flying-egg {
+  order: 3;
+}
