@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hank's Egg Tracker Dashboard</title>
+  <title>Hank's Egg Tracker</title>
   <link rel="stylesheet" href="style.css" />
   <!-- Include Chart.js from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header>
-    <h1>Hank's Egg Tracker Dashboard</h1>
+    <h1>Hank's Egg Tracker</h1>
   </header>
 
   <main>
@@ -23,16 +23,11 @@
     <!-- Dashboard Container -->
     <div class="dashboard-container">
       <!-- Chart Box -->
-      <div class="dashboard-box">
-        <h2>Price of a Dozen Eggs</h2>
-        <canvas id="dataChart"></canvas>
-        <!-- Interactive Filter Buttons -->
-        <div class="filter-buttons">
-          <button id="btn1Year">1 Year</button>
-          <button id="btn3Years">3 Years</button>
-          <button id="btn5Years">5 Years</button>
-          <button id="btnAll">All Data</button>
-        </div>
+      <div class="dashboard-box" id="product-box">
+        <h2>Walmart Egg Price</h2>
+        <a href="https://www.walmart.com/ip/Great-Value-Large-White-Eggs-12-Count/145051970?classType=REGULAR&athbdg=L1200" target="_blank" rel="noopener noreferrer">
+          <img src="https://i5.walmartimages.com/seo/Great-Value-Large-White-Eggs-12-Count_b6760ce4-ef2b-4ee7-9c54-1e573897ad73.0e934a9843adc83711b5c933c7777f52.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF" alt="Great Value Large White Eggs" id="product-image">
+        </a>
       </div>
 
       <!-- Product Tracking Box -->
