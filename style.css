@@ -165,7 +165,7 @@ main {
   font-weight: bold;
   border-radius: 50%;
   padding: 0.7rem 1.2rem;
-  font-size: 0.8rem;
+  font-size: 1.5rem;
   transform: scale(1);
   transition: transform 0.2s ease;
 }
