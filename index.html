@@ -18,18 +18,33 @@
     <!-- Section 1: Historic Prices (FRED) -->
     <section class="dashboard-box" id="chart-box">
       <h2>Average Price for a Dozen Eggs</h2>
-      <canvas id="dataChart"></canvas>
+      
+      <!-- A wrapper to control the chart's max width -->
+      <div style="max-width: 600px; margin: 0 auto;">
+        <canvas id="dataChart"></canvas>
+      </div>
+
       <div class="filter-buttons">
         <button id="btn1Year">1 Year</button>
         <button id="btn3Years">3 Years</button>
         <button id="btn5Years">5 Years</button>
         <button id="btnAll">All Data</button>
       </div>
+
+      <!-- Short Citation below the chart and buttons -->
+      <div class="fred-citation">
+        <p>
+          <strong>Source:</strong> U.S. Bureau of Labor Statistics, retrieved from the 
+          <a href="https://fred.stlouisfed.org/series/APU0000708111" target="_blank" rel="noopener">
+            Federal Reserve Bank of St. Louis (FRED)
+          </a>.
+        </p>
+      </div>
     </section>
 
     <!-- Section 2: Current Prices (Retailers) -->
     <section class="dashboard-box" id="product-box">
-      <h2>Retailer Prices</h2>
+      <h2>Prices at the Store</h2>
       <div class="cart-container">
         <div class="cart-icon">
           <img 
@@ -51,15 +66,6 @@
         <a href="https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534" target="_blank" rel="noopener noreferrer" class="retailer-button target">Target</a>
       </div>
     </section>
-
-    <!-- (Optional) Section 3: "He said it" or other content -->
-    <!-- 
-    <section class="dashboard-box" id="he-said-it">
-      <h2>He Said It</h2>
-      <iframe ... >Video or embed</iframe>
-      ...
-    </section>
-    -->
 
     <!-- Error / Status Message -->
     <div id="error-message"></div>

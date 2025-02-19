@@ -127,7 +127,7 @@ main {
   display: inline-block;
 }
 #cart-icon-image {
-  width: 80px;
+  width: 140px;
   height: auto;
 }
 #egg-count {
@@ -208,4 +208,16 @@ main {
   #dataChart {
     height: 300px;
   }
+}
+
+.fred-citation {
+  font-size: 0.85rem; /* slightly smaller text */
+  color: #555;        /* subdued color */
+  margin-top: 1rem;   /* space above the citation */
+  text-align: left;   /* or center if you prefer */
+}
+
+.fred-citation a {
+  color: #0071ce;     /* or any color you like */
+  text-decoration: underline;
 }
