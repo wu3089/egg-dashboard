@@ -10,14 +10,15 @@ const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 const fredUrl = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${apiKey}&file_type=json`;
 const apiUrl = proxyUrl + fredUrl;
 
+console.log("Final API URL:", apiUrl);
 console.log("Script is running.");
 console.log("Fetching from API via CORS Anywhere:", apiUrl);
 
-// Global variables to store full data and the Chart.js chart instance.
+// Global variables to store the full data and the Chart instance.
 let fullObservations = [];
 let chart = null;
 
-// Fetch data from FRED API through the proxy.
+// Fetch data from FRED API using the proxy.
 async function fetchFREDData() {
   try {
     document.getElementById('loading').style.display = 'block';
@@ -40,8 +41,9 @@ async function fetchFREDData() {
       return;
     }
 
-    // Create the chart with the full dataset.
-    createChart(fullObservations);
+    // Default: filter to show only 1 year back
+    const initialObservations = filterObservations(1);
+    createChart(initialObservations);
 
     // Set up interactive filter buttons.
     addFilterListeners();
@@ -63,27 +65,57 @@ function createChart(observations) {
     data: {
       labels: labels,
       datasets: [{
-        label: 'FRED Data',
+        label: 'Egg Price',
         data: values,
         fill: false,
-        borderColor: 'rgba(75,192,192,1)',
-        tension: 0.1
+        borderColor: '#000', // black line
+        tension: 0.4,        // smooth line curve
+        pointRadius: 0       // hide data point markers for a cleaner look
       }]
     },
     options: {
       responsive: true,
+      plugins: {
+        legend: {
+          display: false // hide the legend for a minimalistic style
+        }
+      },
       scales: {
         x: {
           title: {
             display: true,
-            text: 'Date'
+            text: 'Date',
+            color: '#000',
+            font: {
+              size: 14,
+              weight: 'bold'
+            }
+          },
+          ticks: {
+            color: '#000'
+          },
+          grid: {
+            display: false // remove x-axis grid lines
           }
-          // Optionally, set type: 'time' if using a date adapter.
         },
         y: {
           title: {
             display: true,
-            text: 'Value'
+            text: 'Egg Price ($)',
+            color: '#000',
+            font: {
+              size: 14,
+              weight: 'bold'
+            }
+          },
+          ticks: {
+            color: '#000',
+            callback: function(value) {
+              return '$' + value;
+            }
+          },
+          grid: {
+            color: '#ccc' // light gray grid lines for subtle guidance
           }
         }
       }
@@ -115,7 +147,6 @@ function filterObservations(yearsBack) {
 
 // Set up event listeners for the interactive filter buttons.
 function addFilterListeners() {
-  // Assumes you have buttons with these IDs in your HTML.
   document.getElementById('btn1Year').addEventListener('click', () => {
     const filtered = filterObservations(1);
     updateChart(filtered);
