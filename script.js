@@ -3,12 +3,18 @@
 // Replace 'YOUR_API_KEY' with your actual FRED API key.
 const apiKey = 'e2685f0089057c42bba0f40e745783cd';
 const seriesId = 'APU0000708111';
-const apiUrl = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${apiKey}&file_type=json`;
+
+// Use CORS Anywhere as a proxy to bypass CORS restrictions
+const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+const fredUrl = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${apiKey}&file_type=json`;
+
+// Final URL: proxy + FRED API URL
+const apiUrl = proxyUrl + fredUrl;
 
 console.log("Script is running.");
-console.log("Fetching from API:", apiUrl);
+console.log("Fetching from API via CORS Anywhere:", apiUrl);
 
-// Function to fetch data from the FRED API
+// Function to fetch data from the FRED API through the proxy
 async function fetchFREDData() {
   try {
     console.log("Starting fetchFREDData.");
@@ -17,7 +23,7 @@ async function fetchFREDData() {
     loadingEl.style.display = 'block';
     console.log("Loading indicator shown.");
 
-    // Execute fetch
+    // Execute fetch using the proxied URL
     const response = await fetch(apiUrl);
     console.log("Fetch response received. Status:", response.status);
 
@@ -31,6 +37,7 @@ async function fetchFREDData() {
     // Hide the loading indicator
     loadingEl.style.display = 'none';
 
+    // The FRED API returns observations in a property named "observations"
     const observations = data.observations;
     if (!observations || observations.length === 0) {
       document.getElementById('error-message').textContent = 'No data available.';
@@ -64,8 +71,7 @@ function populateDataTable(observations) {
 
 // Function to create a chart using Chart.js
 function createChart(observations) {
-  // Prepare data for the chart.
-  // For a time series chart, we extract dates and corresponding values.
+  // Prepare data for the chart by extracting dates and corresponding values
   const labels = observations.map(obs => obs.date);
   const values = observations.map(obs => parseFloat(obs.value));
 
@@ -92,7 +98,6 @@ function createChart(observations) {
             display: true,
             text: 'Date'
           }
-          // For a time scale, consider using a date adapter if needed.
         },
         y: {
           title: {
