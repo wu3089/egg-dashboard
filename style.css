@@ -80,20 +80,31 @@ main {
 }
 
 .retailer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the logo and text */
   text-align: center;
 }
 
 /* Brand Logos */
 .retailer-logo {
-  width: 90px;    /* Adjust to your preference */
+  width: 60px;  /* Smaller logos */
   height: auto;
   object-fit: contain;
   border-radius: 4px;
   transition: transform 0.2s ease;
+  cursor: pointer; /* Indicate it's clickable */
 }
 
 .retailer-logo:hover {
   transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* "Click to Shop" text */
+.retailer-text {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  color: #333;
 }
 
 /* Walmart Product Card Styles */
