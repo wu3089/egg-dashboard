@@ -1,79 +1,79 @@
 /* Global Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    /* Egg emoji wallpaper using an inline SVG */
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
-    background-repeat: repeat;
-    background-size: 50px 50px;
-  }
-  
-  header, footer {
-    background-color: #fff;
-    text-align: center;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  header h1 {
-    margin: 0;
-  }
-  
-  main {
-    padding: 2rem;
-  }
-  
-  /* Dashboard Container */
-  .dashboard-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-  }
-  
-  /* Dashboard Card Styling */
-  .dashboard-box {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    padding: 1rem;
-    width: 320px; /* Enough to contain the 300px FRED embed or Walmart image comfortably */
-    text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .dashboard-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  }
-  
-  /* Walmart Product Image Styling */
-  #product-box img {
-    width: 80%;      /* Make the product image smaller */
-    height: auto;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
-  }
-  
-  /* FRED Embed Container */
-  .embed-container {
-    position: relative;
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    padding: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 8px;
-  }
-  
-  .embed-container iframe {
-    width: 100%;
-    height: auto;
-    border: none;
-    border-radius: 4px;
-  }
-  
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  /* Egg emoji wallpaper using an inline SVG */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
+  background-repeat: repeat;
+  background-size: 50px 50px;
+}
+
+header, footer {
+  background-color: #fff;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+  margin: 0;
+}
+
+main {
+  padding: 2rem;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* Dashboard Card Styling */
+.dashboard-box {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
+  width: 420px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+/* Filter Buttons */
+.filter-buttons {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.filter-buttons button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0 0.3rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.filter-buttons button:hover {
+  background-color: #555;
+}
+
+/* Walmart Product Card Styles */
+#product-box img {
+  width: 80%;      /* Scale down the Walmart image */
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}

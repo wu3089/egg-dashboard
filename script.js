@@ -1,6 +1,6 @@
 // script.js
 
-// Use your own proxy server URL (which you set up locally or on your chosen hosting service).
+// Use your own proxy server URL (from Replit)
 const apiUrl = 'https://58d923f2-0754-4293-bfee-05df0272e43a-00-2vrwhlsv9www2.spock.replit.dev/api/fred';
 
 console.log("Final API URL (using custom proxy):", apiUrl);
@@ -11,7 +11,7 @@ console.log("Fetching from API via custom proxy:", apiUrl);
 let fullObservations = [];
 let chart = null;
 
-// Fetch data from FRED API using your own proxy.
+// Fetch data from FRED API using your custom proxy.
 async function fetchFREDData() {
   try {
     document.getElementById('loading').style.display = 'block';
@@ -22,7 +22,6 @@ async function fetchFREDData() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    // Parse the JSON data from your proxy response.
     const data = await response.json();
     console.log("JSON data received:", data);
 
@@ -62,7 +61,7 @@ function createChart(observations) {
         label: 'Egg Price',
         data: values,
         fill: false,
-        borderColor: '#000', // black line
+        borderColor: '#000', // minimalistic black line
         tension: 0.4,        // smooth line curve
         pointRadius: 0       // hide data point markers for a cleaner look
       }]
@@ -70,9 +69,7 @@ function createChart(observations) {
     options: {
       responsive: true,
       plugins: {
-        legend: {
-          display: false // hide the legend for a minimalistic style
-        }
+        legend: { display: false }
       },
       scales: {
         x: {
@@ -80,37 +77,23 @@ function createChart(observations) {
             display: true,
             text: 'Date',
             color: '#000',
-            font: {
-              size: 14,
-              weight: 'bold'
-            }
+            font: { size: 14, weight: 'bold' }
           },
-          ticks: {
-            color: '#000'
-          },
-          grid: {
-            display: false // remove x-axis grid lines
-          }
+          ticks: { color: '#000' },
+          grid: { display: false }
         },
         y: {
           title: {
             display: true,
             text: 'Egg Price ($)',
             color: '#000',
-            font: {
-              size: 14,
-              weight: 'bold'
-            }
+            font: { size: 14, weight: 'bold' }
           },
           ticks: {
             color: '#000',
-            callback: function(value) {
-              return '$' + value;
-            }
+            callback: value => '$' + value
           },
-          grid: {
-            color: '#ccc' // light gray grid lines for subtle guidance
-          }
+          grid: { color: '#ccc' }
         }
       }
     }
