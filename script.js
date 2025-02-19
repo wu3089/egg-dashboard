@@ -168,9 +168,9 @@ function explodeEgg() {
 
 // ---------- STORE PRICES ----------
 const storePrices = {
-  walmart: 5.49,  // Example prices - UPDATE THESE to current prices!
-  kroger: 5.49,   // You'll need to check actual prices at these stores
-  target: 5.79,
+  walmart: 5.47,  // Example prices - UPDATE THESE to current prices!
+  kroger: 5.69,   // You'll need to check actual prices at these stores
+  target: 5.49,
 };
 
 const walmartPriceEl = document.getElementById('walmart-price');
