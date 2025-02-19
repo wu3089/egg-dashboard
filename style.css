@@ -209,3 +209,16 @@ main {
     height: 300px;
   }
 }
+
+.fred-citation {
+  font-size: 0.85rem;  /* Slightly smaller text */
+  color: #555;         /* More subdued color */
+  margin-top: 1rem;    /* Space above the citation */
+  text-align: left;    /* Or keep it centered if you prefer */
+}
+.fred-citation a {
+  color: #0071ce;      /* Match the Walmart blue, or any color you like */
+}
+.fred-citation p {
+  margin-bottom: 0.5rem;
+}
