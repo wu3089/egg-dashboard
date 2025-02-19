@@ -31,6 +31,7 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
+  align-items: stretch;
 }
 
 /* Dashboard Card Styling */
@@ -51,7 +52,7 @@ main {
 
 /* Filter Buttons */
 .filter-buttons {
-  margin-top: 2rem; /* Increased to move buttons further down */
+  margin-top: 2rem; /* Moves filter buttons further down */
   text-align: center;
 }
 
@@ -70,15 +71,43 @@ main {
   background-color: #555;
 }
 
-/* Walmart Product Card Styles */
-#product-box img {
-  width: 80%;      /* Scale down the Walmart image */
-  height: auto;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
+/* Retailer Buttons */
+.retailer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-/* ADDED: Make the chart taller */
+.retailer-button {
+  background-color: #333;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.retailer-button:hover {
+  background-color: #555;
+}
+
+/* Walmart Product Card Styles */
+#product-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Make the chart taller */
 #dataChart {
-  height: 450px; /* Adjust to your preference */
+  height: 450px; /* Adjust as needed */
+}
+
+/* Mobile adjustments: force dashboard boxes to have a minimum height */
+@media (max-width: 600px) {
+  .dashboard-box {
+    min-height: 500px; /* Adjust as needed */
+  }
 }

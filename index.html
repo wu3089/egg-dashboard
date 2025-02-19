@@ -18,7 +18,7 @@
     <div class="dashboard-container">
       <!-- FRED Chart Card -->
       <div class="dashboard-box" id="chart-box">
-        <h2>Historic Prices (FRED)</h2>
+        <h2>Egg Price Data (FRED)</h2>
         <canvas id="dataChart"></canvas>
         <div class="filter-buttons">
           <button id="btn1Year">1 Year</button>
@@ -28,12 +28,14 @@
         </div>
       </div>
       
-      <!-- Walmart Product Card -->
+      <!-- Retailer Product Card -->
       <div class="dashboard-box" id="product-box">
-        <h2>Live Prices (Walmart)</h2>
-        <a href="https://www.walmart.com/search?q=great+value+eggs" target="_blank" rel="noopener noreferrer">
-          <img src="https://i5.walmartimages.com/seo/Great-Value-Large-White-Eggs-12-Count_b6760ce4-ef2b-4ee7-9c54-1e573897ad73.0e934a9843adc83711b5c933c7777f52.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF" alt="Great Value Large White Eggs" id="product-image">
-        </a>
+        <h2>Egg Price from Retailers</h2>
+        <div class="retailer-buttons">
+          <a href="https://www.walmart.com/search?q=great+value+eggs" target="_blank" rel="noopener noreferrer" class="retailer-button">Walmart</a>
+          <a href="https://www.kroger.com/p/kroger-grade-a-large-eggs/0001111060903" target="_blank" rel="noopener noreferrer" class="retailer-button">Kroger</a>
+          <a href="https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534" target="_blank" rel="noopener noreferrer" class="retailer-button">Target</a>
+        </div>
       </div>
     </div>
     <div id="error-message"></div>
