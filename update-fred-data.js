@@ -1,5 +1,5 @@
 const fs = require('fs');
-const fetch = require('node-fetch'); // using node-fetch@2
+const fetch = require('node-fetch'); // node-fetch@2
 const Papa = require('papaparse');
 const AdmZip = require('adm-zip');
 
@@ -7,7 +7,6 @@ const AdmZip = require('adm-zip');
 const apiKey = 'e2685f0089057c42bba0f40e745783cd';
 const seriesId = 'APU0000708111';
 
-// Construct the FRED CSV URL (it will return a ZIP file)
 const fredCsvUrl = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${apiKey}&file_type=csv`;
 
 async function updateData() {
@@ -17,32 +16,27 @@ async function updateData() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    // Get the response as a Buffer since it's a binary ZIP file.
     const buffer = await response.buffer();
     
-    // Create a new AdmZip instance from the buffer.
     const zip = new AdmZip(buffer);
     const zipEntries = zip.getEntries();
-
-    // Debug: Log zip entries names
     console.log("Zip entries:", zipEntries.map(e => e.entryName));
 
-    // Find the CSV file inside the zip. In your case, it might be inside a folder,
-    // so look for an entry that ends with ".csv"
-    const csvEntry = zipEntries.find(entry => entry.entryName.toLowerCase().endsWith('.csv'));
+    // Specifically look for "obs._by_real-time_period.csv" in the ZIP
+    const csvEntry = zipEntries.find(entry => entry.entryName.includes('obs._by_real-time_period.csv'));
     if (!csvEntry) {
-      throw new Error("No CSV file found in the ZIP archive");
+      throw new Error("Could not find obs._by_real-time_period.csv in the ZIP archive.");
     }
     
-    // Extract the CSV text as a UTF-8 string.
+    // Extract CSV text
     const csvText = csvEntry.getData().toString('utf8');
     console.log("CSV text extracted.");
 
-    // Parse the CSV using Papa Parse, with headers.
+    // Parse CSV
     const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
-    console.log("Parsed CSV data.");
+    console.log("Parsed CSV data:", parsed.data.slice(0, 5)); // Show first 5 rows for debug
 
-    // Write the parsed data to fredData.json (wrapped in an object, e.g., observations)
+    // Save as fredData.json
     fs.writeFileSync('fredData.json', JSON.stringify({ observations: parsed.data }, null, 2));
     console.log("Updated fredData.json successfully.");
   } catch (error) {
