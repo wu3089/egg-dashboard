@@ -71,43 +71,32 @@ main {
   background-color: #555;
 }
 
-/* Retailer Grid for Brand Logos */
-.retailer-grid {
+/* Retailer Buttons for Text Links */
+.retailer-buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
 }
 
-.retailer-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center the logo and text */
-  text-align: center;
-}
-
-/* Brand Logos */
-.retailer-logo {
-  width: 60px;  /* Smaller logos */
-  height: auto;
-  object-fit: contain;
+.retailer-button {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  background-color: #333;
   border-radius: 4px;
-  transition: transform 0.2s ease;
-  cursor: pointer; /* Indicate it's clickable */
+  transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
-.retailer-logo:hover {
-  transform: scale(1.05); /* Slight zoom on hover */
+.retailer-button:hover {
+  background-color: #555;
 }
 
-/* "Click to Shop" text */
-.retailer-text {
-  font-size: 0.8rem;
-  margin-top: 0.3rem;
-  color: #333;
-}
-
-/* Walmart Product Card Styles */
+/* Retailer Product Card Styles */
 #product-box {
   display: flex;
   flex-direction: column;
