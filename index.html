@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hank's Egg Tracker</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Optional: If you need any additional scripts, include them here -->
+  <!-- (Optional) Include any additional scripts or fonts here -->
 </head>
 <body>
   <header>
@@ -14,13 +14,13 @@
   </header>
 
   <main>
-    <!-- Loading indicator and error message area (if needed) -->
-    <div id="loading">Loading data...</div>
+    <!-- (Optional) Loading indicator and error message -->
+    <div id="loading" style="display:none;">Loading data...</div>
     <div id="error-message"></div>
 
     <!-- Dashboard Container -->
     <div class="dashboard-container">
-      <!-- Walmart Product Tracking Box -->
+      <!-- Walmart Product Tracking Card -->
       <div class="dashboard-box" id="product-box">
         <h2>Walmart Egg Price</h2>
         <a href="https://www.walmart.com/ip/Great-Value-Large-White-Eggs-12-Count/145051970?classType=REGULAR&athbdg=L1200" target="_blank" rel="noopener noreferrer">
@@ -30,7 +30,7 @@
         <p>Current Price: <span id="product-price">$3.29</span></p>
       </div>
 
-      <!-- FRED Graph Embed Box -->
+      <!-- FRED Graph Embed Card -->
       <div class="dashboard-box" id="chart-box">
         <h2>Egg Price Data (FRED)</h2>
         <div class="embed-container">
@@ -51,7 +51,7 @@
     <p>© 2025 Henry Wu. All rights reserved.</p>
   </footer>
 
-  <!-- Optional: Include FRED embed script if extra functionality is needed -->
+  <!-- Optional: Include FRED embed script if needed -->
   <script src="https://fred.stlouisfed.org/assets/research/fred-graph-react-508/build/embed.min.js" type="text/javascript"></script>
 </body>
 </html>
