@@ -31,6 +31,21 @@
       <!-- Retailer + Interactive Cart Card -->
       <div class="dashboard-box" id="product-box">
         <h2>Current Prices (Retailers)</h2>
+        <!-- Interactive Cart Section (placed at the top of the card) -->
+        <div class="cart-container">
+          <div class="cart-icon">
+            <img 
+              src="https://cdn-icons-png.flaticon.com/512/3082/3082011.png" 
+              alt="Cart Icon" 
+              id="cart-icon-image"
+            />
+            <span id="egg-count">0</span>
+          </div>
+          <button id="add-egg-btn">Add Egg</button>
+          <!-- Hidden flying egg emoji for animation -->
+          <span id="flying-egg">🥚</span>
+        </div>
+        <!-- Retailer Buttons -->
         <div class="retailer-buttons">
           <a href="https://www.walmart.com/search?q=great+value+eggs" target="_blank" rel="noopener noreferrer" class="retailer-button walmart">
             Walmart
@@ -42,24 +57,6 @@
             Target
           </a>
         </div>
-
-        <!-- Interactive Cart Section -->
-        <div class="cart-container">
-          <!-- Cart icon with egg count -->
-          <div class="cart-icon">
-            <img 
-              src="https://cdn-icons-png.flaticon.com/512/3082/3082011.png" 
-              alt="Cart Icon" 
-              id="cart-icon-image"
-            />
-            <span id="egg-count">0</span>
-          </div>
-          <!-- Button to add eggs -->
-          <button id="add-egg-btn">Add Egg</button>
-        </div>
-
-        <!-- Hidden flying egg emoji for animation -->
-        <span id="flying-egg">🥚</span>
       </div>
     </div>
 

@@ -10,9 +10,6 @@ let chart = null;
 
 async function fetchFREDData() {
   try {
-    // If you have a loading indicator in your HTML, uncomment the line below:
-    // document.getElementById('loading').style.display = 'block';
-
     const response = await fetch(dataUrl);
     console.log("Fetch response received. Status:", response.status);
 
@@ -24,10 +21,6 @@ async function fetchFREDData() {
     const data = await response.json();
     console.log("JSON data received (first few observations):", data.observations.slice(0, 5));
 
-    // Hide loading indicator if you have one
-    // document.getElementById('loading').style.display = 'none';
-
-    // The JSON has an "observations" property
     fullObservations = data.observations;
     if (!fullObservations || fullObservations.length === 0) {
       document.getElementById('error-message').textContent = 'No data available.';
@@ -42,8 +35,6 @@ async function fetchFREDData() {
     addFilterListeners();
   } catch (error) {
     console.error('Error fetching historical FRED data:', error);
-    // If you have a loading indicator:
-    // document.getElementById('loading').style.display = 'none';
     document.getElementById('error-message').textContent = 'Failed to load data. Please try again later.';
   }
 }
@@ -62,16 +53,14 @@ function createChart(observations) {
         label: 'Egg Price',
         data: values,
         fill: false,
-        borderColor: '#000', // black line
-        tension: 0.4,        // smooth curve
-        pointRadius: 0       // hide data point markers
+        borderColor: '#000',
+        tension: 0.4,
+        pointRadius: 0
       }]
     },
     options: {
       responsive: true,
-      plugins: {
-        legend: { display: false }
-      },
+      plugins: { legend: { display: false } },
       scales: {
         x: {
           title: {
@@ -115,7 +104,6 @@ function updateChart(observations) {
 function filterObservations(yearsBack) {
   const now = new Date();
   const threshold = new Date(now.getFullYear() - yearsBack, now.getMonth(), now.getDate());
-  // Compare threshold to obs.period_start_date
   return fullObservations.filter(obs => new Date(obs.period_start_date) >= threshold);
 }
 
@@ -159,11 +147,11 @@ function animateFlyingEgg() {
   const cartRect = cartIconImage.getBoundingClientRect();
 
   // Calculate starting position (center of the button)
-  const startX = btnRect.left + (btnRect.width / 2);
-  const startY = btnRect.top + (btnRect.height / 2);
+  const startX = btnRect.left + btnRect.width / 2;
+  const startY = btnRect.top + btnRect.height / 2;
   // Calculate ending position (center of the cart icon)
-  const endX = cartRect.left + (cartRect.width / 2);
-  const endY = cartRect.top + (cartRect.height / 2);
+  const endX = cartRect.left + cartRect.width / 2;
+  const endY = cartRect.top + cartRect.height / 2;
 
   // Place the flying egg at the start position
   flyingEggEl.style.left = startX + 'px';
