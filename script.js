@@ -1,6 +1,6 @@
 // script.js
 
-// Use the local CSV file containing historical FRED data.
+// URL for your local CSV file containing historical FRED data.
 const dataUrl = 'fredData.csv';
 
 console.log("Fetching historical FRED data from:", dataUrl);
@@ -10,25 +10,35 @@ let chart = null;
 
 async function fetchFREDData() {
   try {
-    // Optionally, show a loading indicator if needed.
+    // Show loading indicator (ensure your HTML has an element with id="loading")
     document.getElementById('loading').style.display = 'block';
 
+    // Fetch the CSV file
     const response = await fetch(dataUrl);
     console.log("Fetch response received. Status:", response.status);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    // Read the response as text
     const csvText = await response.text();
-    console.log("CSV text received:", csvText);
+    console.log("CSV text received:", csvText.substring(0, 100) + "..."); // log first 100 characters for debugging
 
-    // Parse the CSV data using Papa Parse. Ensure your CSV has headers like "date" and "value".
+    // Parse the CSV using Papa Parse
     const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
-    console.log("Parsed CSV data:", parsed.data);
+    console.log("Parsed CSV data (first 5 rows):", parsed.data.slice(0, 5));
 
+    // Hide the loading indicator
     document.getElementById('loading').style.display = 'none';
 
-    fullObservations = parsed.data;
+    // Map CSV data to our expected format
+    // Expected headers: period_start_date, APU0000708111, realtime_start_date
+    fullObservations = parsed.data.map(row => ({
+      date: row.period_start_date,
+      value: row["APU0000708111"]
+    }));
+
     if (!fullObservations || fullObservations.length === 0) {
       document.getElementById('error-message').textContent = 'No data available.';
       return;
@@ -88,7 +98,6 @@ function createChart(observations) {
 function updateChart(observations) {
   const labels = observations.map(obs => obs.date);
   const values = observations.map(obs => parseFloat(obs.value));
-
   chart.data.labels = labels;
   chart.data.datasets[0].data = values;
   chart.update();
