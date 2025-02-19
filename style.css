@@ -1,16 +1,17 @@
-/* BASIC RESET & LAYOUT */
+/* General Styles */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
   font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
   /* Egg emoji wallpaper */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
   background-repeat: repeat;
   background-size: 50px 50px;
 }
 
+/* Header & Footer */
 header, footer {
   background-color: #fff;
   text-align: center;
@@ -18,44 +19,56 @@ header, footer {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* We don't need main to be a flex container if we want a simple scroll */
+/* Main Layout */
 main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 1rem;
-  /* If you want a narrower content area, use max-width & margin auto */
-  max-width: 900px;
-  margin: 0 auto;
 }
 
-/* .dashboard-container {
-  display: none; // or remove it entirely
-} */
+/* Dashboard Container */
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  align-items: stretch;
+}
 
-/* Each .dashboard-box is a vertical card */
+/* Dashboard Cards - Slightly Blockier */
 .dashboard-box {
   background-color: #fff;
-  border: 1px solid #eee;
   border-radius: 8px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
-  padding: 0.75rem;
-  margin-bottom: 2rem; /* add spacing between cards */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
   text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  width: 380px;  /* Adjusted from 420px to 380px for a blockier feel */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Optional hover effect if you like */
+/* Hover Effect */
 .dashboard-box:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
-.dashboard-box h2 {
-  margin-bottom: 0.5rem;
+/* Chart Container */
+#chart-box {
+  max-width: 600px;
 }
 
-/* Filter Buttons (FRED) */
+/* FRED Citation */
+.fred-citation {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Filter Buttons */
 .filter-buttons {
   margin-top: 0.8rem;
-  text-align: center;
 }
 .filter-buttons button {
   background-color: #333;
@@ -65,16 +78,9 @@ main {
   margin: 0 0.3rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 .filter-buttons button:hover {
   background-color: #555;
-}
-
-/* Chart */
-#dataChart {
-  height: 350px;
-  max-width: 100%;
 }
 
 /* Retailer Buttons */
@@ -95,129 +101,13 @@ main {
   transition: background 0.2s ease;
   cursor: pointer;
 }
-.retailer-button.walmart {
-  background: linear-gradient(45deg, #0071ce, #ffc72c);
-}
-.retailer-button.walmart:hover {
-  background: linear-gradient(45deg, #005fa3, #e6b800);
-}
-.retailer-button.kroger {
-  background-color: #0052cc;
-}
-.retailer-button.kroger:hover {
-  background-color: #003399;
-}
-.retailer-button.target {
-  background-color: #cc0000;
-}
-.retailer-button.target:hover {
-  background-color: #a30000;
-}
 
-/* Interactive Cart */
-.cart-container {
-  margin-top: 0.8rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-.cart-icon {
-  position: relative;
-  display: inline-block;
-}
-#cart-icon-image {
-  width: 140px;
-  height: auto;
-}
-#egg-count {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background-color: #cc0000;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.8rem;
-  transform: scale(1);
-  transition: transform 0.2s ease;
-}
-/* Add Egg + Ticker side by side */
-.cart-controls {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-}
-#add-egg-btn {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-#add-egg-btn:hover {
-  background-color: #555;
-}
-#money-ticker {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-  transition: transform 0.2s ease;
-}
-
-/* Flying Egg Emoji */
-#flying-egg {
-  position: absolute;
-  font-size: 1.8rem;
-  display: none;
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* Animations */
-@keyframes bounceEgg {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
-.egg-bounce {
-  animation: bounceEgg 0.4s ease;
-}
-@keyframes explodeEgg {
-  0%   { transform: scale(1); opacity: 1; }
-  100% { transform: scale(2.5); opacity: 0; }
-}
-@keyframes bounceMoney {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
-.money-bounce {
-  animation: bounceMoney 0.4s ease;
-}
-
-/* Mobile Tweaks */
+/* Adjust Chart for Mobile */
 @media (max-width: 600px) {
-  main {
-    padding: 0.5rem;
+  #chart-box {
+    max-width: 100%;
   }
-  #dataChart {
-    height: 300px;
+  .dashboard-box {
+    width: 90%;
   }
-}
-
-.fred-citation {
-  font-size: 0.85rem; /* slightly smaller text */
-  color: #555;        /* subdued color */
-  margin-top: 1rem;   /* space above the citation */
-  text-align: left;   /* or center if you prefer */
-}
-
-.fred-citation a {
-  color: #0071ce;     /* or any color you like */
-  text-decoration: underline;
 }
