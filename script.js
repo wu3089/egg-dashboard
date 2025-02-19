@@ -101,7 +101,7 @@ function createChart(observations) {
         y: {
           title: {
             display: true,
-            text: 'Price ($)',
+            text: 'Egg Price ($)',
             color: '#000',
             font: {
               size: 14,
@@ -167,5 +167,18 @@ function addFilterListeners() {
   });
 }
 
-// Fetch data when the page loads.
+// Function to simulate fetching and updating the product price.
+// In a real application, replace this with an API call to get the current price.
+function updateProductPrice() {
+  // Simulate a price between $1.00 and $6.00
+  const simulatedPrice = (Math.random() * 5 + 1).toFixed(2);
+  document.getElementById('product-price').textContent = '$' + simulatedPrice;
+  console.log("Product price updated to $" + simulatedPrice);
+}
+
+// Initial product price update and then update every 30 seconds.
+updateProductPrice();
+setInterval(updateProductPrice, 30000);
+
+// Fetch FRED data when the page loads.
 window.onload = fetchFREDData;
