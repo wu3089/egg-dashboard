@@ -21,7 +21,7 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: npm install node-fetch@2 papaparse
+        run: npm install node-fetch@2 papaparse adm-zip
 
       - name: Hard Reset to Remote Main
         env:
