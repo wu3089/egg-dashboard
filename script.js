@@ -1,34 +1,34 @@
 // script.js
 
-// Use your own proxy server URL (from Replit)
-const apiUrl = 'https://58d923f2-0754-4293-bfee-05df0272e43a-00-2vrwhlsv9www2.spock.replit.dev/api/fred';
+// Use the local CSV file containing historical FRED data.
+const dataUrl = 'fredData.csv';
 
-console.log("Final API URL (using custom proxy):", apiUrl);
-console.log("Script is running.");
-console.log("Fetching from API via custom proxy:", apiUrl);
+console.log("Fetching historical FRED data from:", dataUrl);
 
-// Global variables to store the full data and the Chart instance.
 let fullObservations = [];
 let chart = null;
 
-// Fetch data from FRED API using your custom proxy.
 async function fetchFREDData() {
   try {
+    // Optionally, show a loading indicator if needed.
     document.getElementById('loading').style.display = 'block';
 
-    const response = await fetch(apiUrl);
+    const response = await fetch(dataUrl);
     console.log("Fetch response received. Status:", response.status);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = await response.json();
-    console.log("JSON data received:", data);
+    const csvText = await response.text();
+    console.log("CSV text received:", csvText);
+
+    // Parse the CSV data using Papa Parse. Ensure your CSV has headers like "date" and "value".
+    const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+    console.log("Parsed CSV data:", parsed.data);
 
     document.getElementById('loading').style.display = 'none';
 
-    // Store the full dataset (FRED returns observations in the "observations" property)
-    fullObservations = data.observations;
+    fullObservations = parsed.data;
     if (!fullObservations || fullObservations.length === 0) {
       document.getElementById('error-message').textContent = 'No data available.';
       return;
@@ -41,13 +41,12 @@ async function fetchFREDData() {
     // Set up interactive filter buttons.
     addFilterListeners();
   } catch (error) {
-    console.error('Error fetching FRED data:', error);
+    console.error('Error fetching historical FRED data:', error);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('error-message').textContent = 'Failed to load data. Please try again later.';
   }
 }
 
-// Create a Chart.js line chart with the provided observations.
 function createChart(observations) {
   const labels = observations.map(obs => obs.date);
   const values = observations.map(obs => parseFloat(obs.value));
@@ -61,38 +60,23 @@ function createChart(observations) {
         label: 'Egg Price',
         data: values,
         fill: false,
-        borderColor: '#000', // minimalistic black line
-        tension: 0.4,        // smooth line curve
-        pointRadius: 0       // hide data point markers for a cleaner look
+        borderColor: '#000',  // minimalistic black line
+        tension: 0.4,         // smooth curve
+        pointRadius: 0        // hide point markers for a cleaner look
       }]
     },
     options: {
       responsive: true,
-      plugins: {
-        legend: { display: false }
-      },
+      plugins: { legend: { display: false } },
       scales: {
         x: {
-          title: {
-            display: true,
-            text: 'Date',
-            color: '#000',
-            font: { size: 14, weight: 'bold' }
-          },
+          title: { display: true, text: 'Date', color: '#000', font: { size: 14, weight: 'bold' } },
           ticks: { color: '#000' },
           grid: { display: false }
         },
         y: {
-          title: {
-            display: true,
-            text: 'Egg Price ($)',
-            color: '#000',
-            font: { size: 14, weight: 'bold' }
-          },
-          ticks: {
-            color: '#000',
-            callback: value => '$' + value
-          },
+          title: { display: true, text: 'Egg Price ($)', color: '#000', font: { size: 14, weight: 'bold' } },
+          ticks: { color: '#000', callback: value => '$' + value },
           grid: { color: '#ccc' }
         }
       }
@@ -101,7 +85,6 @@ function createChart(observations) {
   console.log("Chart created.");
 }
 
-// Update the chart with a new set of observations.
 function updateChart(observations) {
   const labels = observations.map(obs => obs.date);
   const values = observations.map(obs => parseFloat(obs.value));
@@ -112,37 +95,17 @@ function updateChart(observations) {
   console.log("Chart updated with", observations.length, "observations.");
 }
 
-// Filter observations to only include data from the past "yearsBack" years.
 function filterObservations(yearsBack) {
   const now = new Date();
   const threshold = new Date(now.getFullYear() - yearsBack, now.getMonth(), now.getDate());
-  return fullObservations.filter(obs => {
-    const obsDate = new Date(obs.date);
-    return obsDate >= threshold;
-  });
+  return fullObservations.filter(obs => new Date(obs.date) >= threshold);
 }
 
-// Set up event listeners for the interactive filter buttons.
 function addFilterListeners() {
-  document.getElementById('btn1Year').addEventListener('click', () => {
-    const filtered = filterObservations(1);
-    updateChart(filtered);
-  });
-
-  document.getElementById('btn3Years').addEventListener('click', () => {
-    const filtered = filterObservations(3);
-    updateChart(filtered);
-  });
-
-  document.getElementById('btn5Years').addEventListener('click', () => {
-    const filtered = filterObservations(5);
-    updateChart(filtered);
-  });
-
-  document.getElementById('btnAll').addEventListener('click', () => {
-    updateChart(fullObservations);
-  });
+  document.getElementById('btn1Year').addEventListener('click', () => updateChart(filterObservations(1)));
+  document.getElementById('btn3Years').addEventListener('click', () => updateChart(filterObservations(3)));
+  document.getElementById('btn5Years').addEventListener('click', () => updateChart(filterObservations(5)));
+  document.getElementById('btnAll').addEventListener('click', () => updateChart(fullObservations));
 }
 
-// Fetch FRED data when the page loads.
 window.onload = fetchFREDData;
