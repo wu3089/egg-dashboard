@@ -49,6 +49,8 @@
     <!-- Section 2: Current Prices (Retailers) -->
     <section class="dashboard-box" id="product-box">
       <h2>Prices at the Store</h2>
+
+      <!-- Cart container for egg tracking -->
       <div class="cart-container">
         <div class="cart-icon">
           <img
@@ -64,26 +66,39 @@
         </div>
         <span id="flying-egg">🥚</span>
       </div>
+
+      <!-- Retailer buttons and price displays -->
       <div class="retailer-buttons">
-        <div class="retailer-button-container"> <a href="https://www.walmart.com/search?q=great+value+eggs" target="_blank" rel="noopener noreferrer" class="retailer-button walmart">Walmart</a>
+        <div class="retailer-button-container">
+          <a href="https://www.walmart.com/search?q=great+value+eggs" target="_blank" rel="noopener noreferrer" class="retailer-button walmart">
+            Walmart
+          </a>
           <div id="walmart-price" class="store-price"></div> <!-- Price display for Walmart -->
         </div>
+
         <div class="retailer-button-container">
-          <a href="https://www.kroger.com/p/kroger-grade-a-large-eggs/0001111060903" target="_blank" rel="noopener noreferrer" class="retailer-button kroger">Kroger</a>
+          <a href="https://www.kroger.com/p/kroger-grade-a-large-eggs/0001111060903" target="_blank" rel="noopener noreferrer" class="retailer-button kroger">
+            Kroger
+          </a>
           <div id="kroger-price" class="store-price"></div> <!-- Price display for Kroger -->
         </div>
+
         <div class="retailer-button-container">
-          <a href="https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534" target="_blank" rel="noopener noreferrer" class="retailer-button target">Target</a>
+          <a href="https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534" target="_blank" rel="noopener noreferrer" class="retailer-button target">
+            Target
+          </a>
           <div id="target-price" class="store-price"></div> <!-- Price display for Target -->
         </div>
-        <div class="fred-citation" style="text-align: center;"> <!-- Use existing citation style -->
-          <p>
-            Prices calculated for a dozen grade A large eggs as of February 2025
-            </a>
-          </p>
-        </div>
+      </div>
+
+      <!-- Citation moved outside retailer-buttons to ensure proper formatting -->
+      <div class="fred-citation" style="text-align: center; margin-top: 10px;">
+        <p>
+          Prices calculated for a dozen Grade A large eggs as of February 2025
+        </p>
       </div>
     </section>
+
 
     <!-- NEW SECTION: Market Concentration -->
     <section class="dashboard-box" id="market-concentration-box">
