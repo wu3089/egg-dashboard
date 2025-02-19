@@ -14,10 +14,9 @@
     <h1>Hank's Egg Tracker</h1>
   </header>
 
-  <!-- Main content area grows to fill remaining space -->
   <main>
     <div class="dashboard-container">
-      <!-- FRED Chart Card -->
+      <!-- Historic Prices (FRED) Card -->
       <div class="dashboard-box" id="chart-box">
         <h2>Historic Prices (FRED)</h2>
         <canvas id="dataChart"></canvas>
@@ -29,9 +28,10 @@
         </div>
       </div>
       
-      <!-- Retailer + Interactive Cart Card -->
+      <!-- Current Prices (Retailers) + Interactive Cart Card -->
       <div class="dashboard-box" id="product-box">
         <h2>Current Prices (Retailers)</h2>
+        <!-- Interactive Cart Section -->
         <div class="cart-container">
           <div class="cart-icon">
             <img 
@@ -41,12 +41,15 @@
             />
             <span id="egg-count">0</span>
           </div>
-          <button id="add-egg-btn">Add Egg</button>
-          <!-- Ticker for total cost -->
-          <div id="money-ticker">$0.00</div>
+          <!-- Row container for Add Egg button and Money Ticker -->
+          <div class="cart-controls">
+            <button id="add-egg-btn">Add Egg</button>
+            <div id="money-ticker">$0.00</div>
+          </div>
           <!-- Hidden flying egg emoji for animation -->
           <span id="flying-egg">🥚</span>
         </div>
+        <!-- Retailer Buttons -->
         <div class="retailer-buttons">
           <a href="https://www.walmart.com/browse/food/eggs/976759_9176907_1001469" target="_blank" rel="noopener noreferrer" class="retailer-button walmart">
             Walmart
@@ -59,6 +62,8 @@
           </a>
         </div>
       </div>
+      
+      <!-- (Optional future cards can be added here) -->
     </div>
 
     <!-- Error / Status Message -->

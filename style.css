@@ -1,27 +1,20 @@
 /*--------------------------
   STICKY FOOTER & BASIC LAYOUT
 ---------------------------*/
-
-/* Let the html & body fill the viewport height */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
-
-/* Body as a flex container for sticky footer */
 body {
   display: flex;
   flex-direction: column;
   background-color: #f0f0f0;
   font-family: Arial, sans-serif;
-  /* Egg emoji wallpaper */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='40'>🥚</text></svg>");
   background-repeat: repeat;
   background-size: 50px 50px;
 }
-
-/* Header & Footer remain normal */
 header, footer {
   background-color: #fff;
   text-align: center;
@@ -29,9 +22,9 @@ header, footer {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* main grows to fill leftover space, ensuring the footer is at the bottom */
+/* main grows to fill leftover space */
 main {
-  flex: 1; /* grows to fill vertical space */
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -40,22 +33,18 @@ main {
 /*--------------------------
   DASHBOARD CONTAINER
 ---------------------------*/
-
-/* Container: match card heights on desktop, allow wrapping, minimal gap */
 .dashboard-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  align-items: stretch; /* ensure cards match height if on same row */
-  flex: 1; /* let container expand */
+  align-items: stretch;
+  flex: 1;
 }
 
 /*--------------------------
   DASHBOARD CARDS
 ---------------------------*/
-
-/* Each card is a flex container with reduced padding, subtle border, etc. */
 .dashboard-box {
   background-color: #fff;
   border: 1px solid #eee;
@@ -64,25 +53,19 @@ main {
   padding: 0.75rem;
   text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
-  display: flex;       /* Make card a flex container */
+  display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* content at top inside the card */
+  justify-content: flex-start;
 }
-
-/* Hover effect for each card */
 .dashboard-box:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
-
-/* On large screens, fix each card to 420px wide for consistent layout */
 @media (min-width: 800px) {
   .dashboard-box {
     width: 420px;
   }
 }
-
-/* Headings inside the card */
 .dashboard-box h2 {
   margin-bottom: 0.5rem;
 }
@@ -91,7 +74,7 @@ main {
   FILTER BUTTONS (FRED)
 ---------------------------*/
 .filter-buttons {
-  margin-top: 0.8rem;  /* Filter buttons top margin */
+  margin-top: 0.8rem;
   text-align: center;
 }
 .filter-buttons button {
@@ -115,7 +98,7 @@ main {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: 0.8rem; /* Match filter-buttons' margin-top */
+  margin-top: 0.8rem;  /* Aligned with filter buttons */
 }
 .retailer-button {
   display: inline-block;
@@ -128,24 +111,18 @@ main {
   transition: background 0.2s ease;
   cursor: pointer;
 }
-
-/* Walmart: Blue to Yellow */
 .retailer-button.walmart {
   background: linear-gradient(45deg, #0071ce, #ffc72c);
 }
 .retailer-button.walmart:hover {
   background: linear-gradient(45deg, #005fa3, #e6b800);
 }
-
-/* Kroger: Blue */
 .retailer-button.kroger {
   background-color: #0052cc;
 }
 .retailer-button.kroger:hover {
   background-color: #003399;
 }
-
-/* Target: Red */
 .retailer-button.target {
   background-color: #cc0000;
 }
@@ -157,7 +134,7 @@ main {
   CHART
 ---------------------------*/
 #dataChart {
-  height: 350px; /* Reduced from 450px to remove whitespace */
+  height: 350px;
   max-width: 100%;
 }
 
@@ -165,7 +142,7 @@ main {
   INTERACTIVE CART
 ---------------------------*/
 .cart-container {
-  margin-top: 0.8rem; /* match filter-buttons margin so cart lines up better */
+  margin-top: 0.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -179,8 +156,6 @@ main {
   width: 80px;
   height: auto;
 }
-
-/* Egg Count Badge */
 #egg-count {
   position: absolute;
   top: -10px;
@@ -194,8 +169,13 @@ main {
   transform: scale(1);
   transition: transform 0.2s ease;
 }
-
-/* Add Egg Button */
+/* New row container for Add Egg button and Money Ticker */
+.cart-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
 #add-egg-btn {
   background-color: #333;
   color: #fff;
@@ -208,8 +188,16 @@ main {
 #add-egg-btn:hover {
   background-color: #555;
 }
+#money-ticker {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  transition: transform 0.2s ease;
+}
 
-/* Flying Egg Emoji */
+/*--------------------------
+  FLYING EGG ANIMATION
+---------------------------*/
 #flying-egg {
   position: absolute;
   font-size: 1.8rem;
@@ -229,23 +217,14 @@ main {
 .egg-bounce {
   animation: bounceEgg 0.4s ease;
 }
-
 @keyframes explodeEgg {
   0%   { transform: scale(1); opacity: 1; }
   100% { transform: scale(2.5); opacity: 0; }
 }
 
 /*--------------------------
-  MONEY TICKER
+  MONEY TICKER ANIMATION
 ---------------------------*/
-#money-ticker {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-  margin-top: -0.5rem; /* adjust to taste */
-  transition: transform 0.2s ease;
-}
-
 @keyframes bounceMoney {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.3); }
@@ -266,6 +245,6 @@ main {
     gap: 0.5rem;
   }
   #dataChart {
-    height: 300px; /* smaller chart on mobile */
+    height: 300px;
   }
 }
