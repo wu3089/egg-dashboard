@@ -1,24 +1,17 @@
-// Replace 'YOUR_API_KEY' with your actual FRED API key.
-const apiKey = 'e2685f0089057c42bba0f40e745783cd';
-const seriesId = 'APU0000708111';
+// script.js
 
-// Construct the FRED API URL
-const fredUrl = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${apiKey}&file_type=json`;
+// Use your own proxy server URL (which you set up locally or on your chosen hosting service).
+const apiUrl = 'http://localhost:3000/api/fred';
 
-// Use AllOrigins as a proxy; encode the FRED URL and pass it as a parameter.
-// disableCache=true forces fresh results (optional).
-const encodedUrl = encodeURIComponent(fredUrl);
-const apiUrl = `https://api.allorigins.hexocode.repl.co/get?disableCache=true&url=${encodedUrl}`;
-
-console.log("Final API URL:", apiUrl);
+console.log("Final API URL (using custom proxy):", apiUrl);
 console.log("Script is running.");
-console.log("Fetching from API via AllOrigins:", apiUrl);
+console.log("Fetching from API via custom proxy:", apiUrl);
 
 // Global variables to store the full data and the Chart instance.
 let fullObservations = [];
 let chart = null;
 
-// Fetch data from FRED API using the proxy.
+// Fetch data from FRED API using your own proxy.
 async function fetchFREDData() {
   try {
     document.getElementById('loading').style.display = 'block';
@@ -29,12 +22,8 @@ async function fetchFREDData() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    // AllOrigins wraps the fetched content inside a 'contents' property.
-    const wrapperData = await response.json();
-    console.log("Wrapper data received:", wrapperData);
-    
-    // Parse the original data from the 'contents' property.
-    const data = JSON.parse(wrapperData.contents);
+    // Parse the JSON data from your proxy response.
+    const data = await response.json();
     console.log("JSON data received:", data);
 
     document.getElementById('loading').style.display = 'none';
