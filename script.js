@@ -185,7 +185,7 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED - Single Color Top 20, Gray Other, No Legend) ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED - Clean Look, Direct Labels) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
 
@@ -273,9 +273,9 @@ function createMarketShareChart() {
   const companyNames = companyHensData.map(item => item.company);
   const henCounts = companyHensData.map(item => item.hens);
 
-  const top20Color = 'rgba(54, 162, 235, 0.8)'; // Single color for Top 20 (muted blue)
-  const otherColor = 'rgba(220,220,220, 0.8)';   // Light gray for "Other"
-  const backgroundColors = companyNames.map((name, index) => index < 20 ? top20Color : otherColor); // Apply colors conditionally
+  const top20Color = 'rgba(100, 149, 237, 0.7)'; // Cornflower Blue - a lighter, muted blue
+  const otherColor = 'rgba(220,220,220, 0.7)';   // Light gray for "Other"
+  const backgroundColors = companyNames.map((name, index) => index < 20 ? top20Color : otherColor);
 
   new Chart(ctxMarketShare, {
     type: 'pie',
@@ -285,7 +285,7 @@ function createMarketShareChart() {
         label: 'Hens (Millions)',
         data: henCounts,
         backgroundColor: backgroundColors, // Use conditional colors
-        borderColor: 'white',           // White border for all slices
+        borderColor: 'white',
         borderWidth: 1
       }]
     },
@@ -303,14 +303,34 @@ function createMarketShareChart() {
           }
         },
         legend: {
-          display: false // HIDE LEGEND - as requested
+          display: false // Hidden legend
+        },
+        datalabels: { // **Chart.js Datalabels Plugin Configuration**
+          color: 'black', // Label text color
+          font: {
+            weight: 'bold',
+            size: 10
+          },
+          formatter: (value, context) => { // Format labels to show company name (or "Other")
+            return context.chart.data.labels[context.dataIndex]; // Use company name as label
+          },
+          // Optional positioning - try these and see what looks best
+          // anchor: 'end',   // Labels at the "end" of slices
+          // align: 'start',  // Aligned to the "start" of slices
+          offset: 8,       // Adjust label distance from slice center
+          // padding: 4,
+          // borderWidth: 1,
+          // borderColor: 'white',
+          // borderRadius: 4,
+          // backgroundColor: 'rgba(255,255,255,0.7)', // Optional label background
         },
         title: {
           display: false,
           text: 'US Egg Market Concentration (Top 20 Producers + Other)'
         }
       }
-    }
+    },
+    plugins: [ChartDataLabels] // **Register the Chart.js Datalabels plugin**
   });
 }
 
