@@ -146,12 +146,12 @@ function animateFlyingEgg() {
   const btnRect = addEggBtn.getBoundingClientRect();
   const cartRect = cartIconImage.getBoundingClientRect();
 
-  // Calculate starting position (center of the button)
-  const startX = btnRect.left + btnRect.width / 2;
-  const startY = btnRect.top + btnRect.height / 2;
-  // Calculate ending position (center of the cart icon)
-  const endX = cartRect.left + cartRect.width / 2;
-  const endY = cartRect.top + cartRect.height / 2;
+  // Calculate starting position (center of the Add Egg button)
+  const startX = btnRect.left + (btnRect.width / 2);
+  const startY = btnRect.top + (btnRect.height / 2);
+  // Calculate ending position (center of the cart icon), with a slight vertical offset
+  const endX = cartRect.left + (cartRect.width / 2);
+  const endY = cartRect.top + (cartRect.height / 2) - 10; // Adjust this offset as needed
 
   // Place the flying egg at the start position
   flyingEggEl.style.left = startX + 'px';
