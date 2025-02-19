@@ -96,8 +96,6 @@ function addFilterListeners() {
   document.getElementById('btnAll').addEventListener('click', () => updateChart(fullObservations));
 }
 
-window.onload = fetchFREDData;
-
 // ---------- INTERACTIVE CART & MONEY TICKER ----------
 const PRICE_PER_EGG = 0.498;
 const addEggBtn = document.getElementById('add-egg-btn');
@@ -167,3 +165,161 @@ function explodeEgg() {
     flyingEggEl.style.animation = '';
   }, 400);
 }
+
+// ---------- STORE PRICES ----------
+const storePrices = {
+  walmart: 3.29,  // Example prices - UPDATE THESE to current prices!
+  kroger: 3.49,   // You'll need to check actual prices at these stores
+  target: 3.79,
+};
+
+const walmartPriceEl = document.getElementById('walmart-price');
+const krogerPriceEl = document.getElementById('kroger-price');
+const targetPriceEl = document.getElementById('target-price');
+
+function displayStorePrices() {
+  if (walmartPriceEl && krogerPriceEl && targetPriceEl) {
+    walmartPriceEl.textContent = `$${storePrices.walmart.toFixed(2)}/dozen`;
+    krogerPriceEl.textContent = `$${storePrices.kroger.toFixed(2)}/dozen`;
+    targetPriceEl.textContent = `$${storePrices.target.toFixed(2)}/dozen`;
+  }
+}
+
+// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 10 + "Other") ----------
+function createMarketShareChart() {
+  const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
+
+  // Data from WATT Global Media, 2024 Company Survey (TOP 10 ONLY initially)
+  const top10CompanyHensData = [
+    { company: 'Cal-Maine Foods', hens: 44.51 },
+    { company: 'Rose Acre Farms', hens: 25.50 },
+    { company: 'Daybreak Foods Inc.', hens: 20.50 },
+    { company: 'Hillandale Farms', hens: 18.75 },
+    { company: 'Versova Holdings LLP', hens: 18.45 },
+    { company: 'MPS Egg Farms', hens: 13.64 },
+    { company: 'Center Fresh Group', hens: 12.53 },
+    { company: 'Mid-States Specialty Eggs', hens: 10.30 },
+    { company: 'Michael Foods', hens: 9.70 },
+    { company: 'Herbruck’s Poultry Ranch', hens: 9.53 },
+  ];
+
+  // Data for companies ranked 11th and below (calculate "Other" category)
+  const otherCompaniesData = [
+    { company: 'Gemperle Family Farms', hens: 8.80 },
+    { company: 'Prairie Star Farms', hens: 7.91 },
+    { company: 'Sauder’s Eggs', hens: 7.63 },
+    { company: 'Kreider Farms', hens: 7.10 },
+    { company: 'Opal Foods', hens: 7.01 },
+    { company: 'Fremont Farms of Iowa', hens: 6.00 },
+    { company: 'Hickman’s Egg Ranch', hens: 6.00 },
+    { company: 'Cooper Farms', hens: 5.93 },
+    { company: 'Vital Farms', hens: 5.70 },
+    { company: 'Hidden Villa Ranch', hens: 5.50 },
+    { company: 'Sunrise Farms Inc.', hens: 5.00 },
+    { company: 'S&R Egg Farm', hens: 4.85 },
+    { company: 'ISE America', hens: 4.70 },
+    { company: 'Wabash Valley Produce', hens: 4.62 },
+    { company: 'Weaver Brothers', hens: 4.44 },
+    { company: 'Minnich Poultry LLC', hens: 3.87 },
+    { company: 'Forsman Farms', hens: 3.72 },
+    { company: 'Ritewood/Oakdell Egg Farms', hens: 3.42 },
+    { company: 'Sparboe Farms', hens: 3.24 },
+    { company: 'Creighton Brothers LLC', hens: 3.20 },
+    { company: 'Hamilton Eggs Holdings LLC', hens: 2.35 },
+    { company: 'Central Valley Eggs', hens: 2.31 },
+    { company: 'Giroux’s Poultry Farm', hens: 2.30 },
+    { company: 'Sunrise Acres Inc.', hens: 2.17 },
+    { company: 'Willamette Egg Farm', hens: 2.05 },
+    { company: 'Rembrandt Enterprises', hens: 2.00 },
+    { company: 'Kreher’s Farm Fresh Eggs LLC', hens: 1.96 },
+    { company: 'Pearl Valley Eggs', hens: 1.94 },
+    { company: 'Braswell Egg', hens: 1.86 },
+    { company: 'Demler Enterprises', hens: 1.70 },
+    { company: 'Egg Innovations', hens: 1.70 },
+    { company: 'Heritage PMS/LaValle Egg Farms', hens: 1.68 },
+    { company: 'Simpson’s Eggs', hens: 1.59 },
+    { company: 'Dutt & Wagner', hens: 1.51 },
+    { company: 'Berne Hi-Way Hatchery Inc.', hens: 1.50 },
+    { company: 'Demler Brothers LLC', hens: 1.50 },
+    { company: 'Lathem Farms', hens: 1.50 },
+    { company: 'Dutchland Farms', hens: 1.42 },
+    { company: 'Hertzfeld Poultry Farms Inc.', hens: 1.35 },
+    { company: 'Mercer Landmark', hens: 1.34 },
+    { company: 'Dakota Layers LLP', hens: 1.31 },
+    { company: 'J.S. West Milling', hens: 1.30 },
+    { company: 'Morning Fresh Farms', hens: 1.06 },
+    { company: '3 Puglisi Brothers', hens: 1.03 },
+    { company: 'Farmers Hen House', hens: 0.95 },
+    { company: 'Wilcox Farms', hens: 0.90 },
+    { company: 'Demler Farms', hens: 0.80 },
+    { company: 'Chino Valley Ranchers/MCM Poultry', hens: 0.72 },
+    { company: 'Hillside Poultry Farms Inc.', hens: 0.65 },
+    { company: 'Colorado Eggs', hens: 0.59 },
+    { company: 'Weber Family Farms', hens: 0.58 },
+    { company: 'Sunrise Farms LLC', hens: 0.24 },
+    { company: 'The Happy Egg Co.', hens: 0.19 },
+  ];
+
+  // Calculate total hens for "Other" category (companies ranked 11th and below)
+  const otherHensTotal = otherCompaniesData.reduce((sum, company) => sum + company.hens, 0);
+
+  // Create final data array: Top 10 + "Other" category
+  const companyHensData = [
+    ...top10CompanyHensData, // Spread operator to include top 10
+    { company: 'Other (Rank 11-63)', hens: otherHensTotal } // Add "Other" category
+  ];
+
+  // Sort data by hen count in ascending order for better chart visualization (largest at top)
+  companyHensData.sort((a, b) => b.hens - a.hens);
+
+  const companyNames = companyHensData.map(item => item.company);
+  const henCounts = companyHensData.map(item => item.hens);
+
+  new Chart(ctxMarketShare, {
+    type: 'bar', // or 'bar' for vertical bars
+    data: {
+      labels: companyNames,
+      datasets: [{
+        label: 'Hens (Millions)',
+        data: henCounts,
+        backgroundColor: 'rgba(54, 162, 235, 0.7)', // Example bar color
+        borderColor: 'rgba(54, 162, 235, 1)',     // Example border color
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y', // 'y' for horizontal bar chart, remove for vertical bar chart
+      responsive: true,
+      plugins: {
+        legend: { display: false }, // Hide legend, as label is on Y-axis
+        title: {
+          display: false, // You can enable title if needed
+          text: 'Top US Egg Producers by Hen Count (Millions)'
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Hens (Millions)',
+            color: '#000',
+            font: { weight: 'bold' }
+          },
+          ticks: { color: '#000' },
+          grid: { display: false }
+        },
+        y: {
+          title: { display: false }, // No title for Y-axis (company names are labels)
+          ticks: { color: '#000' },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+window.onload = () => {
+  fetchFREDData(); // Keep your FRED data fetching
+  displayStorePrices(); // Keep displaying store prices
+  createMarketShareChart(); // Call function to create market share chart
+};

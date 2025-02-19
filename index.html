@@ -65,9 +65,33 @@
         <span id="flying-egg">🥚</span>
       </div>
       <div class="retailer-buttons">
-        <a href="https://www.walmart.com/search?q=great+value+eggs" target="_blank" rel="noopener noreferrer" class="retailer-button walmart">Walmart</a>
-        <a href="https://www.kroger.com/p/kroger-grade-a-large-eggs/0001111060903" target="_blank" rel="noopener noreferrer" class="retailer-button kroger">Kroger</a>
-        <a href="https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534" target="_blank" rel="noopener noreferrer" class="retailer-button target">Target</a>
+        <div class="retailer-button-container"> <a href="https://www.walmart.com/search?q=great+value+eggs" target="_blank" rel="noopener noreferrer" class="retailer-button walmart">Walmart</a>
+          <div id="walmart-price" class="store-price"></div> <!-- Price display for Walmart -->
+        </div>
+        <div class="retailer-button-container">
+          <a href="https://www.kroger.com/p/kroger-grade-a-large-eggs/0001111060903" target="_blank" rel="noopener noreferrer" class="retailer-button kroger">Kroger</a>
+          <div id="kroger-price" class="store-price"></div> <!-- Price display for Kroger -->
+        </div>
+        <div class="retailer-button-container">
+          <a href="https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534" target="_blank" rel="noopener noreferrer" class="retailer-button target">Target</a>
+          <div id="target-price" class="store-price"></div> <!-- Price display for Target -->
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW SECTION: Market Concentration -->
+    <section class="dashboard-box" id="market-concentration-box">
+      <h2>Egg Industry Market Concentration</h2>
+      <div style="max-width: 600px; margin: 0 auto;"> <!-- Wrapper for chart width -->
+        <canvas id="marketShareChart"></canvas>
+      </div>
+      <div class="fred-citation" style="text-align: center;"> <!-- Use existing citation style -->
+        <p>
+          Source: WATT Global Media, 2024 Company Survey,
+          <a href="https://www.eggindustry-digital.com/eggindustry/library/item/january_2024/4160285/:">
+            Top US egg producers’ ranking for 2024
+          </a>
+        </p>
       </div>
     </section>
 

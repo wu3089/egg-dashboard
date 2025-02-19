@@ -230,3 +230,16 @@ footer p {
 header h1 {
     font-weight: 700; /* Make header title bolder */
 }
+
+/* CSS for store prices (added in previous steps) */
+.retailer-button-container {
+  display: flex; /* Use flexbox to arrange button and price vertically */
+  flex-direction: column;
+  align-items: center; /* Center items horizontally within the container */
+}
+
+.store-price {
+  font-size: 0.9rem; /* Slightly smaller font size for price */
+  color: #555;      /* Muted color for price */
+  margin-top: 0.3rem; /* Space between button and price */
+}
