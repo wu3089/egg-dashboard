@@ -102,5 +102,7 @@ body {
     margin-bottom: 0.5rem;
   }
   
- 
+  .dashboard-box h2 {
+    text-align: center;
+  }
   
