@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hank's Egg Tracker</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- (Optional) Include any additional fonts or icons here -->
+  <!-- Optional: If you need any additional scripts, include them here -->
 </head>
 <body>
   <header>
@@ -14,27 +14,44 @@
   </header>
 
   <main>
-    <!-- Container for the embedded FRED chart -->
-    <section class="graph-section">
-      <h2>Egg Price Data</h2>
-      <div class="embed-container">
-        <iframe 
-          src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1DOAs&width=670&height=475" 
-          scrolling="no" 
-          frameborder="0" 
-          style="overflow:hidden;" 
-          allowTransparency="true" 
-          loading="lazy">
-        </iframe>
+    <!-- Loading indicator and error message area (if needed) -->
+    <div id="loading">Loading data...</div>
+    <div id="error-message"></div>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+      <!-- Walmart Product Tracking Box -->
+      <div class="dashboard-box" id="product-box">
+        <h2>Walmart Egg Price</h2>
+        <a href="https://www.walmart.com/ip/Great-Value-Large-White-Eggs-12-Count/145051970?classType=REGULAR&athbdg=L1200" target="_blank" rel="noopener noreferrer">
+          <img src="https://i5.walmartimages.com/seo/Great-Value-Large-White-Eggs-12-Count_b6760ce4-ef2b-4ee7-9c54-1e573897ad73.0e934a9843adc83711b5c933c7777f52.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF" 
+               alt="Great Value Large White Eggs" id="product-image">
+        </a>
+        <p>Current Price: <span id="product-price">$3.29</span></p>
       </div>
-    </section>
+
+      <!-- FRED Graph Embed Box -->
+      <div class="dashboard-box" id="chart-box">
+        <h2>Egg Price Data (FRED)</h2>
+        <div class="embed-container">
+          <iframe 
+            src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1DOAs&width=400&height=300" 
+            scrolling="no" 
+            frameborder="0" 
+            style="overflow:hidden; width:400px; height:300px;" 
+            allowTransparency="true" 
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer>
     <p>© 2025 Henry Wu. All rights reserved.</p>
   </footer>
-  
-  <!-- Include FRED embed script if needed for additional functionality -->
+
+  <!-- Optional: Include FRED embed script if extra functionality is needed -->
   <script src="https://fred.stlouisfed.org/assets/research/fred-graph-react-508/build/embed.min.js" type="text/javascript"></script>
 </body>
 </html>

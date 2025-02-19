@@ -25,23 +25,36 @@ body {
     padding: 2rem;
   }
   
-  /* Graph Section */
-  .graph-section {
-    text-align: center;
-    margin: 2rem auto;
+  /* Dashboard Container */
+  .dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
   }
   
-  .graph-section h2 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: #333;
+  /* Dashboard Box (Card) */
+  .dashboard-box {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    flex: 1 1 400px;
+    max-width: 600px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   
-  /* Embed Container */
+  .dashboard-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Embed Container for FRED Graph */
   .embed-container {
     position: relative;
     width: 100%;
-    max-width: 700px; /* Adjust this width as needed */
+    max-width: 400px; /* Sets the maximum width of the embed */
     margin: 0 auto;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -50,11 +63,22 @@ body {
     border-radius: 8px;
   }
   
-  /* Responsive iframe */
   .embed-container iframe {
     width: 100%;
     height: auto;
     border: none;
     border-radius: 4px;
+  }
+  
+  /* Image Styles for Walmart Product */
+  #product-box img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  
+  #product-box p {
+    font-size: 1.1rem;
+    color: #333;
   }
   
