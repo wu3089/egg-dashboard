@@ -129,21 +129,76 @@ function addFilterListeners() {
 // Fetch data on page load
 window.onload = fetchFREDData;
 
-// Ensure the elements exist in your HTML
+/* --- Interactive Cart Functionality --- */
 const addEggBtn = document.getElementById('add-egg-btn');
 const eggCountEl = document.getElementById('egg-count');
+const flyingEggEl = document.getElementById('flying-egg');
+const cartIconImage = document.getElementById('cart-icon-image');
 
 let eggCount = 0;
 
-if (addEggBtn && eggCountEl) {
+if (addEggBtn && eggCountEl && flyingEggEl && cartIconImage) {
   addEggBtn.addEventListener('click', () => {
     eggCount++;
     eggCountEl.textContent = eggCount;
-    
-    // Add bounce animation
+
+    // Bounce the egg count badge
     eggCountEl.classList.add('egg-bounce');
     setTimeout(() => {
       eggCountEl.classList.remove('egg-bounce');
     }, 400);
+
+    // Trigger flying egg animation
+    animateFlyingEgg();
   });
+}
+
+function animateFlyingEgg() {
+  // Get positions of the Add Egg button and the cart icon
+  const btnRect = addEggBtn.getBoundingClientRect();
+  const cartRect = cartIconImage.getBoundingClientRect();
+
+  // Calculate starting position (center of the button)
+  const startX = btnRect.left + (btnRect.width / 2);
+  const startY = btnRect.top + (btnRect.height / 2);
+  // Calculate ending position (center of the cart icon)
+  const endX = cartRect.left + (cartRect.width / 2);
+  const endY = cartRect.top + (cartRect.height / 2);
+
+  // Place the flying egg at the start position
+  flyingEggEl.style.left = startX + 'px';
+  flyingEggEl.style.top = startY + 'px';
+  flyingEggEl.style.display = 'inline';  // Show the egg
+
+  let startTime;
+  const duration = 600; // animation duration in ms
+
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    // Calculate current position
+    const currentX = startX + (endX - startX) * progress;
+    const currentY = startY + (endY - startY) * progress;
+    flyingEggEl.style.left = currentX + 'px';
+    flyingEggEl.style.top = currentY + 'px';
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      // Once the egg reaches the cart, trigger the explode animation
+      explodeEgg();
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+function explodeEgg() {
+  // Apply the explode animation (defined in CSS)
+  flyingEggEl.style.animation = 'explodeEgg 0.4s forwards';
+
+  setTimeout(() => {
+    // Hide and reset the flying egg element after the animation
+    flyingEggEl.style.display = 'none';
+    flyingEggEl.style.animation = '';
+  }, 400);
 }
