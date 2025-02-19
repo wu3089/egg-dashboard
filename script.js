@@ -161,7 +161,7 @@ function animateFlyingEgg() {
 function explodeEgg() {
   flyingEggEl.style.animation = 'explodeEgg 0.4s forwards';
   setTimeout(() => {
-    flyingEggEl.style.display = 'none'; // Corrected typo: was `display; 'none';` should be `display = 'none';`
+    flyingEggEl.style.display = 'none';
     flyingEggEl.style.animation = '';
   }, 400);
 }
@@ -185,11 +185,12 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 20 + "Other" Pie Chart) ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED for Top 20 Emphasis - NO ANNOTATION) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
+  // const marketShareNoteEl = document.getElementById('marketShareNote'); // REMOVED: No longer needed
 
-  // Data from WATT Global Media, 2025 Company Survey (TOP 20 ONLY initially)
+  // Data from WATT Global Media, 2025 Company Survey (TOP 20 ONLY)
   const top20CompanyHensData = [
     { company: 'Cal-Maine Foods', hens: 50.61 },
     { company: 'Rose Acre Farms', hens: 25.50 },
@@ -267,7 +268,7 @@ function createMarketShareChart() {
     { company: 'Other (Rank 21-61)', hens: otherHensTotal } // Add "Other" category
   ];
 
-  // Sort data by hen count in ascending order for better chart visualization (largest to smallest for pie)
+  // Sort data by hen count in ascending order for chart (largest to smallest for pie)
   companyHensData.sort((a, b) => b.hens - a.hens);
 
   const companyNames = companyHensData.map(item => item.company);
@@ -311,6 +312,16 @@ function createMarketShareChart() {
     options: {
       responsive: true,
       plugins: {
+        tooltip: { // Customize tooltips to show percentage
+          callbacks: {
+            label: (context) => {
+              const label = context.label || '';
+              const value = context.dataset.data[context.dataIndex];
+              const percentage = ((value / totalHensAllCompanies) * 100).toFixed(1); // Calculate slice percentage
+              return `${label}: ${value} Million Hens (${percentage}%)`; // Tooltip text with percentage
+            }
+          }
+        },
         legend: {
           position: 'right',
           labels: {
