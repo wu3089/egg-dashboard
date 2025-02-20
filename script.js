@@ -189,7 +189,7 @@ function displayStorePrices() {
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
 
-  // Data from WATT Global Media, 2025 Company Survey (TOP 20 ONLY)
+  // Data from WATT Global Media, 2025 Company Survey (TOP 20 ONLY) - **INITIALIZE DATA HERE, BEFORE USE**
   const top20CompanyHensData = [
     { company: 'Cal-Maine Foods', hens: 50.61 },
     { company: 'Rose Acre Farms', hens: 25.50 },
@@ -261,20 +261,18 @@ function createMarketShareChart() {
   // Calculate total hens for "Other" category (companies ranked 21st and below)
   const otherHensTotal = otherCompaniesData.reduce((sum, company) => sum + company.hens, 0);
 
-  // Calculate total hens for ALL companies in the data (for percentage calculation)
-  const totalHensAllCompanies = companyHensData.reduce((sum, company) => sum + company.hens, 0); // CALCULATED HERE - wider scope
-
-  // Create final data array: Top 20 + "Other" category
+  // Create final data array: Top 20 + "Other" category - **INITIALIZE companyHensData DIRECTLY**
   const companyHensData = [
-    ...top20CompanyHensData, // Spread operator to include top 20
-    { company: 'Other (Rank 21-61)', hens: otherHensTotal } // Add "Other" category
+    ...top20CompanyHensData,
+    { company: 'Other (Rank 21-61)', hens: otherHensTotal }
   ];
 
   // Sort data by hen count in ascending order for chart
-  companyHensData.sort((a, b) => b.hens - a.hens);
+  companyHensData.sort((a, b) => b.hens - a.hens); // LINE 265 - Should now be initialized BEFORE this line
 
-  const companyNames = companyHensData.map(item => item.company);
-  const henCounts = companyHensData.map(item => item.hens);
+  const companyNames = companyHensData.map(item => item.company); // INITIALIZE companyNames DIRECTLY
+  const henCounts = companyHensData.map(item => item.hens);     // INITIALIZE henCounts DIRECTLY
+  const totalHensAllCompanies = companyHensData.reduce((sum, company) => sum + company.hens, 0); // totalHensAllCompanies calculated here, in function scope
 
   const top20Color = 'rgba(100, 149, 237, 0.7)'; // Cornflower Blue
   const otherColor = 'rgba(220,220,220, 0.7)';   // Light gray for "Other"
