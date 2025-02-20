@@ -321,7 +321,7 @@ function createMarketShareChart() {
         },
         title: {
           display: 'none',
-          text: 'US Egg Market Concentration (Top 20 Producers + Other)'
+          text: 'The 20 largest U.S. egg companies own 75% of the nation’s hens.'
         }
       }
     },
