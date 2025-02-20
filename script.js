@@ -262,7 +262,7 @@ function createMarketShareChart() {
   const otherHensTotal = otherCompaniesData.reduce((sum, company) => sum + company.hens, 0);
 
   // Calculate total hens for ALL companies in the data (for percentage calculation)
-  const totalHensAllCompanies = companyHensData.reduce((sum, company) => sum + company.hens, 0); // **CALCULATED HERE - wider scope**
+  const totalHensAllCompanies = companyHensData.reduce((sum, company) => sum + company.hens, 0); // CALCULATED HERE - wider scope
 
   // Create final data array: Top 20 + "Other" category
   const companyHensData = [
@@ -302,7 +302,7 @@ function createMarketShareChart() {
               const value = context.dataset.data[context.dataIndex];
               // **Directly access totalHensAllCompanies - should be in scope now**
               const percentage = ((value / totalHensAllCompanies) * 100).toFixed(1);
-              return `${label}: ${value} Million Hens (${percentage}%)`;
+              return label + ': ' + value + ' Million Hens (' + percentage + '%)';
             }
           }
         },
@@ -320,7 +320,7 @@ function createMarketShareChart() {
           },
           position: 'outside', // Position labels outside the pie
           textAlign: 'right',  // Align text to the right for outside labels
-          offset: 10         // Adjust offset for labels 
+          offset: 10         // Adjust offset for labels
         },
         title: {
           display: 'none',
