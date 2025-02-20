@@ -45,8 +45,8 @@ jobs:
             libxshmfence1 \
             libwayland-server0
 
-      - name: Install Puppeteer
-        run: npm install puppeteer
+      - name: Install Puppeteer and Stealth Plugin
+        run: npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
 
       - name: Run Egg Price Scraper
         run: node update-egg-prices.js
