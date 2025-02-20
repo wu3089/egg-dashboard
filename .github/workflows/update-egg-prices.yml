@@ -21,10 +21,29 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Puppeteer dependencies
+      - name: Install Required Dependencies for Puppeteer
         run: |
           sudo apt-get update
-          sudo apt-get install -y libnss3 libatk1.0-0 libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 libpangocairo-1.0-0 libpango-1.0-0 libcups2
+          sudo apt-get install -y \
+            libnss3 \
+            libatk1.0-0 \
+            libx11-xcb1 \
+            libxcomposite1 \
+            libxcursor1 \
+            libxdamage1 \
+            libxfixes3 \
+            libxrandr2 \
+            libgbm1 \
+            libpangocairo-1.0-0 \
+            libpango-1.0-0 \
+            libcups2 \
+            libasound2t64 \
+            libatspi2.0-0 \
+            xdg-utils \
+            fonts-liberation \
+            libjpeg-turbo8 \
+            libxshmfence1 \
+            libwayland-server0
 
       - name: Install Puppeteer
         run: npm install puppeteer
