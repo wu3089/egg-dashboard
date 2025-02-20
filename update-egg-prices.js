@@ -8,20 +8,22 @@ async function scrapeEggPrices() {
     console.log("🔍 Starting egg price scraping...");
 
     const browser = await puppeteer.launch({
-        headless: false, // ❗ Set to false for debugging (change back to true after testing)
+        headless: false,  // 🛑 Disable headless mode (helps avoid bot detection)
+        executablePath: "/usr/bin/google-chrome-stable", // ✅ Use real Chrome browser (adjust for Mac/Windows)
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
-            '--disable-blink-features=AutomationControlled'
+            '--disable-blink-features=AutomationControlled',
+            '--window-size=1280,800' // ✅ Makes browser look real
         ]
     });
 
     const page = await browser.newPage();
     
-    // ✅ Use a more human-like user agent
+    // ✅ Use a real user agent string (makes the browser look legit)
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
 
-    // ✅ Set a real viewport size
+    // ✅ Set screen size to normal desktop dimensions
     await page.setViewport({ width: 1280, height: 800 });
 
     // ✅ Pretend to be a real user
