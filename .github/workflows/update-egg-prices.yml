@@ -52,7 +52,7 @@ jobs:
         run: node update-egg-prices.js
 
       - name: Upload Debug Files  # ✅ Saves debug files for troubleshooting
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: debug-files
           path: debug-*.html
