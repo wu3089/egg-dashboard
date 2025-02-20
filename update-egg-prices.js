@@ -8,12 +8,12 @@ const stores = [
     {
         name: "Walmart",
         url: "https://www.walmart.com/ip/Great-Value-Large-White-Eggs-12-Count/145051970",
-        selectors: ["span.price-characteristic", "div[data-automation-id='product-price']"]
+        selectors: ["span.price-characteristic", "div[data-automation-id='product-price']", "span.price-group"]
     },
     {
         name: "Target",
         url: "https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534",
-        selectors: ["div[data-test='product-price']", "span[data-test='current-price']"]
+        selectors: ["div[data-test='product-price']", "span[data-test='current-price']", "span[data-test='offerPrice']"]
     }
 ];
 
@@ -56,8 +56,10 @@ async function scrapeEggPrices() {
                 try {
                     console.log(`🔎 Checking selector ${selector} for ${store.name}`);
                     await page.waitForSelector(selector, { timeout: 15000 });
-                    price = await page.$eval(selector, el => el.textContent.trim());
-                    break;
+
+                    // ✅ Extract & clean price (only numbers & decimal points)
+                    price = await page.$eval(selector, el => el.textContent.trim().replace(/[^\d.]/g, ''));
+                    if (price) break;
                 } catch (e) {
                     console.warn(`⚠️ ${store.name}: Selector ${selector} not found, trying next...`);
                 }
