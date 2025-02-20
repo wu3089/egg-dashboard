@@ -161,7 +161,7 @@ function animateFlyingEgg() {
 function explodeEgg() {
   flyingEggEl.style.animation = 'explodeEgg 0.4s forwards';
   setTimeout(() => {
-    flyingEggEl.style.display = 'none';
+    flyingEggEl.style.display = 'none'; // CORRECTED: display = 'none'; (assignment, not colon)
     flyingEggEl.style.animation = '';
   }, 400);
 }
@@ -181,7 +181,7 @@ function displayStorePrices() {
   if (walmartPriceEl && krogerPriceEl && targetPriceEl) {
     walmartPriceEl.textContent = `$${storePrices.walmart.toFixed(2)}/dozen`;
     krogerPriceEl.textContent = `$${storePrices.kroger.toFixed(2)}/dozen`;
-    targetPriceEl.textContent = `$${storePrices.target.toFixed(2)}/dozen`;
+    targetPriceEl.textContent = `$${storePrices.targetPrice.toFixed(2)}/dozen`;
   }
 }
 
