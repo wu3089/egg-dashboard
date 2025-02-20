@@ -276,8 +276,7 @@ function createMarketShareChart() {
 
   const top20Color = 'rgba(100, 149, 237, 0.7)'; // Cornflower Blue
   const otherColor = 'rgba(220,220,220, 0.7)';   // Light gray for "Other"
-  const backgroundColors = companyNames.map((name, index) => index < 20 ? top20Color : otherColor);
-
+  const backgroundColors = companyNames.map(name => name.includes('Other') ? otherColor : top20Color);
   new Chart(ctxMarketShare, {
     type: 'pie',
     data: {
