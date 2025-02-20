@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const fs = require('fs');
 
-puppeteer.use(StealthPlugin()); // Enable stealth mode
+puppeteer.use(StealthPlugin());
 
 const stores = [
     {
@@ -18,11 +18,15 @@ const stores = [
 ];
 
 async function scrapeEggPrices() {
-    console.log("Starting egg price scraping...");
+    console.log("🔍 Starting egg price scraping...");
 
     const browser = await puppeteer.launch({
-        headless: true, 
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-blink-features=AutomationControlled'
+        ]
     });
 
     const page = await browser.newPage();
@@ -33,21 +37,27 @@ async function scrapeEggPrices() {
     let results = [];
 
     for (const store of stores) {
-        console.log(`Scraping price from ${store.name}...`);
-        
-        try {
-            await page.goto(store.url, { waitUntil: "networkidle2", timeout: 60000 });
+        console.log(`🌐 Navigating to ${store.name}...`);
 
-            // Scroll down to trigger lazy loading
+        try {
+            await page.goto(store.url, { waitUntil: "domcontentloaded", timeout: 60000 });
+
+            // Scroll down to force content load
             await page.evaluate(() => window.scrollBy(0, window.innerHeight));
-            await page.waitForTimeout(3000); // Wait for content to load
+            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            // Debug: Save HTML to check if content is actually loading
+            const html = await page.content();
+            fs.writeFileSync(`debug-${store.name}.html`, html);
+            console.log(`✅ Saved debug HTML for ${store.name}`);
 
             let price = "Not Found";
             for (const selector of store.selectors) {
                 try {
-                    await page.waitForSelector(selector, { timeout: 10000 });
+                    console.log(`🔎 Checking selector ${selector} for ${store.name}`);
+                    await page.waitForSelector(selector, { timeout: 15000 });
                     price = await page.$eval(selector, el => el.textContent.trim());
-                    break; // Stop if a valid price is found
+                    break;
                 } catch (e) {
                     console.warn(`⚠️ ${store.name}: Selector ${selector} not found, trying next...`);
                 }
@@ -58,14 +68,16 @@ async function scrapeEggPrices() {
 
         } catch (error) {
             console.error(`❌ Failed to scrape ${store.name}:`, error);
+
+            // Save the full page screenshot for debugging
+            await page.screenshot({ path: `error-${store.name}.png`, fullPage: true });
             results.push({ store: store.name, price: "Not Found", timestamp: new Date().toISOString() });
         }
     }
 
     await browser.close();
     fs.writeFileSync("eggPrices.json", JSON.stringify(results, null, 2));
-
-    console.log("Egg prices updated successfully!");
+    console.log("✅ Egg prices updated successfully!");
 }
 
 scrapeEggPrices();
