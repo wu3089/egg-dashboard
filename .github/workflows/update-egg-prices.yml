@@ -1,0 +1,41 @@
+name: Update Egg Prices
+
+on:
+  schedule:
+    - cron: "0 12 * * 1"  # Runs every Monday at 12 PM UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  scrape-egg-prices:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install Puppeteer dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libatk1.0-0 libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 libpangocairo-1.0-0 libpango-1.0-0 libcups2
+
+      - name: Install Puppeteer
+        run: npm install puppeteer
+
+      - name: Run Egg Price Scraper
+        run: node update-egg-prices.js
+
+      - name: Commit and push changes
+        env:
+          PAT: ${{ secrets.PAT }}
+        run: |
+          git add eggPrices.json
+          git commit -m "Updated egg prices" || echo "No changes to commit"
+          git push origin HEAD:main --force
