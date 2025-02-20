@@ -185,11 +185,11 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED - Distinct Colors, Legend, No Direct Labels) ----------
+
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
 
-  // Data from WATT Global Media, 2025 Company Survey (TOP 20 ONLY)
+  // Data from WATT Global Media, 2025 Company Survey (TOP 20 ONLY) - **INITIALIZE DATA HERE, BEFORE USE**
   const top20CompanyHensData = [
     { company: 'Cal-Maine Foods', hens: 50.61 },
     { company: 'Rose Acre Farms', hens: 25.50 },
@@ -261,20 +261,21 @@ function createMarketShareChart() {
   // Calculate total hens for "Other" category (companies ranked 21st and below)
   const otherHensTotal = otherCompaniesData.reduce((sum, company) => sum + company.hens, 0);
 
-  // Create final data array: Top 20 + "Other" category
+  // Create final data array: Top 20 + "Other" category - **INITIALIZE companyHensData DIRECTLY**
   const companyHensData = [
-    ...top20CompanyHensData, // Spread operator to include top 20
-    { company: 'Other (Rank 21-61)', hens: otherHensTotal } // Add "Other" category
+    ...top20CompanyHensData,
+    { company: 'Other (Rank 21-61)', hens: otherHensTotal }
   ];
 
   // Sort data by hen count in ascending order for chart
-  companyHensData.sort((a, b) => b.hens - a.hens);
+  companyHensData.sort((a, b) => b.hens - a.hens); // LINE 265 - Should now be initialized BEFORE this line
 
-  const companyNames = companyHensData.map(item => item.company);
-  const henCounts = companyHensData.map(item => item.hens);
+  const companyNames = companyHensData.map(item => item.company); // INITIALIZE companyNames DIRECTLY
+  const henCounts = companyHensData.map(item => item.hens);     // INITIALIZE henCounts DIRECTLY
+  const totalHensAllCompanies = companyHensData.reduce((sum, company) => sum + company.hens, 0); // totalHensAllCompanies calculated here, in function scope
 
-  const top20Color = '#4c8bf5'; // A more distinct, brighter blue for Top 20
-  const otherColor = '#a0a0a0';  // A darker gray for "Other"
+  const top20Color = 'rgba(100, 149, 237, 0.7)'; // Cornflower Blue
+  const otherColor = 'rgba(220,220,220, 0.7)';   // Light gray for "Other"
   const backgroundColors = companyNames.map((name, index) => index < 20 ? top20Color : otherColor);
 
   new Chart(ctxMarketShare, {
@@ -297,38 +298,35 @@ function createMarketShareChart() {
             label: (context) => {
               const label = context.label || '';
               const value = context.dataset.data[context.dataIndex];
+              // **Directly access totalHensAllCompanies - should be in scope now**
               const percentage = ((value / totalHensAllCompanies) * 100).toFixed(1);
-              return `${label}: ${value} Million Hens (${percentage}%)`;
+              return label + ': ' + value + ' Million Hens (' + percentage + '%)';
             }
           }
         },
         legend: {
-          display: true, // **SHOW LEGEND NOW**
-          position: 'right',
-          labels: {
-            usePointStyle: true, // Use point styling (boxes) for legend items
-            boxWidth: 15,
-            fontColor: '#333',
-            formatter: function (legendContext) { // **CUSTOM LEGEND LABELS**
-              const label = legendContext.dataset.data[legendContext.dataIndex] ? legendContext.label : '';
-              if (legendContext.index < 20) {
-                return label; // Show company name for Top 20
-              } else {
-                return 'Other Producers (Rank 21-61)'; // Custom label for "Other" category
-              }
-            }
-          }
+          display: false // Hidden legend
         },
-        datalabels: {
-          display: false // **HIDE DIRECT LABELS on slices**
+        datalabels: { // Chart.js Datalabels Plugin Configuration - UPDATED LABELS POSITIONING
+          color: 'black',
+          font: {
+            weight: 'bold',
+            size: 11 // Slightly larger font size
+          },
+          formatter: (value, context) => {
+            return context.chart.data.labels[context.dataIndex];
+          },
+          position: 'outside', // Position labels outside the pie
+          textAlign: 'right',  // Align text to the right for outside labels
+          offset: 10         // Adjust offset for labels
         },
         title: {
-          display: true,
-          text: 'US Egg Market Concentration (Top 20 Producers + Other)' // Keep chart title
+          display: 'none',
+          text: 'US Egg Market Concentration (Top 20 Producers + Other)'
         }
       }
     },
-    plugins: [ChartDataLabels] // Still need the plugin registered even if not using direct labels for tooltips/legend
+    plugins: [ChartDataLabels]
   });
 }
 
