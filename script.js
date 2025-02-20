@@ -185,7 +185,7 @@ function displayStorePrices() {
   }
 }
 
-// ---------- MARKET CONCENTRATION CHART (UPDATED - Outside Labels, Clean) ----------
+// ---------- MARKET CONCENTRATION CHART (UPDATED - Outside Labels, Clean - DIRECT ACCESS to totalHensAllCompanies) ----------
 function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart').getContext('2d');
 
@@ -261,6 +261,9 @@ function createMarketShareChart() {
   // Calculate total hens for "Other" category (companies ranked 21st and below)
   const otherHensTotal = otherCompaniesData.reduce((sum, company) => sum + company.hens, 0);
 
+  // Calculate total hens for ALL companies in the data (for percentage calculation)
+  const totalHensAllCompanies = companyHensData.reduce((sum, company) => sum + company.hens, 0); // **CALCULATED HERE - wider scope**
+
   // Create final data array: Top 20 + "Other" category
   const companyHensData = [
     ...top20CompanyHensData, // Spread operator to include top 20
@@ -297,6 +300,7 @@ function createMarketShareChart() {
             label: (context) => {
               const label = context.label || '';
               const value = context.dataset.data[context.dataIndex];
+              // **Directly access totalHensAllCompanies - should be in scope now**
               const percentage = ((value / totalHensAllCompanies) * 100).toFixed(1);
               return `${label}: ${value} Million Hens (${percentage}%)`;
             }
