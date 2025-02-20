@@ -4,24 +4,11 @@ const fs = require('fs');
 
 puppeteer.use(StealthPlugin());
 
-const stores = [
-    {
-        name: "Walmart",
-        url: "https://www.walmart.com/ip/Great-Value-Large-White-Eggs-12-Count/145051970",
-        selectors: ["span.price-characteristic", "div[data-automation-id='product-price']", "span.price-group"]
-    },
-    {
-        name: "Target",
-        url: "https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534",
-        selectors: ["div[data-test='product-price']", "span[data-test='current-price']", "span[data-test='offerPrice']"]
-    }
-];
-
 async function scrapeEggPrices() {
     console.log("🔍 Starting egg price scraping...");
 
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: false, // ❗ Set to false for debugging (change back to true after testing)
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
@@ -30,9 +17,30 @@ async function scrapeEggPrices() {
     });
 
     const page = await browser.newPage();
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    );
+    
+    // ✅ Use a more human-like user agent
+    await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+
+    // ✅ Set a real viewport size
+    await page.setViewport({ width: 1280, height: 800 });
+
+    // ✅ Pretend to be a real user
+    await page.evaluateOnNewDocument(() => {
+        Object.defineProperty(navigator, 'webdriver', { get: () => false });
+    });
+
+    const stores = [
+        {
+            name: "Walmart",
+            url: "https://www.walmart.com/ip/Great-Value-Large-White-Eggs-12-Count/145051970",
+            selectors: ["span[class*='price']", "div[data-testid='product-price']", "div[class*='prod-PriceHero']"]
+        },
+        {
+            name: "Target",
+            url: "https://www.target.com/p/grade-a-large-eggs-12ct-good-38-gather-8482-packaging-may-vary/-/A-14713534",
+            selectors: ["div[data-test='product-price']", "span[data-test='offerPrice']", "div[class*='styles__Price']"]
+        }
+    ];
 
     let results = [];
 
@@ -40,13 +48,13 @@ async function scrapeEggPrices() {
         console.log(`🌐 Navigating to ${store.name}...`);
 
         try {
-            await page.goto(store.url, { waitUntil: "domcontentloaded", timeout: 60000 });
+            await page.goto(store.url, { waitUntil: "networkidle2", timeout: 60000 });
 
-            // Scroll down to force content load
-            await page.evaluate(() => window.scrollBy(0, window.innerHeight));
+            // Scroll down slightly (triggers lazy loading)
+            await page.evaluate(() => window.scrollBy(0, window.innerHeight / 2));
             await new Promise(resolve => setTimeout(resolve, 3000));
 
-            // Debug: Save HTML to check if content is actually loading
+            // Save Debug HTML
             const html = await page.content();
             fs.writeFileSync(`debug-${store.name}.html`, html);
             console.log(`✅ Saved debug HTML for ${store.name}`);
@@ -56,8 +64,6 @@ async function scrapeEggPrices() {
                 try {
                     console.log(`🔎 Checking selector ${selector} for ${store.name}`);
                     await page.waitForSelector(selector, { timeout: 15000 });
-
-                    // ✅ Extract & clean price (only numbers & decimal points)
                     price = await page.$eval(selector, el => el.textContent.trim().replace(/[^\d.]/g, ''));
                     if (price) break;
                 } catch (e) {
