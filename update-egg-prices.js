@@ -1,7 +1,6 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-// List of stores and their URLs
 const stores = [
     {
         name: "Walmart",
@@ -16,28 +15,44 @@ const stores = [
 ];
 
 async function scrapeEggPrices() {
-    const browser = await puppeteer.launch({ headless: "new" });
+    console.log("Starting egg price scraping...");
+
+    // Launch Puppeteer with increased timeout and headless mode
+    const browser = await puppeteer.launch({
+        headless: true, // Use 'true' for running on GitHub Actions
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
     const page = await browser.newPage();
     let results = [];
 
     for (const store of stores) {
         console.log(`Scraping price from ${store.name}...`);
-        await page.goto(store.url, { waitUntil: "networkidle2" });
-
+        
         try {
+            await page.goto(store.url, { waitUntil: "domcontentloaded", timeout: 30000 });
+
+            // Wait for the price selector to appear (prevents missing elements issue)
+            await page.waitForSelector(store.selector, { timeout: 10000 });
+
             const price = await page.$eval(store.selector, el => el.textContent.trim());
+
             results.push({ store: store.name, price, timestamp: new Date().toISOString() });
+            console.log(`✅ ${store.name}: $${price}`);
+
         } catch (error) {
-            console.error(`Failed to scrape ${store.name}:`, error);
+            console.error(`❌ Failed to scrape ${store.name}:`, error);
             results.push({ store: store.name, price: "Not Found", timestamp: new Date().toISOString() });
         }
     }
 
     await browser.close();
 
-    // Save all prices to JSON
-    writeFileSync("eggPrices.json", JSON.stringify(results, null, 2));
+    // Save prices to JSON file
+    fs.writeFileSync("eggPrices.json", JSON.stringify(results, null, 2));
+
     console.log("Egg prices updated successfully!");
 }
 
-scrapeEgg
+// ✅ Call function
+scrapeEggPrices();
