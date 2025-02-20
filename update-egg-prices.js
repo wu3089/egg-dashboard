@@ -1,5 +1,8 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const fs = require('fs');
+
+puppeteer.use(StealthPlugin()); // Enable stealth mode
 
 const stores = [
     {
@@ -17,23 +20,30 @@ const stores = [
 async function scrapeEggPrices() {
     console.log("Starting egg price scraping...");
 
-    // Launch Puppeteer with increased timeout and headless mode
+    // Launch Puppeteer with Stealth Plugin to bypass bot detection
     const browser = await puppeteer.launch({
-        headless: true, // Use 'true' for running on GitHub Actions
+        headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
+    await page.setUserAgent(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    );
+
     let results = [];
 
     for (const store of stores) {
         console.log(`Scraping price from ${store.name}...`);
         
         try {
-            await page.goto(store.url, { waitUntil: "domcontentloaded", timeout: 30000 });
+            await page.goto(store.url, { waitUntil: "networkidle2", timeout: 30000 });
 
-            // Wait for the price selector to appear (prevents missing elements issue)
-            await page.waitForSelector(store.selector, { timeout: 10000 });
+            // Wait longer for selector
+            await page.waitForSelector(store.selector, { timeout: 30000 });
+
+            // Debugging: Take a screenshot if selector fails
+            await page.screenshot({ path: `debug-${store.name}.png`, fullPage: true });
 
             const price = await page.$eval(store.selector, el => el.textContent.trim());
 
@@ -42,6 +52,10 @@ async function scrapeEggPrices() {
 
         } catch (error) {
             console.error(`❌ Failed to scrape ${store.name}:`, error);
+
+            // Take a screenshot for debugging
+            await page.screenshot({ path: `error-${store.name}.png`, fullPage: true });
+
             results.push({ store: store.name, price: "Not Found", timestamp: new Date().toISOString() });
         }
     }
