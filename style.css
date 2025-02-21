@@ -243,3 +243,116 @@ header h1 {
   color: #555;      /* Muted color for price */
   margin-top: 0.3rem; /* Space between button and price */
 }
+
+
+.egg-fact-container {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;    /* Show a pointer when hovering */
+  text-align: center; /* Center the emojis and text if you like */
+  margin: 1rem 0;     /* Spacing above/below */
+}
+
+.egg-emoji,
+.cracked-egg-emoji {
+  font-size: 2rem;    /* Make the emoji larger */
+  transition: transform 0.4s ease;
+  display: inline-block;
+}
+
+/* Hidden elements won't be displayed at first */
+.hidden {
+  display: none;
+}
+
+/* A simple “crack” animation: slightly rotate and enlarge */
+.egg-crack-animation {
+  transform: scale(1.2) rotate(-20deg);
+}
+
+/* Style the fact text */
+.egg-fact {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #333;
+  max-width: 300px;     /* Limit line length for readability */
+  margin-left: auto;    /* Center the text if container is block-level */
+  margin-right: auto;
+}
+
+/* Shake animation for the egg emoji on hover */
+.egg-fact-container .egg-emoji {
+  animation: occasionalShake 3s ease-in-out infinite;
+}
+
+
+@keyframes occasionalShake {
+  0% { transform: translateX(0); }
+  5% { transform: translateX(-10px); }  /* increased from -3px */
+  10% { transform: translateX(10px); }   /* increased from 3px */
+  15% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+.hen-buttons {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.hen-visualization {
+  display: flex;
+  flex-wrap: wrap;   /* let emojis wrap to multiple rows */
+  gap: 0.25rem;
+  max-width: 300px;  /* or adjust as you like */
+  margin: 0 auto;    /* center the grid */
+}
+
+.hen-visualization span {
+  font-size: 1.5rem; /* size of the emojis */
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect: slight scale-up */
+.hen-visualization span:hover {
+  transform: scale(1.2);
+}
+
+/* Colors for each category */
+.top10 {
+  color: gold;
+}
+.top20 {
+  color: cornflowerblue;
+}
+.other {
+  color: #ccc;
+}
+
+/* Legend styling */
+.hen-legend {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.hen-legend-item {
+  margin: 0 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.top10-color {
+  color: gold;
+}
+.top20-color {
+  color: cornflowerblue;
+}
+.other-color {
+  color: #ccc;
+}
+
+.other {
+  filter: grayscale(100%);
+}
+.top10, .top20 {
+  filter: none; /* Remove grayscale for colored categories */
+}
+

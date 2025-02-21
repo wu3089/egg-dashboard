@@ -43,7 +43,7 @@
       <h2>Average Price for a Dozen Eggs</h2>
 
       <!-- A wrapper to control the chart's max width -->
-      <div style="max-width: 600px; margin: 0 auto;">
+      <div style="max-width: 500px; margin: 0 auto;">
         <canvas id="dataChart"></canvas>
       </div>
 
@@ -67,7 +67,7 @@
 
     <!-- Section 2: Current Prices (Retailers) -->
     <section class="dashboard-box" id="product-box">
-      <h2>Prices at the Store</h2>
+      <h2>Egg Prices at Grocery Stores</h2>
 
       <!-- Cart container for egg tracking -->
       <div class="cart-container">
@@ -119,12 +119,27 @@
     </section>
 
 
-    <!-- NEW SECTION: Market Concentration -->
-    <section class="dashboard-box" id="market-concentration-box">
+    <section class="dashboard-box" id="hen-visual">
       <h2>Big Egg</h2>
-      <div style="max-width: 600px; margin: 0 auto;"> <!-- Wrapper for chart width -->
-        <canvas id="marketShareChart"></canvas>
+       <!-- Egg Fact Container -->
+       <div class="egg-fact-container" onclick="crackEgg(this)">
+        <!-- The un-cracked egg emoji -->
+        <span class="egg-emoji">🥚</span>
+        <!-- The cracked egg or chick emoji, initially hidden -->
+        <span class="cracked-egg-emoji hidden">🐣</span>
+        <!-- The fact text, also initially hidden -->
+        <p class="egg-fact hidden">
+          Egg Fact! The 10 largest U.S. egg producers own over half of the nation’s hens, and the 20 largest own 75%.
+        </p>
       </div>
+      <!-- Buttons to toggle the view -->
+      <div class="hen-buttons">
+        <button id="showTop10Btn">Show Top 10</button>
+        <button id="showTop20Btn">Show Top 20</button>
+      </div>
+    
+      <!-- Container for 100 emojis -->
+      <div class="hen-visualization"></div>
       <div class="fred-citation" style="text-align: center;"> <!-- Use existing citation style -->
         <p>
           WATTPoultry,
@@ -134,7 +149,7 @@
         </p>
       </div>
     </section>
-
+    
     <!-- Error / Status Message -->
     <div id="error-message"></div>
   </main>

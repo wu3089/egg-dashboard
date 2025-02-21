@@ -166,6 +166,87 @@ function explodeEgg() {
   }, 400);
 }
 
+// HEN emojis
+
+// Adjust these based on actual data
+const top10Percent = 54.1; // 40 out of 100
+const top20Percent = 75.2; // 75 out of 100
+
+function initHenVisualization() {
+  const container = document.querySelector('.hen-visualization');
+  if (!container) return;
+
+  // Clear any existing content
+  container.innerHTML = '';
+
+  // Create 100 hen emojis
+  for (let i = 1; i <= 100; i++) {
+    const henSpan = document.createElement('span');
+    henSpan.textContent = '🐔';
+
+    // Default: all are "other"
+    henSpan.classList.add('other');
+    henSpan.title = 'Other Producers';
+
+    container.appendChild(henSpan);
+  }
+}
+
+// Re-color the hens based on mode
+function updateHenColors(mode) {
+  const container = document.querySelector('.hen-visualization');
+  if (!container) return;
+
+  // Grab all the span elements (the 100 hens)
+  const henSpans = container.querySelectorAll('span');
+
+  henSpans.forEach((henSpan, index) => {
+    // index starts at 0, so add 1 to compare with top10Percent, top20Percent
+    const position = index + 1; 
+    // Reset classes
+    henSpan.classList.remove('top10', 'top20', 'other');
+
+    if (mode === 'top10') {
+      // If in top 10 range => gold
+      if (position <= top10Percent) {
+        henSpan.classList.add('top10');
+        henSpan.title = 'Top 10 Producers';
+      } else {
+        henSpan.classList.add('other');
+        henSpan.title = 'Other Producers';
+      }
+    } else if (mode === 'top20') {
+      // top10 => gold, next 10 => cornflowerblue, rest => other
+      if (position <= top10Percent) {
+        henSpan.classList.add('top10');
+        henSpan.title = 'Top 10 Producers';
+      } else if (position <= top20Percent) {
+        henSpan.classList.add('top20');
+        henSpan.title = 'Top 20 Producers';
+      } else {
+        henSpan.classList.add('other');
+        henSpan.title = 'Other Producers';
+      }
+    }
+  });
+}
+
+// Attach event listeners to buttons
+window.addEventListener('load', () => {
+  // Create the 100 hens
+  initHenVisualization();
+
+  // Then wire up the buttons
+  document.getElementById('showTop10Btn')?.addEventListener('click', () => {
+    updateHenColors('top10');
+  });
+
+  document.getElementById('showTop20Btn')?.addEventListener('click', () => {
+    updateHenColors('top20');
+  });
+});
+
+
 // ---------- STORE PRICES ----------
 const storePrices = {
   walmart: 5.47,  // Example prices - UPDATE THESE to current prices!
@@ -264,7 +345,7 @@ function createMarketShareChart() {
   // Create final data array: Top 20 + "Other" category - **INITIALIZE companyHensData DIRECTLY**
   const companyHensData = [
     ...top20CompanyHensData,
-    { company: 'Other (Rank 21-61)', hens: otherHensTotal }
+    { company: 'Other Producers', hens: otherHensTotal }
   ];
 
   // Sort data by hen count in ascending order for chart
@@ -309,28 +390,46 @@ function createMarketShareChart() {
         datalabels: { // Chart.js Datalabels Plugin Configuration - UPDATED LABELS POSITIONING
           color: 'black',
           font: {
-            weight: 'bold',
+            weight: 'normal',
             size: 11 // Slightly larger font size
           },
           formatter: (value, context) => {
             return context.chart.data.labels[context.dataIndex];
           },
           position: 'outside', // Position labels outside the pie
-          textAlign: 'right',  // Align text to the right for outside labels
+          textAlign: 'left',  // Align text to the right for outside labels
           offset: 10         // Adjust offset for labels
         },
         title: {
           display: 'none',
-          text: 'The 20 largest U.S. egg companies own 75% of the nation’s hens.'
+          text: ''
         }
       }
     },
     plugins: [ChartDataLabels]
   });
 }
+// ---------- CRACK EGG INTERACTION ----------
+function crackEgg(container) {
+  const eggEmoji = container.querySelector('.egg-emoji');
+  const crackedEggEmoji = container.querySelector('.cracked-egg-emoji');
+  const eggFact = container.querySelector('.egg-fact');
+
+  // Animate the un-cracked egg
+  eggEmoji.classList.add('egg-crack-animation');
+
+  // After the animation finishes (~400ms), hide the un-cracked egg
+  // and show the cracked egg + the fact text
+  setTimeout(() => {
+    eggEmoji.classList.add('hidden');
+    crackedEggEmoji.classList.remove('hidden');
+    eggFact.classList.remove('hidden');
+  }, 400);
+}
 
 window.onload = () => {
   fetchFREDData();
   displayStorePrices();
   createMarketShareChart();
+  createHenVisualization();
 };
