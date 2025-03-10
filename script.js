@@ -97,8 +97,11 @@ function addFilterListeners() {
 }
 
 // ---------- INTERACTIVE CART & MONEY TICKER ----------
+const prices = Object.values(storePrices);
+const averagePricePerEgg = values.reduce((acc, val) => acc + val, 0) / values.length;
 const PRICE_PER_EGG = 0.498;
 const addEggBtn = document.getElementById('add-egg-btn');
+const removeEggBtn = document.getElementById('remove-egg-btn');
 const eggCountEl = document.getElementById('egg-count');
 const flyingEggEl = document.getElementById('flying-egg');
 const cartIconImage = document.getElementById('cart-icon-image');
@@ -107,7 +110,7 @@ const productBoxEl = document.getElementById('product-box');
 
 let eggCount = 0;
 
-if (addEggBtn && eggCountEl && flyingEggEl && cartIconImage && moneyTickerEl && productBoxEl) {
+if (addEggBtn && removeEggBtn && eggCountEl && flyingEggEl && cartIconImage && moneyTickerEl && productBoxEl) {
   addEggBtn.addEventListener('click', () => {
     eggCount++;
     eggCountEl.textContent = eggCount;
@@ -117,6 +120,19 @@ if (addEggBtn && eggCountEl && flyingEggEl && cartIconImage && moneyTickerEl && 
       eggCountEl.classList.remove('egg-bounce');
     }, 400);
     animateFlyingEgg();
+  });
+
+  removeEggBtn.addEventListener('click', () => {
+    if (eggCount > 0) {
+      eggCount--;
+      eggCountEl.textContent = eggCount;
+      updateMoneyTicker();
+      eggCountEl.classList.add('egg-bounce');
+      setTimeout(() => {
+        eggCountEl.classList.remove('egg-bounce');
+      }, 400);
+      animateRemovingEgg();
+    }
   });
 }
 
@@ -156,6 +172,53 @@ function animateFlyingEgg() {
     }
   }
   requestAnimationFrame(step);
+}
+
+function animateRemovingEgg() {
+  const btnRect = removeEggBtn.getBoundingClientRect();
+  const cartRect = cartIconImage.getBoundingClientRect();
+  const productBoxRect = productBoxEl.getBoundingClientRect();
+  
+  // Start from the cart
+  const startX = cartRect.left + (cartRect.width / 2) - productBoxRect.left;
+  const startY = cartRect.top + (cartRect.height / 2) - productBoxRect.top;
+  
+  // End at the remove button
+  const endX = btnRect.left + (btnRect.width / 2) - productBoxRect.left;
+  const endY = btnRect.top + (btnRect.height / 2) - productBoxRect.top;
+  
+  flyingEggEl.style.left = `${startX}px`;
+  flyingEggEl.style.top = `${startY}px`;
+  flyingEggEl.style.display = 'inline';
+  
+  let startTime;
+  const duration = 600;
+  
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    const currentX = startX + (endX - startX) * progress;
+    const currentY = startY + (endY - startY) * progress;
+    
+    flyingEggEl.style.left = `${currentX}px`;
+    flyingEggEl.style.top = `${currentY}px`;
+    
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      disappearEgg();
+    }
+  }
+  
+  requestAnimationFrame(step);
+}
+
+function disappearEgg() {
+  flyingEggEl.style.animation = 'disappearEgg 0.4s forwards';
+  setTimeout(() => {
+    flyingEggEl.style.display = 'none';
+    flyingEggEl.style.animation = '';
+  }, 400);
 }
 
 function explodeEgg() {
@@ -431,5 +494,5 @@ window.onload = () => {
   fetchFREDData();
   displayStorePrices();
   createMarketShareChart();
-  createHenVisualization();
+  initHenVisualization();
 };

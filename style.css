@@ -163,6 +163,18 @@ main {
 #add-egg-btn:hover {
   background-color: #555;
 }
+#remove-egg-btn {
+  background-color: #ff6b6b;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+#remove-egg-btn:hover {
+  background-color: #ff5252;
+}
 #money-ticker {
   font-size: 1rem;
   font-weight: bold;
@@ -199,6 +211,19 @@ main {
 }
 .money-bounce {
   animation: bounceMoney 0.4s ease;
+}
+@keyframes disappearEgg {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+.egg-disappear {
+  animation: disappearEgg 0.4s ease;
 }
 
 /* Mobile Tweaks */
