@@ -7,3 +7,4 @@ summarize_usda_report.py
 server.py
 usda_report.pdf
 usda_report.txt
+requirements.txt
