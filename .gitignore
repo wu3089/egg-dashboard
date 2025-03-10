@@ -1,1 +1,4 @@
 kroger_test.html
+node_modules/
+.env
+server.js

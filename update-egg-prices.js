@@ -90,4 +90,81 @@ async function scrapeEggPrices() {
     console.log("✅ Egg prices updated successfully!");
 }
 
+async function getKrogerAccessToken() {
+    try {
+        const response = await fetch("http://localhost:3000/get-kroger-token", { method: "POST" });
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+        const jsonResponse = await response.json();
+        return jsonResponse.access_token;
+    } catch (error) {
+        console.error("❌ Error fetching Kroger access token:", error);
+        return null;
+    }
+}
+async function getLocationId(zipCode) {
+    const accessToken = await getKrogerAccessToken();
+    if (!accessToken) return;
+
+    try {
+        const response = await fetch(`https://api-ce.kroger.com/v1/locations?filter.zipCode=${zipCode}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${accessToken}`,
+                "Accept": "application/json"
+            }
+        });
+
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+        const jsonResponse = await response.json();
+
+        console.log("📍 Full Location Response:", JSON.stringify(jsonResponse, null, 2)); // ✅ Debugging Log
+
+        if (jsonResponse.data && jsonResponse.data.length > 0) {
+            const locationId = jsonResponse.data[0].locationId; // Get the first valid `locationId`
+            console.log("✅ Kroger Store Location ID:", locationId);
+            return locationId;
+        } else {
+            console.error("❌ No stores found for this ZIP code.");
+            return null;
+        }
+    } catch (error) {
+        console.error("❌ Error fetching store location:", error);
+        return null;
+    }
+}
+
+async function getProductPrice(productId, zipCode) {
+    const locationId = await getLocationId(zipCode);
+    if (!locationId) return;
+
+    const accessToken = await getKrogerAccessToken();
+    if (!accessToken) return;
+
+    try {
+        const response = await fetch(`http://localhost:3000/get-product-price?productId=${productId}&locationId=${locationId}`, {
+            method: "GET",
+            headers: { "Accept": "application/json" }
+        });
+
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+        const productData = await response.json();
+
+        if (productData && productData.data && productData.data[0] && productData.data[0].items) {
+            const price = productData.data[0].items[0].price?.regular || "Not Available";
+            document.getElementById("kroger-price").textContent = `$${price}`;
+        } else {
+            document.getElementById("kroger-price").textContent = "Price Not Found";
+        }
+    } catch (error) {
+        console.error("❌ Error fetching product data:", error);
+        document.getElementById("kroger-price").textContent = "Error Fetching Price";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const productId = "0001111060903"; // Your actual product ID
+    const zipCode = "45242"; // Your ZIP code
+    getProductPrice(productId, zipCode);
+});
+
 scrapeEggPrices();
