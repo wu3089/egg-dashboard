@@ -2,3 +2,6 @@ kroger_test.html
 node_modules/
 .env
 server.js
+fetch_latest_usda_pdf.py
+summarize_usda_report.py
+server.py
