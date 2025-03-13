@@ -1,12 +1,12 @@
 // FRED data and chart functionality
 
-const dataUrl = '/fredData.json';
+const dataUrl = '../fredData.json'; // CORRECTED PATH
 let fullObservations = [];
 let chart = null;
 
 export function initFredChart() {
   fetchFREDData();
-  addFilterListeners();
+  addFilterListeners(); // Make sure this function is defined
 }
 
 async function fetchFREDData() {
@@ -22,13 +22,14 @@ async function fetchFREDData() {
       document.getElementById('error-message').textContent = 'No data available.';
       return;
     }
-    const initialObservations = filterObservations(1);
+    const initialObservations = filterObservations(1); // Make sure this is defined
     createChart(initialObservations);
   } catch (error) {
     console.error('Error fetching FRED data:', error);
     document.getElementById('error-message').textContent = 'Failed to load data. Please try again later.';
   }
 }
+
 
 // Helper function to format a date string as "M/YYYY"
 function formatDateLabel(dateString) {
