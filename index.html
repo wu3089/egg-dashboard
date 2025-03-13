@@ -65,13 +65,7 @@
       </div>
     </section>
 
-   <!-- Add the market share chart canvas -->
-    <section class="dashboard-box" id="market-share-box">
-      <h2>Market Share of Top Egg Producers</h2>
-      <div style="max-width: 500px; margin: 0 auto;">
-        <canvas id="marketShareChart"></canvas>
-      </div>
-    </section>
+   
 
     <!-- Section 2: Current Prices (Retailers) -->
     <section class="dashboard-box" id="product-box">
@@ -159,6 +153,14 @@
       </div>
     </section>
     
+<!-- Add the market share chart canvas -->
+<section class="dashboard-box" id="market-share-box">
+  <h2>Market Share of Top Egg Producers</h2>
+  <div style="max-width: 500px; margin: 0 auto;">
+    <canvas id="marketShareChart"></canvas>
+  </div>
+</section>
+
     <!-- Error / Status Message -->
     <div id="error-message"></div>
   </main>
@@ -171,7 +173,8 @@
   <!-- Include Papa Parse from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <!-- Your custom script -->
-  <script type="module" src="src/main.js"></script>
+  <script type="module" src="src/main.js?v=1"></script>
   <!-- <script src="script.js"></script> -->
+   
 </body>
 </html>
