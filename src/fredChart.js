@@ -1,6 +1,6 @@
 // FRED data and chart functionality
 
-const dataUrl = '/fredData.json'; // CORRECTED PATH
+const dataUrl = '/egg-dashboard/fredData.json'; // CORRECTED PATH
 let fullObservations = [];
 let chart = null;
 
