@@ -7,7 +7,7 @@ let chart = null;
 
 async function fetchFREDData() {
   try {
-    const response = await fetch(dataUrl);
+    const response = await fetch('../fredData.json');
     console.log("Fetch response received. Status:", response.status);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
