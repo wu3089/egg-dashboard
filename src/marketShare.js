@@ -1,5 +1,7 @@
 // Market share chart
 
+export let marketShareChart; // Export the chart instance
+
 export function createMarketShareChart() {
   const ctxMarketShare = document.getElementById('marketShareChart');
   if (!ctxMarketShare) return;
@@ -20,88 +22,91 @@ export function createMarketShareChart() {
     { company: 'Michael Foods', hens: 9.70 },
     { company: 'Gemperle Family Farms', hens: 9.20 },
     { company: 'Kreider Farms', hens: 8.40 },
-    { company: 'Sauder\'s Eggs', hens: 7.41 },
-    { company: 'Cooper Farms', hens: 7.24 },
-    { company: 'Fremont Farms of Iowa', hens: 7.00 },
-    { company: 'Hickman\'s Egg Ranch', hens: 6.00 },
-    { company: 'Vital Farms', hens: 5.70 },
-    { company: 'Iowa Cage Free', hens: 5.50 },
+    { company: 'Versova Management', hens: 7.90 },
+    { company: 'Weaver Eggs', hens: 7.80 },
+    { company: 'ISE America', hens: 7.50 },
+    { company: 'Fremont Farms of Iowa', hens: 6.50 },
+    { company: 'Sauder\'s Eggs', hens: 6.30 },
+    { company: 'Sparboe Companies', hens: 5.90 }
   ];
 
-  // Data for companies ranked 21st and below
-  const otherCompaniesData = [
-    { company: 'Sunrise Farms Inc.', hens: 5.00 },
-    { company: 'S&R Egg Farm', hens: 4.85 },
-    // ... all other companies data
-  ];
+  // Calculate total hens for top 20
+  const totalHens = top20CompanyHensData.reduce((sum, company) => sum + company.hens, 0);
 
-  // Calculate total hens for "Other" category
-  const otherHensTotal = otherCompaniesData.reduce((sum, company) => sum + company.hens, 0);
+  // Calculate percentage market share for each company
+  const chartData = top20CompanyHensData.map(company => ({
+    company: company.company,
+    percentage: (company.hens / totalHens) * 100
+  }));
 
-  // Create final data array: Top 20 + "Other" category
-  const companyHensData = [
-    ...top20CompanyHensData,
-    { company: 'Other Producers', hens: otherHensTotal }
-  ];
+  // Sort data in descending order by percentage
+  chartData.sort((a, b) => b.percentage - a.percentage);
 
-  // Sort data by hen count in descending order
-  companyHensData.sort((a, b) => b.hens - a.hens);
+  // Extract labels and data for the chart
+  const labels = chartData.map(item => item.company);
+  const data = chartData.map(item => item.percentage);
+  const backgroundColors = chartData.map(() => '#f0c040'); // Initialize all to default
 
-  const companyNames = companyHensData.map(item => item.company);
-  const henCounts = companyHensData.map(item => item.hens);
-  const totalHensAllCompanies = companyHensData.reduce((sum, company) => sum + company.hens, 0);
-
-  const top20Color = 'rgba(100, 149, 237, 0.7)'; // Cornflower Blue
-  const otherColor = 'rgba(220,220,220, 0.7)';   // Light gray for "Other"
-  const backgroundColors = companyNames.map(name => name.includes('Other') ? otherColor : top20Color);
-
-  new Chart(ctxMarketShare.getContext('2d'), {
-    type: 'pie',
-    data: {
-      labels: companyNames,
-      datasets: [{
-        label: 'Hens (Millions)',
-        data: henCounts,
-        backgroundColor: backgroundColors,
-        borderColor: 'white',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: (context) => {
-              const label = context.label || '';
-              const value = context.dataset.data[context.dataIndex];
-              const percentage = ((value / totalHensAllCompanies) * 100).toFixed(1);
-              return label + ': ' + value + ' Million Hens (' + percentage + '%)';
+    marketShareChart = new Chart(ctxMarketShare, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Market Share (%)',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: '#000',
+                borderWidth: 1,
+                barPercentage: 0.95, // Thicker bars
+                categoryPercentage: 1, // More spacing between bars
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            plugins: {
+                legend: { display: false },
+                datalabels: { display: false },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: (context) => {
+                            return `${context.label}: ${context.parsed.x.toFixed(2)}%`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: { // y-axis configuration
+                    ticks: {
+                        font: {
+                            size: 10 // Smaller font size for y-axis labels
+                        },
+                        autoSkip: false, // Prevent Chart.js from skipping labels
+                        maxRotation: 0,  // Keep labels horizontal
+                        minRotation: 0   // Keep labels horizontal
+                    }
+                },
+                x: {
+                    beginAtZero: true,
+                    max: 30,  //SETTING THE MAX TO BE DYNAMIC
+                    ticks: {
+                        callback: function (value) {
+                            return value + '%';
+                        },
+                        font: {
+                            size: 10 // Smaller font size for x-axis labels
+                        }
+                    },
+                    title: { // ADDED TITLE
+                        display: true,
+                        text: 'Total Share of Hens (%)',
+                        font: {
+                          size: 12
+                        }
+                    }
+                }
             }
-          }
         },
-        legend: {
-          display: false
-        },
-        datalabels: {
-          color: 'black',
-          font: {
-            weight: 'normal',
-            size: 11
-          },
-          formatter: (value, context) => {
-            return context.chart.data.labels[context.dataIndex];
-          },
-          position: 'outside',
-          textAlign: 'left',
-          offset: 10
-        },
-        title: {
-          display: 'none',
-          text: ''
-        }
-      }
-    },
-    plugins: [ChartDataLabels]
-  });
+        plugins: []
+    });
 }
