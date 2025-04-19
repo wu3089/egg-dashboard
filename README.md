@@ -6,8 +6,8 @@ An automated egg price tracking dashboard that monitors and visualizes egg price
 
 - **Historical Price Tracking**: 
   - Visualizes FRED (Federal Reserve Economic Data) egg price data
-  - Interactive chart with 1-year, 3-year, 5-year, and all-time views
-  - Data updates every 14 days via automated pipeline
+  - Interactive chart with multi year views
+  - Data updates every 14 days via automated pipeline 
 
 - **Real-time Price Monitoring (In Progress)**:
   - Automated scraping of major retailers:
